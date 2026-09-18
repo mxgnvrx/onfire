@@ -190,7 +190,7 @@ public abstract partial class SharedSurgerySystem : EntitySystem
             return;
 
         if (args.Event.Target is not { } target
-            || !IsSurgeryValid(ent, target, args.Event.Surgery, args.Event.Step, args.Event.User, out var surgery, out var part, out var _)
+            || !IsSurgeryValid(ent, target, args.Event.Surgery, args.Event.Step, args.Event.User, out var surgery, out var part, out var _, checkSurgeryConditions: false)
             || IsStepComplete(ent, part, args.Event.Step, surgery))
             args.Cancel();
     }
@@ -211,7 +211,7 @@ public abstract partial class SharedSurgerySystem : EntitySystem
         var tool = _hands.GetActiveItemOrSelf(args.User);
         if (args.Handled
             || args.Target is not { } target
-            || !IsSurgeryValid(ent, target, args.Surgery, args.Step, args.User, out var surgery, out var part, out var step)
+            || !IsSurgeryValid(ent, target, args.Surgery, args.Step, args.User, out var surgery, out var part, out var step, checkSurgeryConditions: false)
             || !PreviousStepsComplete(ent, part, surgery, args.Step, args.User)
             || !CanPerformStep(args.User, ent, part, step, tool, false))
         {
@@ -221,10 +221,12 @@ public abstract partial class SharedSurgerySystem : EntitySystem
         }
 
         var complete = IsStepComplete(ent, part, args.Step, surgery);
-        args.Repeat = HasComp<SurgeryRepeatableStepComponent>(step) && !complete;
         var ev = new SurgeryStepEvent(args.User, ent, part, tool, surgery, step, complete);
         RaiseLocalEvent(step, ref ev);
         RaiseLocalEvent(args.User, ref ev);
+
+        complete = ev.Complete || IsStepComplete(ent, part, args.Step, surgery);
+        args.Repeat = HasComp<SurgeryRepeatableStepComponent>(step) && !complete;
 
         // consume the tool if it's something like using LV cable as stitches
         if (args.ToolUsed)
@@ -263,8 +265,7 @@ public abstract partial class SharedSurgerySystem : EntitySystem
             args.Part,
             partWoundable,
             ent.Comp.DamageGroup,
-            healable: true,
-            ignoreBlockers: true);
+            healable: true);
 
         if (severity <= 0 && !HasComp<IncisionOpenComponent>(args.Part))
             args.Cancelled = true;
@@ -523,7 +524,8 @@ public abstract partial class SharedSurgerySystem : EntitySystem
     }
 
     protected bool IsSurgeryValid(EntityUid body, EntityUid targetPart, EntProtoId surgery, EntProtoId stepId,
-        EntityUid user, out Entity<SurgeryComponent> surgeryEnt, out EntityUid part, out EntityUid step)
+        EntityUid user, out Entity<SurgeryComponent> surgeryEnt, out EntityUid part, out EntityUid step,
+        bool checkSurgeryConditions = true)
     {
         surgeryEnt = default;
         part = default;
@@ -545,7 +547,7 @@ public abstract partial class SharedSurgerySystem : EntitySystem
         if (_timing.IsFirstTimePredicted)
         {
             RaiseLocalEvent(stepEnt, ref ev);
-            if (!ev.Cancelled)
+            if (!ev.Cancelled && checkSurgeryConditions)
                 RaiseLocalEvent(surgeryEntId, ref ev);
         }
 

@@ -98,7 +98,7 @@ public abstract partial class SharedSurgerySystem
     // Arcane-Start
     private void OnSurgeryMeleeHit(MeleeHitEvent args)
     {
-        if (args.HitEntities.Count == 0)
+        if (args.HitEntities.Count == 0 || args.HitEntities.Contains(args.User))
             return;
 
         if (!TryComp<DoAfterComponent>(args.User, out var doAfterComp))
@@ -221,8 +221,7 @@ public abstract partial class SharedSurgerySystem
         if (_wounds.GetWoundableSeverityPoint(
                 args.Part,
                 damageGroup: ent.Comp.MainGroup,
-                healable: true,
-                ignoreBlockers: true) <= 0)
+                healable: true) <= 0)
             return;
         // Arcane-Edit-End
 
@@ -248,7 +247,7 @@ public abstract partial class SharedSurgerySystem
     private void OnTendWoundsCheck(Entity<SurgeryTendWoundsEffectComponent> ent, ref SurgeryStepCompleteCheckEvent args)
     {
         // Arcane-Edit-Start
-        if (_wounds.GetWoundableSeverityPoint(args.Part, damageGroup: ent.Comp.MainGroup, healable: true, ignoreBlockers: true) > 0)
+        if (_wounds.GetWoundableSeverityPoint(args.Part, damageGroup: ent.Comp.MainGroup, healable: true) > 0)
             args.Cancelled = true;
         // Arcane-Edit-End
     }
@@ -800,7 +799,11 @@ public abstract partial class SharedSurgerySystem
         var user = args.Actor;
         var targetPart = GetEntity(args.Part);
         if (!HasComp<BodyPartComponent>(targetPart))
+        {
+            _popup.PopupClient(Loc.GetString("surgery-error-cannot-operate"), user, user, PopupType.SmallCaution);
+            RefreshUI(ent.Owner);
             return;
+        }
 
         TryDoSurgeryStep(ent.Owner, targetPart, user, args.Surgery, args.Step);
     }
@@ -1017,7 +1020,8 @@ public abstract partial class SharedSurgerySystem
         if (toolComp?.StartSound is {} sound)
             _audio.PlayPredicted(sound, tool, user);
 
-        _rotateToFace.TryFaceCoordinates(user, _transform.GetMapCoordinates(body).Position);
+        if (user != body)
+            _rotateToFace.TryFaceCoordinates(user, _transform.GetMapCoordinates(body).Position);
 
         // We need to check for nullability because of surgeries that dont require a tool, like Cavity Implants
         var speed = data?.Speed ?? 0.5f; // Arcane-Edit: 1 -> 0.5
@@ -1028,7 +1032,7 @@ public abstract partial class SharedSurgerySystem
         var doAfter = new DoAfterArgs(EntityManager, user, TimeSpan.FromSeconds(duration), ev, body, part)
         {
             BreakOnMove = true,
-            //BreakOnTargetMove = true, I fucking hate wizden dude.
+            MovementThreshold = user == body ? 0.35f : 0.1f,
             CancelDuplicate = true,
             DuplicateCondition = DuplicateConditions.SameEvent,
             NeedHand = true,
@@ -1039,26 +1043,34 @@ public abstract partial class SharedSurgerySystem
 
         if (!_doAfter.TryStartDoAfter(doAfter))
         {
-            // Arcane-Edit-Start: Cancel lingering surgery DoAfter on user and retry once
+            // Arcane-Edit-Start: Cancel only cancelled/stale surgery DoAfter with the same Surgery+Step and retry once
             if (TryComp<DoAfterComponent>(user, out var userDoAfterComp))
             {
+                var cancelledAny = false;
                 foreach (var lingering in userDoAfterComp.DoAfters.Values.ToList())
                 {
-                    if (lingering.Args.Event is SurgeryDoAfterEvent)
+                    if (lingering.Args.Event is SurgeryDoAfterEvent sEv
+                        && sEv.Surgery == surgeryId
+                        && sEv.Step == stepId
+                        && (lingering.Cancelled || lingering.Completed))
+                    {
                         _doAfter.Cancel(user, lingering.Index, userDoAfterComp);
+                        cancelledAny = true;
+                    }
                 }
+
+                if (cancelledAny && _doAfter.TryStartDoAfter(doAfter))
+                    goto Started;
             }
 
-            if (!_doAfter.TryStartDoAfter(doAfter))
-            {
-                error = StepInvalidReason.DoAfterFailed;
-                _popup.PopupClient(Loc.GetString("surgery-error-action-busy"), user, user, PopupType.SmallCaution);
-                RefreshUI(body);
-                return false;
-            }
+            error = StepInvalidReason.DoAfterFailed;
+            _popup.PopupClient(Loc.GetString("surgery-error-action-busy"), user, user, PopupType.SmallCaution);
+            RefreshUI(body);
+            return false;
             // Arcane-Edit-End
         }
 
+    Started:
         var userName = Identity.Entity(user, EntityManager);
         var targetName = Identity.Entity(body, EntityManager);
 

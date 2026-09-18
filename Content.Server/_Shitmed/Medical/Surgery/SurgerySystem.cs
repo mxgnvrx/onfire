@@ -100,7 +100,7 @@ public sealed class SurgerySystem : SharedSurgerySystem
     }
 
     private void OnSurgeryStepDamage(Entity<SurgeryTargetComponent> ent, ref SurgeryStepDamageEvent args) =>
-        SetDamage(args.Body, args.Damage, args.PartMultiplier, args.User, args.Part, ignoreBlockers: true); // Arcane-Edit
+        SetDamage(args.Body, args.Damage, args.PartMultiplier, args.User, args.Part, ignoreBlockers: false); // Arcane-Edit
 
     private void OnSurgeryDamageChange(Entity<SurgeryDamageChangeEffectComponent> ent, ref SurgeryStepDamageChangeEvent args)
     {
@@ -108,8 +108,10 @@ public sealed class SurgerySystem : SharedSurgerySystem
         if (Status.HasEffectComp<ForcedSleepingStatusEffectComponent>(args.Body))
             damageChange = damageChange * ent.Comp.SleepModifier;
 
-        SetDamage(args.Body, damageChange, 0.5f, args.User, args.Part, ent.Comp.AffectAll);
+        SetDamage(args.Body, damageChange, 0.5f, args.User, args.Part, ent.Comp.AffectAll, ignoreBlockers: true); // Arcane-Edit
     }
+
+
     private void OnStepScreamComplete(Entity<SurgeryStepEmoteEffectComponent> ent, ref SurgeryStepEvent args)
     {
         if (Status.HasEffectComp<ForcedSleepingStatusEffectComponent>(args.Body))

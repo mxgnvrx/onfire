@@ -96,7 +96,6 @@ public abstract partial class SharedSurgerySystem : EntitySystem
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestartCleanup);
 
         SubscribeLocalEvent<SurgeryTargetComponent, MapInitEvent>(OnMapInit);
-        SubscribeLocalEvent<SurgeryTargetComponent, StandAttemptEvent>(OnSurgeryStandAttempt); // Arcane
         SubscribeLocalEvent<SurgeryTargetComponent, DoAfterAttemptEvent<SurgeryDoAfterEvent>>(OnBeforeTargetDoAfter);
         SubscribeLocalEvent<SurgeryTargetComponent, SurgeryDoAfterEvent>(OnTargetDoAfter);
         SubscribeLocalEvent<SurgeryCloseIncisionConditionComponent, SurgeryValidEvent>(OnCloseIncisionValid);
@@ -147,40 +146,6 @@ public abstract partial class SharedSurgerySystem : EntitySystem
         var data = new InterfaceData("SurgeryBui");
         _ui.SetUi(ent.Owner, SurgeryUIKey.Key, data);
     }
-
-    // Arcane-Start
-    private void OnSurgeryStandAttempt(Entity<SurgeryTargetComponent> ent, ref StandAttemptEvent args)
-    {
-        if (args.Cancelled)
-            return;
-
-        if (HasOpenSurgicalIncision(ent.Owner) || HasActiveSurgeryDoAfter(ent.Owner))
-            args.Cancel();
-    }
-
-    private bool HasOpenSurgicalIncision(EntityUid body)
-    {
-        foreach (var child in _body.GetBodyChildren(body))
-        {
-            if (HasComp<IncisionOpenComponent>(child.Id) || HasComp<SkinRetractedComponent>(child.Id))
-                return true;
-        }
-
-        return false;
-    }
-
-    private bool HasActiveSurgeryDoAfter(EntityUid body)
-    {
-        var query = EntityQueryEnumerator<DoAfterComponent>();
-        while (query.MoveNext(out _, out var comp))
-        {
-            if (comp.DoAfters.Values.Any(d => !d.Cancelled && d.Args.Event is SurgeryDoAfterEvent && d.Args.EventTarget == body))
-                return true;
-        }
-
-        return false;
-    }
-    // Arcane-End
 
     // Arcane-Edit-Start: don't cancel when step is complete; let OnTargetDoAfter finish repeat cleanly
     private void OnBeforeTargetDoAfter(Entity<SurgeryTargetComponent> ent,

@@ -89,16 +89,16 @@ public partial class TraumaSystem
                 foreach (var trauma in traumas.Where(trauma => trauma.Comp.TraumaTarget == bone))
                     RemoveTrauma(trauma);
         }
-        /* // Arcane-Edit-Start
-        switch (bodyComp.PartType)
-        {
-            case BodyPartType.Leg:
-            case BodyPartType.Foot:
-                ProcessLegsState(bodyComp.Body.Value);
-
-                break;
-        }
-        */ // Arcane-Edit-End
+        // Arcane-Edit-Start: Removed
+        // switch (bodyComp.PartType)
+        // {
+        //     case BodyPartType.Leg:
+        //     case BodyPartType.Foot:
+        //         ProcessLegsState(bodyComp.Body.Value);
+        //
+        //         break;
+        // }
+        // Arcane-Edit-End
     }
 
     // Arcane-Start
@@ -305,13 +305,11 @@ public partial class TraumaSystem
         if (boneComp.BoneWoundable != null
             && TryComp<BodyPartComponent>(boneComp.BoneWoundable.Value, out var bodyPartComp)
             && bodyPartComp.Body is { } body)
-        // Arcane-Edit-Start
         {
             if (bodyPartComp.PartType is BodyPartType.Leg or BodyPartType.Foot)
-                ProcessLegsState(body, boneComp.BoneWoundable.Value); // Arcane
+                ProcessLegsState(body, boneComp.BoneWoundable.Value); // Arcane-Edit
             UpdateBodyBoneAlert(body);
         }
-        // Arcane-Edit-End
     }
 
     // Arcane-Edit-Start
@@ -413,9 +411,10 @@ public partial class TraumaSystem
             && !HasComp<SleepingComponent>(body)
             && !_mobState.IsIncapacitated(body)
             && !HasSurgicalField(operatedPart)
-            && !HasOpenSurgicalIncision(body)) // Arcane: never stand mid-surgery
+            && !HasOpenSurgicalIncision(body))
             _standing.Stand(body);
     }
+    // Arcane-End
 
     // Arcane-Start
     private bool HasSurgicalField(EntityUid? part)

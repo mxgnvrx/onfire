@@ -185,7 +185,7 @@ public sealed class SurgeryBui : BoundUserInterface
         var stepName = new FormattedMessage();
         stepName.AddText(_entities.GetComponent<MetaDataComponent>(step).EntityName);
         var stepButton = new SurgeryStepButton { Step = step };
-        stepButton.Button.OnPressed += _ => SendPredictedMessage(new SurgeryStepChosenBuiMsg(netPart, surgeryId, stepId, false));
+        stepButton.Button.OnPressed += _ => SendPredictedMessage(new SurgeryStepChosenBuiMsg(netPart, surgeryId, stepId, false)); // Arcane-Edit
 
         _window.Steps.AddChild(stepButton);
     }

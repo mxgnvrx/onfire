@@ -10,7 +10,7 @@ using Content.Shared._Shitmed.Medical.Surgery.Steps;
 using Content.Shared._Shitmed.Medical.Surgery.Steps.Parts;
 using Content.Shared._Shitmed.Medical.Surgery.Wounds.Systems;
 using Content.Shared._Shitmed.Medical.Surgery.Wounds.Components;
-using Content.Shared._Shitmed.Medical.Surgery.Traumas; // Arcane
+using Content.Shared._Shitmed.Medical.Surgery.Traumas;
 using Content.Shared._Shitmed.Medical.Surgery.Traumas.Components;
 using Content.Shared._Shitmed.Medical.Surgery.Traumas.Systems;
 using Content.Shared._Shitmed.Surgery;
@@ -38,7 +38,7 @@ using Robust.Shared.Map;
 using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
-using Robust.Shared.Utility; // Arcane
+using Robust.Shared.Utility;
 using Content.Shared.Body.Organ;
 
 namespace Content.Shared._Shitmed.Medical.Surgery;
@@ -216,7 +216,7 @@ public abstract partial class SharedSurgerySystem : EntitySystem
         var tool = _hands.GetActiveItemOrSelf(args.User);
         if (args.Handled
             || args.Target is not { } target
-            || !IsSurgeryValid(ent, target, args.Surgery, args.Step, args.User, out var surgery, out var part, out var step, checkSurgeryConditions: false)
+            || !IsSurgeryValid(ent, target, args.Surgery, args.Step, args.User, out var surgery, out var part, out var step, checkSurgeryConditions: false) // Arcane-Edit
             || !PreviousStepsComplete(ent, part, surgery, args.Step, args.User)
             || !CanPerformStep(args.User, ent, part, step, tool, false))
         {
@@ -230,8 +230,10 @@ public abstract partial class SharedSurgerySystem : EntitySystem
         RaiseLocalEvent(step, ref ev);
         RaiseLocalEvent(args.User, ref ev);
 
+        // Arcane-Start
         complete = ev.Complete || IsStepComplete(ent, part, args.Step, surgery);
         args.Repeat = HasComp<SurgeryRepeatableStepComponent>(step) && !complete;
+        // Arcane-End
 
         // consume the tool if it's something like using LV cable as stitches
         if (args.ToolUsed)
@@ -530,7 +532,7 @@ public abstract partial class SharedSurgerySystem : EntitySystem
 
     protected bool IsSurgeryValid(EntityUid body, EntityUid targetPart, EntProtoId surgery, EntProtoId stepId,
         EntityUid user, out Entity<SurgeryComponent> surgeryEnt, out EntityUid part, out EntityUid step,
-        bool checkSurgeryConditions = true)
+        bool checkSurgeryConditions = true) // Arcane
     {
         surgeryEnt = default;
         part = default;
@@ -552,7 +554,7 @@ public abstract partial class SharedSurgerySystem : EntitySystem
         if (_timing.IsFirstTimePredicted)
         {
             RaiseLocalEvent(stepEnt, ref ev);
-            if (!ev.Cancelled && checkSurgeryConditions)
+            if (!ev.Cancelled && checkSurgeryConditions) // Arcane-Edit
                 RaiseLocalEvent(surgeryEntId, ref ev);
         }
 

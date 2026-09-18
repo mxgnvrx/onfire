@@ -35,7 +35,6 @@ using Content.Shared._Shitmed.Surgery;
 using Content.Shared._Shitmed.Medical.Surgery.Traumas.Systems;
 using Content.Shared.Ghost;
 using System.Diagnostics.CodeAnalysis;
-using Content.Shared.Weapons.Melee.Events;
 
 namespace Content.Shared._Shitmed.Medical.Surgery;
 
@@ -84,8 +83,6 @@ public abstract partial class SharedSurgerySystem
         {
             subs.Event<SurgeryStepChosenBuiMsg>(OnSurgeryTargetStepChosen);
         });
-
-        SubscribeLocalEvent<MeleeHitEvent>(OnSurgeryMeleeHit); // Arcane
     }
 
     private void SubSurgery<TComp>(EntityEventRefHandler<TComp, SurgeryStepEvent> onStep,
@@ -94,23 +91,6 @@ public abstract partial class SharedSurgerySystem
         SubscribeLocalEvent(onStep);
         SubscribeLocalEvent(onComplete);
     }
-
-    // Arcane-Start
-    private void OnSurgeryMeleeHit(MeleeHitEvent args)
-    {
-        if (args.HitEntities.Count == 0 || args.HitEntities.Contains(args.User))
-            return;
-
-        if (!TryComp<DoAfterComponent>(args.User, out var doAfterComp))
-            return;
-
-        foreach (var doAfter in doAfterComp.DoAfters.Values.ToList())
-        {
-            if (doAfter.Args.Event is SurgeryDoAfterEvent)
-                _doAfter.Cancel(args.User, doAfter.Index, doAfterComp);
-        }
-    }
-    // Arcane-End
 
     #region Event Methods
     private void OnToolStep(Entity<SurgeryStepComponent> ent, ref SurgeryStepEvent args)
@@ -1060,34 +1040,14 @@ public abstract partial class SharedSurgerySystem
 
         if (!_doAfter.TryStartDoAfter(doAfter))
         {
-            // Arcane-Edit-Start: Cancel only cancelled/stale surgery DoAfter with the same Surgery+Step and retry once
-            if (TryComp<DoAfterComponent>(user, out var userDoAfterComp))
-            {
-                var cancelledAny = false;
-                foreach (var lingering in userDoAfterComp.DoAfters.Values.ToList())
-                {
-                    if (lingering.Args.Event is SurgeryDoAfterEvent sEv
-                        && sEv.Surgery == surgeryId
-                        && sEv.Step == stepId
-                        && (lingering.Cancelled || lingering.Completed))
-                    {
-                        _doAfter.Cancel(user, lingering.Index, userDoAfterComp);
-                        cancelledAny = true;
-                    }
-                }
-
-                if (cancelledAny && _doAfter.TryStartDoAfter(doAfter))
-                    goto Started;
-            }
-
             error = StepInvalidReason.DoAfterFailed;
+            // Arcane-Start
             _popup.PopupClient(Loc.GetString("surgery-error-action-busy"), user, user, PopupType.SmallCaution);
             RefreshUI(body);
+            // Arcane-End
             return false;
-            // Arcane-Edit-End
         }
 
-    Started: // Arcane
         var userName = Identity.Entity(user, EntityManager);
         var targetName = Identity.Entity(body, EntityManager);
 

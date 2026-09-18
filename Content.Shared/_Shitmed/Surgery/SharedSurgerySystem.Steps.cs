@@ -1029,17 +1029,21 @@ public abstract partial class SharedSurgerySystem
         var ev = new SurgeryDoAfterEvent(surgeryId, stepId, toolUsed);
         var duration = GetSurgeryDuration(step, user, body, speed);
 
+        // Arcane-Edit-Start
+        var self = user == body;
         var doAfter = new DoAfterArgs(EntityManager, user, TimeSpan.FromSeconds(duration), ev, body, part)
         {
-            BreakOnMove = true,
-            MovementThreshold = user == body ? 0.35f : 0.1f,
+            BreakOnMove = !self,
+            MovementThreshold = self ? 0.35f : 0.1f,
             CancelDuplicate = true,
             DuplicateCondition = DuplicateConditions.SameEvent,
             NeedHand = true,
             BreakOnHandChange = true,
-            AttemptFrequency = AttemptFrequency.EveryTick,
+            AttemptFrequency = self ? AttemptFrequency.StartAndEnd : AttemptFrequency.EveryTick,
+            RequireCanInteract = !self,
             DistanceThreshold = null
         };
+        // Arcane-Edit-End
 
         if (!_doAfter.TryStartDoAfter(doAfter))
         {

@@ -182,6 +182,7 @@ public abstract partial class SharedSurgerySystem : EntitySystem
     }
     // Arcane-End
 
+    // Arcane-Edit-Start: don't cancel when step is complete; let OnTargetDoAfter finish repeat cleanly
     private void OnBeforeTargetDoAfter(Entity<SurgeryTargetComponent> ent,
         ref DoAfterAttemptEvent<SurgeryDoAfterEvent> args)
     {
@@ -190,10 +191,14 @@ public abstract partial class SharedSurgerySystem : EntitySystem
             return;
 
         if (args.Event.Target is not { } target
-            || !IsSurgeryValid(ent, target, args.Event.Surgery, args.Event.Step, args.Event.User, out var surgery, out var part, out var _, checkSurgeryConditions: false)
-            || IsStepComplete(ent, part, args.Event.Step, surgery))
+            || TerminatingOrDeleted(ent)
+            || TerminatingOrDeleted(target)
+            || !IsSurgeryValid(ent, target, args.Event.Surgery, args.Event.Step, args.Event.User, out _, out _, out _, checkSurgeryConditions: false))
+        {
             args.Cancel();
+        }
     }
+    // Arcane-Edit-End
 
     private void OnTargetDoAfter(Entity<SurgeryTargetComponent> ent, ref SurgeryDoAfterEvent args)
     {

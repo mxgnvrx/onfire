@@ -295,6 +295,20 @@ Pick the smallest verification that meaningfully covers the change.
 
 More detail lives in `.agents/rules/ss14-testing-and-validation.md`.
 
+## Fork Commenting Conventions (outside `_Arcane`)
+
+Правила комментирования при добавлении или изменении кода/прототипов не в папке `_Arcane`:
+
+- Новая строчка — `# Arcane` (в YAML) / `// Arcane` (в C#)
+- Изменённая — `# Arcane-Edit` (в YAML) / `// Arcane-Edit` (в C#)
+- 2 и более новых подряд — `# Arcane-Start` ... `# Arcane-End` (или `// Arcane-Start` ... `// Arcane-End`)
+- 2 и более изменённых подряд — `# Arcane-Edit-Start` ... `# Arcane-Edit-End` (или `// Arcane-Edit-Start` ... `// Arcane-Edit-End`)
+
+**Важно:**
+- Решётка `#` всегда ставится в самом начале закомментированной строки.
+- Маркеры (например: `# Arcane-Edit-Start: Removed ...`) располагаются на том же уровне, что и остальной код — без лишних отступов и на одной линии с соседними элементами.
+- Маркер конца всегда должен быть строго на том же уровне отступа, что и маркер начала.
+
 ## PR Expectations
 
 - Keep feature work, bug fixes, refactors, and mapping changes separate when practical.

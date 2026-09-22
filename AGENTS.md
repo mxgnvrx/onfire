@@ -6,21 +6,26 @@
 
 Before acting on a user request:
 
-- Read every file under `.agents/rules/`.
-- Read every skill under `.agents/skills/` that matches the request.
+- Load repository guidance **strictly on demand**. Do NOT preload or bulk-dump files from `.agents/rules/` or `.agents/skills/` into context.
+- Consult `.agents/rules/` only when actively modifying relevant subsystems or verifying architecture contracts.
+- Consult specific `.agents/skills/` on demand only when directly executing complex procedures in that domain. Always use narrow line-sliced reads (`view_file` with precise line ranges), never reading entire skill folders.
 - If a nearer subtree `AGENTS.md` exists for the files you are touching, read it as scoped guidance in addition to this file.
-- If context is compacted or auto-cleaned, read the relevant rules and skills again.
-- If the task is large research or a long implementation, keep a temporary scratch file for important findings and delete it before finishing.
+- **Autonomous Context & Efficiency Guardrails**:
+  - Deliverable First: State target deliverable, relevant files, and 1 verification command before editing.
+  - Output Capping: Paginate shell and search outputs (`Select-Object -First 50`, narrow grep), avoid recursive directory tree dumps.
+  - Narrow Slicing: View specific line ranges instead of ingesting entire multi-thousand line files.
+  - Loop Prevention: Stop and verify with user if 10 minutes pass without edits or if an approach fails twice consecutively.
 
-Rules are always-on and must always be followed. Skills are loaded by topic.
+Rules are strictly applied when relevant. Skills are referenced on demand by topic.
 
 ## Skill Routing
 
-Always load these skills:
+Consult these skills on demand when working on relevant topics (do NOT load upfront):
 
 - `ss14-naming-conventions`
 - `ss14-ecs-prototypes`
 - `ss14-upstream-maintenance`
+
 
 If writing or editing C# gameplay code:
 

@@ -16,7 +16,6 @@ Core expectations:
 - Prefer `Entity<T?>`, `ProtoId<T>`, `EntProtoId`, and localized strings.
 - Avoid `RobustToolbox/` edits unless engine work is explicitly required.
 - Use prediction and localization as first-pass design constraints, not cleanup.
-- Context budgeting: cap tool outputs, slice file reads by line ranges, and stop after 2 failed attempts or 10 min without edits.
 
 Правила комментирования не в папке `_Arcane`:
 - Новая строчка: `# Arcane` (YAML) / `// Arcane` (C#)

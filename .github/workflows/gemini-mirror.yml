@@ -6,6 +6,10 @@ on:
         description: 'Branch name'
         required: true
         default: 'bunch-of-fixes-3'
+      base_branch:
+        description: 'Base branch to compare against'
+        required: true
+        default: 'master'
 permissions:
   contents: write
 jobs:
@@ -15,11 +19,46 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.branch }}
-      - run: |
+          fetch-depth: 0 # Обязательно: подтягиваем всю историю, чтобы видеть master
+
+      - name: Create lightweight review branch
+        run: |
+          # Убеждаемся, что базовая ветка (master) доступна локально
+          git fetch origin "${{ inputs.base_branch }}:refs/remotes/origin/${{ inputs.base_branch }}"
+
+          # 1. Генерируем полный diff относительно master (исключая тяжелые ассеты и бинарники)
+          git diff "origin/${{ inputs.base_branch }}...HEAD" -- . \
+            ':!Resources/Textures' \
+            ':!Resources/Audio' \
+            ':!Resources/ServerInfo' \
+            ':!Resources/Maps' \
+            ':!Resources/Fonts' \
+            ':!BuildFiles' > /tmp/PR_DIFF_AGAINST_MASTER.md
+
+          # 2. Получаем список только тех файлов, которые были добавлены или изменены
+          git diff --name-only --diff-filter=ACMR "origin/${{ inputs.base_branch }}...HEAD" -- . \
+            ':!Resources/Textures' \
+            ':!Resources/Audio' \
+            ':!Resources/ServerInfo' \
+            ':!Resources/Maps' \
+            ':!Resources/Fonts' \
+            ':!BuildFiles' > /tmp/changed_files.txt
+
+          # 3. Создаем чистую ветку и полностью очищаем индекс от тысяч файлов SS14
           git checkout --orphan "code-${{ inputs.branch }}"
-          git rm -rf --cached --ignore-unmatch Resources/Textures Resources/Audio Resources/ServerInfo Resources/Maps Resources/Fonts
+          git rm -rf --cached .
+          git clean -fd
+
+          # 4. Возвращаем в ветку ТОЛЬКО измененные файлы (для полного контекста классов)
+          if [ -s /tmp/changed_files.txt ]; then
+            tr '\n' '\0' < /tmp/changed_files.txt | xargs -0 git checkout "${{ inputs.branch }}" --
+          fi
+
+          # 5. Кладем в корень файл с diff'ом, чтобы Gemini видел сравнение с master
+          cp /tmp/PR_DIFF_AGAINST_MASTER.md ./PR_DIFF_AGAINST_MASTER.md
+          git add -A
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -m "Clean code mirror"
+          git commit -m "Clean PR mirror for Gemini"
           git push -f origin "code-${{ inputs.branch }}"
-

@@ -1,1 +1,25 @@
+name: Gemini Code Mirror
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch name'
+        required: true
+        default: 'bunch-of-fixes-3'
+permissions:
+  contents: write
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+      - run: |
+          git checkout --orphan "code-${{ inputs.branch }}"
+          git rm -rf --cached --ignore-unmatch Resources/Textures Resources/Audio Resources/ServerInfo Resources/Maps Resources/Fonts
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "Clean code mirror"
+          git push -f origin "code-${{ inputs.branch }}"
 

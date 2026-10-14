@@ -18,10 +18,6 @@
     - shrieks
     - shrieking
     - shrieked
-    - screech
-    - screeches
-    - screeching
-    - screeched
     - yell
     - yells
     - yelled
@@ -82,9 +78,6 @@
     - хихикнула
     - хихикнула.
     - хихикнула!
-    - ржёт
-    - ржёт.
-    - ржёт!
     # Orion-End
 
 - type: emote
@@ -227,6 +220,8 @@
   available: false
   icon: Interface/Emotes/chitter.png
   whitelist:
+    tags: 
+    - HarpyEmotes # Omu, allow harpy to chitter
     components:
     - Vocal
   blacklist:
@@ -253,6 +248,8 @@
   available: false
   icon: Interface/Emotes/squeak.png
   whitelist:
+    tags: 
+    - HarpyEmotes # Omu, allow harpy to squeak
     components:
       - Vocal
   blacklist:
@@ -282,6 +279,8 @@
   available: false
   icon: Interface/Emotes/click.png
   whitelist:
+    tags: 
+    - HarpyEmotes # Omu, allow harpy to click
     components:
     - Vocal
   blacklist:
@@ -694,6 +693,12 @@
   category: Vocal
   icon: Interface/Emotes/hew.png
   chatMessages: ["chat-emote-msg-hew"]
+  whitelist:
+    tags:
+      - HarpyEmotes # Omu, allow harpy to hew
+  chatTriggers: # Omu, allow harpy to hew
+    - hew 
+    - hews
 
 - type: emote
   id: Chirp

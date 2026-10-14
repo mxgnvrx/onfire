@@ -61,6 +61,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using Content.Shared._Arcane.CCVars;
+using Content.Shared._Arcane.DiscordRoles;
 using Content.Shared._Arcane.TTS;
 using Content.Shared.CCVar;
 using Content.Shared.GameTicking;
@@ -1107,7 +1108,8 @@ namespace Content.Shared.Preferences
                 width = Math.Clamp(Width, speciesPrototype.MinWidth, speciesPrototype.MaxWidth);
             // end Goobstation: port EE height/width sliders
 
-            var appearance = HumanoidCharacterAppearance.EnsureValid(Appearance, Species, Sex);
+            var discordRoles = collection.Resolve<ISharedDiscordRoleManager>(); // Arcane
+            var appearance = HumanoidCharacterAppearance.EnsureValid(Appearance, Species, Sex, discordRoles, session); // Arcane-Edit
 
             var prefsUnavailableMode = PreferenceUnavailable switch
             {
@@ -1288,7 +1290,10 @@ namespace Content.Shared.Preferences
             var groups = new Dictionary<string, int>();
             var result = new List<ProtoId<TraitPrototype>>();
 
-            foreach (var trait in traits)
+            // Arcane-Edit-Start
+            // Cheapest first, so points granted by negative-cost traits count before positive ones are checked.
+            foreach (var trait in traits.OrderBy(t => protoManager.TryIndex(t, out var p) ? p.Cost : 0))
+            // Arcane-Edit-End
             {
                 if (!protoManager.TryIndex(trait, out var traitProto))
                     continue;

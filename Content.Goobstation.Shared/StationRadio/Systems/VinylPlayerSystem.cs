@@ -17,7 +17,6 @@ public sealed class VinylPlayerSystem : EntitySystem
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedPowerReceiverSystem _power = default!;
-    [Dependency] private readonly SharedDeviceLinkSystem _deviceLinkSystem = default!;
 
     public override void Initialize()
     {
@@ -74,7 +73,7 @@ public sealed class VinylPlayerSystem : EntitySystem
         var query = EntityQueryEnumerator<StationRadioReceiverComponent>();
         while (query.MoveNext(out var receiver, out var receiverComponent))
         {
-            if (!receiverComponent.SoundEntity.HasValue)
+            if (receiverComponent.CurrentMedia == null) // Arcane-Edit
                 RaiseLocalEvent(receiver, new StationRadioMediaPlayedEvent(vinylcomp.Song));
         }
     }

@@ -38,7 +38,7 @@ namespace Content.Shared.Humanoid;
 ///     you still need a local copy so that players can set up their
 ///     characters.
 /// </summary>
-public abstract class SharedHumanoidAppearanceSystem : EntitySystem
+public abstract partial class SharedHumanoidAppearanceSystem : EntitySystem //goob edit
 {
     [Dependency] private readonly IConfigurationManager _cfgManager = default!;
     [Dependency] private readonly INetManager _netManager = default!;
@@ -192,6 +192,13 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
 
         targetHumanoid.Gender = sourceHumanoid.Gender;
         targetHumanoid.CustomSpeciesName = sourceHumanoid.CustomSpeciesName; // Arcane
+        // Arcane-Start
+        targetHumanoid.HairGradientEnabled = sourceHumanoid.HairGradientEnabled;
+        targetHumanoid.HairGradientColors = new(sourceHumanoid.HairGradientColors);
+        targetHumanoid.HairGradientStyle = sourceHumanoid.HairGradientStyle;
+        targetHumanoid.HairGradientOffset = sourceHumanoid.HairGradientOffset;
+        targetHumanoid.EarsAboveHair = sourceHumanoid.EarsAboveHair; // Arcane
+        // Arcane-End
 
         if (TryComp<GrammarComponent>(target, out var grammar))
             _grammarSystem.SetGender((target, grammar), sourceHumanoid.Gender);
@@ -516,6 +523,12 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
         SetSex(uid, profile.Sex, false, humanoid);
         SetTTSVoice(uid, profile.Voice, false, humanoid); // Arcane
         humanoid.EyeColor = profile.Appearance.EyeColor;
+        // Arcane-Start
+        humanoid.HairGradientEnabled = profile.Appearance.HairGradientEnabled;
+        humanoid.HairGradientColors = new(profile.Appearance.HairGradientColors);
+        humanoid.HairGradientStyle = profile.Appearance.HairGradientStyle;
+        humanoid.HairGradientOffset = profile.Appearance.HairGradientOffset;
+        // Arcane-End
 
         SetSkinColor(uid, profile.Appearance.SkinColor, false);
 
@@ -590,6 +603,8 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
             _cfgManager,
             _cfgManager.GetCVar(CCVars.MaxNameLength));
         // Arcane-End
+
+        humanoid.EarsAboveHair = profile.Appearance.EarsAboveHair; // Arcane
 
         // begin Goobstation: port EE height/width sliders
         var species = _proto.Index(humanoid.Species);

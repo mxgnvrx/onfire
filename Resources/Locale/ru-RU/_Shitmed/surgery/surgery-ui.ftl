@@ -4,8 +4,10 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-surgery-verb-text = Начать операцию
-surgery-verb-message = Начата операция над этим существом.
+# Arcane-Edit-Start
+surgery-verb-text = Хирургическая карта
+surgery-verb-message = Открыть хирургическую карту пациента.
+# Arcane-Edit-End
 surgery-ui-window-title = Операция
 surgery-ui-window-require = Требуется
 surgery-ui-window-parts = < Части
@@ -15,6 +17,16 @@ surgery-ui-window-steps-error-skills = У вас нет хирургически
 surgery-ui-window-steps-error-table = Для этого нужен операционный стол.
 surgery-ui-window-steps-error-armor = Необходимо снять обмурдирование!
 surgery-ui-window-steps-error-tools = Отсутствуют инструменты.
+# Arcane
+surgery-ui-window-steps-error-missing-tool = Для этого этапа требуется {$tool}!
 surgery-error-laying = Пациент должен лежать!
 surgery-error-self-surgery = Вы не можете оперировать себя!
 surgery-part-damage-evaded = { $user } едва увернулся!
+# Arcane-Start
+surgery-error-cannot-operate = Вы не можете оперировать эту часть сейчас.
+surgery-error-missing-previous-steps = Сначала необходимо завершить предыдущие этапы операции.
+surgery-error-step-complete = Этот этап уже завершён.
+surgery-error-action-busy = Вы уже заняты другим действием.
+surgery-error-tool-invalid = Этот инструмент не подходит или не готов к использованию.
+surgery-error-failed = Не удалось выполнить этап операции.
+# Arcane-End

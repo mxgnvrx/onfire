@@ -131,6 +131,7 @@
   description: sleeper-description
   showInVote: true
   # Arcane-start
+  repeatWeightMultiplier: 0.65
   # minPlayers: 5
   rules:
     # - CalmDynamic
@@ -165,9 +166,11 @@
   name: secretplus-low-title
   description: secretplus-low-description
   showInVote: true
+  repeatWeightMultiplier: 0.35 # Arcane
   rules:
     - SecretPlusLow
     - BasicRoundstartVariation # Arcane
+    - MeteorSwarmMildScheduler
 
 - type: gamePreset
   id: SecretPlusMid
@@ -178,9 +181,11 @@
   name: secretplus-mid-title
   description: secretplus-mid-description
   showInVote: true
+  repeatWeightMultiplier: 0.4 # Arcane
   rules:
     - SecretPlusMid
     - BasicRoundstartVariation # Arcane
+    - MeteorSwarmScheduler
 
 - type: gamePreset
   id: SecretPlusAdmeme
@@ -195,6 +200,7 @@
   rules:
     - SecretPlusAdmeme
     - BasicRoundstartVariation # Arcane
+    - MeteorSwarmScheduler
 
 - type: gamePreset
   id: SurvivalPlusMid
@@ -207,6 +213,7 @@
   showInVote: false # Arcane
   rules:
     - SecretPlusRampingMid
+    - MeteorSwarmScheduler
 
 - type: gamePreset
   id: Xenomorphs
@@ -250,3 +257,4 @@
   maxPlayers: 40
   rules:
     - SecretPlusLowpop
+    - MeteorSwarmMildScheduler

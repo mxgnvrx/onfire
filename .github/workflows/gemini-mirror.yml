@@ -22,11 +22,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.branch }}
-          fetch-depth: 0 # Подтягиваем всю историю
+          fetch-depth: 0
 
       - name: Create lightweight review branch
         run: |
-          # Добавляем оригинальный репозиторий (upstream) и скачиваем его свежий master напрямую
+          # Подтягиваем свежий master напрямую из оригинального репозитория
           git remote add upstream https://github.com/ArcaneSS14/arcane.git || true
           git fetch upstream "${{ inputs.base_branch }}"
 
@@ -39,7 +39,7 @@ jobs:
             ':!Resources/Fonts' \
             ':!BuildFiles' > /tmp/PR_DIFF_AGAINST_MASTER.md
 
-          # 2. Получаем список только тех файлов, которые были добавлены или изменены
+          # 2. Получаем список измененных файлов
           git diff --name-only --diff-filter=ACMR "upstream/${{ inputs.base_branch }}...HEAD" -- . \
             ':!Resources/Textures' \
             ':!Resources/Audio' \
@@ -48,21 +48,50 @@ jobs:
             ':!Resources/Fonts' \
             ':!BuildFiles' > /tmp/changed_files.txt
 
-          # 3. Создаем чистую ветку и полностью очищаем индекс от тысяч файлов SS14
+          # 3. Собираем ЕДИНЫЙ ФАЙЛ (GEMINI_BUNDLE.md) со всем кодом и диффом
+          echo "# PR DIFF AGAINST MASTER" > /tmp/GEMINI_BUNDLE.md
+          echo '```diff' >> /tmp/GEMINI_BUNDLE.md
+          cat /tmp/PR_DIFF_AGAINST_MASTER.md >> /tmp/GEMINI_BUNDLE.md
+          echo '```' >> /tmp/GEMINI_BUNDLE.md
+          echo "" >> /tmp/GEMINI_BUNDLE.md
+          echo "# FULL CONTENT OF CHANGED FILES" >> /tmp/GEMINI_BUNDLE.md
+
+          while IFS= read -r file; do
+            if [ -f "$file" ]; then
+              echo "" >> /tmp/GEMINI_BUNDLE.md
+              echo "## File: $file" >> /tmp/GEMINI_BUNDLE.md
+              echo '```' >> /tmp/GEMINI_BUNDLE.md
+              cat "$file" >> /tmp/GEMINI_BUNDLE.md
+              echo "" >> /tmp/GEMINI_BUNDLE.md
+              echo '```' >> /tmp/GEMINI_BUNDLE.md
+            fi
+          done < /tmp/changed_files.txt
+
+          # 4. Создаем чистую ветку
           git checkout --orphan "code-${{ inputs.branch }}"
           git rm -rf --cached .
           git clean -fd
 
-          # 4. Возвращаем в ветку ТОЛЬКО измененные файлы (используем origin/ветка для надежности)
+          # 5. Возвращаем измененные файлы + кладем склеенный бандл
           if [ -s /tmp/changed_files.txt ]; then
             tr '\n' '\0' < /tmp/changed_files.txt | xargs -0 git checkout "origin/${{ inputs.branch }}" --
           fi
 
-          # 5. Кладем в корень файл с diff'ом, чтобы Gemini видел сравнение с master
+          cp /tmp/GEMINI_BUNDLE.md ./GEMINI_BUNDLE.md
           cp /tmp/PR_DIFF_AGAINST_MASTER.md ./PR_DIFF_AGAINST_MASTER.md
+
+          # Отключаем сжатие в архивах GitHub, чтобы текст читался напрямую
+          echo "* -delta" > .gitattributes
+
           git add -A
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git commit -m "Clean PR mirror for Gemini"
           git push -f origin "code-${{ inputs.branch }}"
-          
+
+      # Дополнительно сохраняем готовый файл прямо в разделе Actions
+      - name: Upload Bundle Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gemini-bundle
+          path: GEMINI_BUNDLE.md

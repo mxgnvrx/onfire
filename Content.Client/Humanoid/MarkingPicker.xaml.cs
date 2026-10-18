@@ -232,16 +232,25 @@ public sealed partial class MarkingPicker : Control
             switch (markingState)
             {
                 case SpriteSpecifier.Rsi rsi:
-                    result.Add(Loc.GetString($"marking-{marking.ID}-{rsi.RsiState}"));
+                    result.Add(GetMarkingStateName(marking, rsi.RsiState, result.Count + 1)); // Arcane-Edit
                     break;
                 case SpriteSpecifier.Texture texture:
-                    result.Add(Loc.GetString($"marking-{marking.ID}-{texture.TexturePath.Filename}"));
+                    result.Add(GetMarkingStateName(marking, texture.TexturePath.Filename, result.Count + 1)); // Arcane-Edit
                     break;
             }
         }
 
         return result;
     }
+
+    // Arcane-Start
+    private string GetMarkingStateName(MarkingPrototype marking, string state, int layer)
+    {
+        return Loc.TryGetString($"marking-{marking.ID}-{state}", out var name)
+            ? name
+            : Loc.GetString("markings-layer-fallback", ("layer", layer));
+    }
+    // Arcane-End
 
     private IReadOnlyDictionary<string, MarkingPrototype> GetMarkings(MarkingCategories category)
     {
@@ -488,7 +497,7 @@ public sealed partial class MarkingPicker : Control
             colorSelector.SelectorType = ColorSelectorSliders.ColorSelectorType.Hsv; // defaults color selector to HSV
             colorSliders.Add(colorSelector);
 
-            colorContainer.AddChild(new Label { Text = $"{stateNames[i]} color:" });
+            colorContainer.AddChild(new Label { Text = Loc.GetString("markings-layer-color", ("layer", stateNames[i])) }); // Arcane-Edit
             colorContainer.AddChild(colorSelector);
 
             var listing = _currentMarkings.Markings[_selectedMarkingCategory];

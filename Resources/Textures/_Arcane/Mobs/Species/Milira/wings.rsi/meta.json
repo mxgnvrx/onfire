@@ -3,16 +3,12 @@
     "license": "CC-BY-SA-3.0",
     "copyright": "By azra_freak (discord)",
     "size": {
-        "x": 64,
-        "y": 64
+        "x": 32,
+        "y": 32
     },
     "states": [
         {
             "name": "milira_wings",
-            "directions": 4
-        },
-        {
-            "name": "milira_wings_open",
             "directions": 4
         }
     ]

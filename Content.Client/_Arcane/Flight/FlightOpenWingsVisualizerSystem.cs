@@ -3,22 +3,25 @@ using Content.Shared._Arcane.Flight;
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Markings;
 using Robust.Client.GameObjects;
+using Robust.Client.ResourceManagement;
+using Robust.Shared.Serialization.TypeSerializers.Implementations;
 using Robust.Shared.Utility;
 
 namespace Content.Client._Arcane.Flight;
 
 public sealed class FlightOpenWingsVisualizerSystem : VisualizerSystem<FlightOpenWingsComponent>
 {
+    [Dependency] private readonly IResourceCache _resourceCache = default!;
     [Dependency] private readonly MarkingManager _markings = default!;
     [Dependency] private readonly SpriteSystem _sprite = default!;
 
-    private const string OpenStateSuffix = "_open";
+    private const string OpenRsiSuffix = "_open";
 
     public override void Initialize()
     {
         base.Initialize();
 
-        // Humanoid sprite updates rebuild marking layers with their default states.
+        // Humanoid sprite updates rebuild marking layers with their default sprites.
         SubscribeLocalEvent<FlightOpenWingsComponent, HumanoidAppearanceUpdatedEvent>(OnHumanoidUpdated);
     }
 
@@ -53,11 +56,16 @@ public sealed class FlightOpenWingsVisualizerSystem : VisualizerSystem<FlightOpe
                     || !_sprite.LayerMapTryGet(spriteEnt, $"{proto.ID}-{rsi.RsiState}", out var index, false))
                     continue;
 
-                var state = open ? rsi.RsiState + OpenStateSuffix : rsi.RsiState;
-                if (_sprite.LayerGetEffectiveRsi(spriteEnt, index)?.TryGetState(state, out _) != true)
+                // Open wings live in a separate, larger RSI so the folded sprite keeps the regular 32px bounds.
+                var path = open
+                    ? rsi.RsiPath.Directory / $"{rsi.RsiPath.FilenameWithoutExtension}{OpenRsiSuffix}.rsi"
+                    : rsi.RsiPath;
+
+                if (!_resourceCache.TryGetResource<RSIResource>(SpriteSpecifierSerializer.TextureRoot / path, out var resource)
+                    || !resource.RSI.TryGetState(rsi.RsiState, out _))
                     continue;
 
-                _sprite.LayerSetRsiState(spriteEnt, index, state);
+                _sprite.LayerSetRsi(spriteEnt, index, resource.RSI, rsi.RsiState);
             }
         }
     }

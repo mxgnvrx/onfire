@@ -3,6 +3,9 @@
   bodyPart: Wings
   markingCategory: Wings
   speciesRestriction: [Milira]
+  layering:
+    # Handcuffs is the topmost humanoid layer, above helmets and pockets.
+    milira_wings: Handcuffs
   sprites:
   - sprite: _Arcane/Mobs/Species/Milira/wings.rsi
     state: milira_wings

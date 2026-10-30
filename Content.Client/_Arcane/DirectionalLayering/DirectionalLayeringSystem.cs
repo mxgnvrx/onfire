@@ -14,8 +14,8 @@ using static Robust.Client.GameObjects.SpriteComponent;
 namespace Content.Client._Arcane.DirectionalLayering;
 
 /// <summary>
-///     Keeps a humanoid's ears against the hair and the cloak over the bag, and moves the tail by which side of the
-///     character faces the camera.
+///     Keeps a humanoid's ears against the hair and the cloak over the bag, and moves the tail and wings by which side
+///     of the character faces the camera.
 ///     Every pass pulls these blocks out of the sprite and re-inserts them next to base layers that never move, so the
 ///     result depends only on the current view, never on the views applied before it.
 /// </summary>
@@ -43,6 +43,7 @@ public sealed partial class DirectionalLayeringSystem : EntitySystem
         public DirectionalView? DummyView;
         public bool NativeCaptured;
         public ISpriteLayer? TailAnchor;
+        public ISpriteLayer? WingAnchor;
     }
 
     private enum DirectionalView
@@ -185,21 +186,24 @@ public sealed partial class DirectionalLayeringSystem : EntitySystem
 
         var ears = TryGetIndex(ent, HumanoidVisualLayers.Hair, out _) ? GetEarKeys(ent) : new List<object>();
         var tail = GetTailKeys(ent, ears);
+        var wings = GetWingKeys(ent, ears, tail);
 
         // Only this system moves these blocks, so the first pass still sees the species' native order.
         if (!state.NativeCaptured)
         {
             state.NativeCaptured = true;
             state.TailAnchor = FindLayerAbove(ent, tail);
+            state.WingAnchor = FindLayerAbove(ent, wings);
         }
 
         var cloakAnchor = GetCloakAnchor(ent);
         var cloak = cloakAnchor != null ? GetSlotKeys(ent, "neck", ears, tail) : new List<object>();
 
-        var blocks = ExtractBlocks(ent, ears, tail, cloak);
+        var blocks = ExtractBlocks(ent, ears, tail, cloak, wings);
         var earLayers = blocks[0];
         var tailLayers = blocks[1];
         var cloakLayers = blocks[2];
+        var wingLayers = blocks[3];
 
         if (cloakLayers.Count > 0 && TryGetIndex(ent, cloakAnchor!, out var cloakAnchorIdx))
             InsertBlock(ent, cloakLayers, cloakAnchorIdx + 1);
@@ -207,6 +211,10 @@ public sealed partial class DirectionalLayeringSystem : EntitySystem
         // Ears sit right against the hair block: under it, or over it when the character opts in.
         if (earLayers.Count > 0)
             InsertBlock(ent, earLayers, GetEarIndex(ent));
+
+        // Wings first: the native layer above the tail is the wings one.
+        if (wingLayers.Count > 0)
+            InsertBlock(ent, wingLayers, GetWingIndex(state, view, ent.Comp2));
 
         if (tailLayers.Count > 0)
             InsertBlock(ent, tailLayers, GetTailIndex(ent, state, view));
@@ -243,6 +251,15 @@ public sealed partial class DirectionalLayeringSystem : EntitySystem
             default:
                 return state.TailAnchor != null ? IndexOf(ent.Comp2, state.TailAnchor) : null;
         }
+    }
+
+    // Wings grow from the back, so only the front view hides them behind the body; from the side they cover it.
+    private static int? GetWingIndex(LayeringState state, DirectionalView view, SpriteComponent sprite)
+    {
+        if (view == DirectionalView.Front)
+            return 0;
+
+        return state.WingAnchor != null ? IndexOf(sprite, state.WingAnchor) : null;
     }
 
     private bool TryGetIndex(Entity<HumanoidAppearanceComponent, SpriteComponent> ent, object key, out int index)
@@ -293,10 +310,16 @@ public sealed partial class DirectionalLayeringSystem : EntitySystem
     // Tail markings layered onto TailBehind or TailBehindBackpack (moth wings) split themselves per view already.
     private List<object> GetTailKeys(Entity<HumanoidAppearanceComponent, SpriteComponent> ent, List<object> ears)
     {
-        var keys = new List<object> { HumanoidVisualLayers.Tail, HumanoidVisualLayers.Wings };
+        var keys = new List<object> { HumanoidVisualLayers.Tail };
         AddMarkingLayerKeys(ent, HumanoidVisualLayers.Tail, keys);
-        AddMarkingLayerKeys(ent, HumanoidVisualLayers.Wings, keys);
         return FilterExisting(ent, keys, ears, null);
+    }
+
+    private List<object> GetWingKeys(Entity<HumanoidAppearanceComponent, SpriteComponent> ent, List<object> ears, List<object> tail)
+    {
+        var keys = new List<object> { HumanoidVisualLayers.Wings };
+        AddMarkingLayerKeys(ent, HumanoidVisualLayers.Wings, keys);
+        return FilterExisting(ent, keys, ears, tail);
     }
 
     private List<object> GetSlotKeys(

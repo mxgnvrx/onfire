@@ -12,6 +12,8 @@ public sealed class FlightOpenWingsVisualizerSystem : VisualizerSystem<FlightOpe
     [Dependency] private readonly MarkingManager _markings = default!;
     [Dependency] private readonly SpriteSystem _sprite = default!;
 
+    private const string OpenStateSuffix = "_open";
+
     public override void Initialize()
     {
         base.Initialize();
@@ -51,7 +53,7 @@ public sealed class FlightOpenWingsVisualizerSystem : VisualizerSystem<FlightOpe
                     || !_sprite.LayerMapTryGet(spriteEnt, $"{proto.ID}-{rsi.RsiState}", out var index, false))
                     continue;
 
-                var state = open ? rsi.RsiState + ent.Comp1.OpenStateSuffix : rsi.RsiState;
+                var state = open ? rsi.RsiState + OpenStateSuffix : rsi.RsiState;
                 if (_sprite.LayerGetEffectiveRsi(spriteEnt, index)?.TryGetState(state, out _) != true)
                     continue;
 

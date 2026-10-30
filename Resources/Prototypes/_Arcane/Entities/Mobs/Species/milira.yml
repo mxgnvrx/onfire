@@ -1,5 +1,4 @@
 - type: entity
-  save: false
   name: Urist McMilira
   parent: BaseMobHuman
   id: BaseMobMilira
@@ -7,9 +6,6 @@
   components:
   - type: HumanoidAppearance
     species: Milira
-    hideLayersOnEquip:
-    - Hair
-    - Snout
   - type: Icon
     sprite: _Arcane/Mobs/Species/Milira/parts.rsi
     state: full
@@ -18,7 +14,6 @@
   - type: FlightOpenWings
 
 - type: entity
-  save: false
   name: Urist McMilira
   parent: MobHumanDummy
   id: MobMiliraDummy
@@ -27,6 +22,3 @@
   components:
   - type: HumanoidAppearance
     species: Milira
-    hideLayersOnEquip:
-    - Hair
-    - Snout

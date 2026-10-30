@@ -1,32 +1,20 @@
 - type: entity
-  id: PartMilira
-  parent: [BaseItem, BasePart]
-  name: "milira body part"
   abstract: true
+  id: PartMilira
   components:
   - type: Icon
     sprite: _Arcane/Mobs/Species/Milira/parts.rsi
-    state: chest_m
   - type: BodyPart
     species: Milira
-  - type: Extractable
-    juiceSolution:
-      reagents:
-      - ReagentId: Fat
-        Quantity: 3
-      - ReagentId: Blood
-        Quantity: 10
 
 - type: entity
+  parent: [PartMilira, BaseChestHuman]
   id: ChestMilira
   name: "milira chest"
-  parent: [PartMilira, BaseChest]
   components:
   - type: Sprite
     sprite: _Arcane/Mobs/Species/Milira/parts.rsi
-    state: chest_m
   - type: BodyPart
-    species: Milira
     onAdd:
     - type: Flight
       isLayerAnimated: true
@@ -34,114 +22,83 @@
       animationKey: "Flap"
       speedModifier: 2.6
       staminaDrainRate: 8.5
-  - type: Extractable
-    juiceSolution:
-      reagents:
-      - ReagentId: Fat
-        Quantity: 10
-      - ReagentId: Blood
-        Quantity: 20
 
 - type: entity
+  parent: [PartMilira, BaseGroinHuman]
   id: GroinMilira
   name: "milira groin"
-  parent: [PartMilira, BaseGroin]
   components:
   - type: Sprite
     sprite: _Arcane/Mobs/Species/Milira/parts.rsi
-    state: groin_m
-  - type: Extractable
-    juiceSolution:
-      reagents:
-      - ReagentId: Fat
-        Quantity: 10
-      - ReagentId: Blood
-        Quantity: 20
 
 - type: entity
+  parent: [PartMilira, BaseHeadHuman]
   id: HeadMilira
   name: "milira head"
-  parent: [PartMilira, BaseHead]
   components:
   - type: Sprite
     sprite: _Arcane/Mobs/Species/Milira/parts.rsi
-    state: head_m
-  - type: Extractable
-    juiceSolution:
-      reagents:
-      - ReagentId: Fat
-        Quantity: 5
-      - ReagentId: Blood
-        Quantity: 10
 
 - type: entity
+  parent: [PartMilira, BaseLeftArmHuman]
   id: LeftArmMilira
   name: "left milira arm"
-  parent: [PartMilira, BaseLeftArm]
   components:
   - type: Sprite
     sprite: _Arcane/Mobs/Species/Milira/parts.rsi
-    state: l_arm
 
 - type: entity
+  parent: [PartMilira, BaseRightArmHuman]
   id: RightArmMilira
   name: "right milira arm"
-  parent: [PartMilira, BaseRightArm]
   components:
   - type: Sprite
     sprite: _Arcane/Mobs/Species/Milira/parts.rsi
-    state: r_arm
 
 - type: entity
+  parent: [PartMilira, BaseLeftHandHuman]
   id: LeftHandMilira
   name: "left milira hand"
-  parent: [PartMilira, BaseLeftHand]
   components:
   - type: Sprite
     sprite: _Arcane/Mobs/Species/Milira/parts.rsi
-    state: l_hand
 
 - type: entity
+  parent: [PartMilira, BaseRightHandHuman]
   id: RightHandMilira
   name: "right milira hand"
-  parent: [PartMilira, BaseRightHand]
   components:
   - type: Sprite
     sprite: _Arcane/Mobs/Species/Milira/parts.rsi
-    state: r_hand
 
 - type: entity
+  parent: [PartMilira, BaseLeftLegHuman]
   id: LeftLegMilira
   name: "left milira leg"
-  parent: [PartMilira, BaseLeftLeg]
   components:
   - type: Sprite
     sprite: _Arcane/Mobs/Species/Milira/parts.rsi
-    state: l_leg
 
 - type: entity
+  parent: [PartMilira, BaseRightLegHuman]
   id: RightLegMilira
   name: "right milira leg"
-  parent: [PartMilira, BaseRightLeg]
   components:
   - type: Sprite
     sprite: _Arcane/Mobs/Species/Milira/parts.rsi
-    state: r_leg
 
 - type: entity
+  parent: [PartMilira, BaseLeftFootHuman]
   id: LeftFootMilira
   name: "left milira foot"
-  parent: [PartMilira, BaseLeftFoot]
   components:
   - type: Sprite
     sprite: _Arcane/Mobs/Species/Milira/parts.rsi
-    state: l_foot
 
 - type: entity
+  parent: [PartMilira, BaseRightFootHuman]
   id: RightFootMilira
   name: "right milira foot"
-  parent: [PartMilira, BaseRightFoot]
   components:
   - type: Sprite
     sprite: _Arcane/Mobs/Species/Milira/parts.rsi
-    state: r_foot

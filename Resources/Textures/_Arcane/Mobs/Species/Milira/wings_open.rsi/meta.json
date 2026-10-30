@@ -10,6 +10,26 @@
         {
             "name": "milira_wings",
             "directions": 4
+        },
+        {
+            "name": "milira_wings_unfold",
+            "directions": 4,
+            "delays": [
+                [ 0.1, 0.1, 0.1 ],
+                [ 0.1, 0.1, 0.1 ],
+                [ 0.1, 0.1, 0.1 ],
+                [ 0.1, 0.1, 0.1 ]
+            ]
+        },
+        {
+            "name": "milira_wings_fold",
+            "directions": 4,
+            "delays": [
+                [ 0.1, 0.1, 0.1 ],
+                [ 0.1, 0.1, 0.1 ],
+                [ 0.1, 0.1, 0.1 ],
+                [ 0.1, 0.1, 0.1 ]
+            ]
         }
     ]
 }

@@ -15,10 +15,10 @@
     damageContainer: Biological
     # Species resistances are disabled on this build, like the other species.
 #    damageModifierSet: Milira
-  # Flight caps speed at the weightless values, so the human defaults would fly slower than sprinting.
+  # Flight caps speed at the weightless values, which also give the takeoff its acceleration.
   - type: MovementSpeedModifier
     baseWeightlessAcceleration: 2.5
-    baseWeightlessModifier: 1.12
+    baseWeightlessModifier: 0.75
   - type: FlightOpenWings
 
 - type: entity

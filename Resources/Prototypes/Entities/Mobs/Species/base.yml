@@ -426,6 +426,7 @@
     - map: [ "mask" ]
     - map: [ "enum.HumanoidVisualLayers.HeadTop" ]
     - map: [ "enum.HumanoidVisualLayers.Tail" ]
+    - map: [ "enum.HumanoidVisualLayers.Wings" ] # Arcane
     - map: [ "head" ]
     - map: [ "pocket1" ]
     - map: [ "pocket2" ]

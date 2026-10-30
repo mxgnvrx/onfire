@@ -41,7 +41,7 @@ public sealed class FlightSystem : SharedFlightSystem
         if (component.IsLayerAnimated && component.Layer is not null)
         {
             targetLayer = GetAnimatedLayer(uid, component.Layer, sprite);
-            if (targetLayer == null)
+            if (targetLayer == null && isFlying) // Arcane-Edit
                 return;
         }
 

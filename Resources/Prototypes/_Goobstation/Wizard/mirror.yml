@@ -41,6 +41,7 @@
     - Chitinid
     - Feroxi
     - Demon # Arcane-Edit
+    - Milira # Arcane
   - type: ActivatableUI
     key: enum.WizardMirrorUiKey.Key
     singleUser: true

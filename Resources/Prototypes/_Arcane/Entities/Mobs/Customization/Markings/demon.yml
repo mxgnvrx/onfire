@@ -183,7 +183,7 @@
   bodyPart: HeadSide
   markingCategory: HeadSide
   underHair: true
-  speciesRestriction: [Demon]
+  speciesRestriction: [Demon, Milira]
   sprites:
   - sprite: _Arcane/Mobs/Species/Demon/markings.rsi
     state: arcana_ears_alt
@@ -193,7 +193,7 @@
   bodyPart: HeadSide
   markingCategory: HeadSide
   underHair: true
-  speciesRestriction: [Demon]
+  speciesRestriction: [Demon, Milira]
   sprites:
   - sprite: _Arcane/Mobs/Species/Demon/markings.rsi
     state: arcana_ears

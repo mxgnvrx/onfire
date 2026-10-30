@@ -33,6 +33,7 @@
     - Shadowkin
     - Demon # Arcane-Edit
     - HumanoidXeno # Arcane-Edit
+    - Milira # Arcane
     - Hydrakin
 
 # Goobstation start
@@ -114,6 +115,7 @@
     - Shadowkin
     - Demon # Arcane-Edit
     - HumanoidXeno # Arcane-Edit
+    - Milira # Arcane
 
 - type: loadoutEffectGroup
   id: OxygenBreatherMimeMoth

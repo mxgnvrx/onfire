@@ -1,0 +1,202 @@
+- type: species
+  id: Milira
+  name: species-name-milira
+  roundStart: true
+  prototype: MobMilira
+  sprites: MobMiliraSprites
+  defaultSkinTone: "#FFFFFF"
+  markingLimits: MobMiliraMarkingLimits
+  dollPrototype: MobMiliraDummy
+  customName: true
+  skinColoration: TintedHues
+  category: Unusual
+  description: "/ServerInfo/_Arcane/SpeciesDescriptions/Milira.xml"
+  minHeight: 0.90
+  defaultHeight: 1
+  maxHeight: 1.20
+  minWidth: 0.90
+  defaultWidth: 1
+  maxWidth: 1.10
+  special:
+  - Умеют летать на крыльях, расходуя выносливость.
+
+- type: speciesBaseSprites
+  id: MobMiliraSprites
+  sprites:
+    Special: MobHumanoidAnyMarking
+    Head: MobMiliraHead
+    Face: MobHumanoidAnyMarking
+    Hair: MobHumanoidAnyMarking
+    FacialHair: MobHumanoidAnyMarking
+    Snout: MobHumanoidAnyMarking
+    UndergarmentTop: MobHumanoidAnyMarking
+    UndergarmentBottom: MobHumanoidAnyMarking
+    Chest: MobMiliraChest
+    Groin: MobMiliraGroin
+    Eyes: MobHumanoidEyes
+    HeadTop: MobHumanoidAnyMarking
+    HeadSide: MobHumanoidAnyMarking
+    Wings: MobHumanoidAnyMarking
+    LArm: MobMiliraLArm
+    RArm: MobMiliraRArm
+    LHand: MobMiliraLHand
+    RHand: MobMiliraRHand
+    LLeg: MobMiliraLLeg
+    RLeg: MobMiliraRLeg
+    LFoot: MobMiliraLFoot
+    RFoot: MobMiliraRFoot
+
+- type: markingPoints
+  id: MobMiliraMarkingLimits
+  points:
+    Hair:
+      points: 1
+      required: false
+    FacialHair:
+      points: 1
+      required: false
+    HeadTop:
+      points: 1
+      required: false
+    UndergarmentTop:
+      points: 1
+      required: false
+    UndergarmentBottom:
+      points: 8
+      required: false
+    HeadSide:
+      points: 8
+      required: false
+    Chest:
+      points: 10
+      required: false
+    Wings:
+      points: 1
+      required: true
+      defaultMarkings: [ MiliraWings ]
+    RightLeg:
+      points: 2
+      required: false
+    RightFoot:
+      points: 2
+      required: false
+    LeftLeg:
+      points: 2
+      required: false
+    LeftFoot:
+      points: 2
+      required: false
+    RightArm:
+      points: 2
+      required: false
+    RightHand:
+      points: 3
+      required: false
+    LeftArm:
+      points: 2
+      required: false
+    LeftHand:
+      points: 3
+      required: false
+
+- type: humanoidBaseSprite
+  id: MobMiliraHead
+  baseSprite:
+    sprite: _Arcane/Mobs/Species/Milira/parts.rsi
+    state: head_m
+
+- type: humanoidBaseSprite
+  id: MobMiliraHeadMale
+  baseSprite:
+    sprite: _Arcane/Mobs/Species/Milira/parts.rsi
+    state: head_m
+
+- type: humanoidBaseSprite
+  id: MobMiliraHeadFemale
+  baseSprite:
+    sprite: _Arcane/Mobs/Species/Milira/parts.rsi
+    state: head_f
+
+- type: humanoidBaseSprite
+  id: MobMiliraChest
+  baseSprite:
+    sprite: _Arcane/Mobs/Species/Milira/parts.rsi
+    state: chest_m
+
+- type: humanoidBaseSprite
+  id: MobMiliraChestMale
+  baseSprite:
+    sprite: _Arcane/Mobs/Species/Milira/parts.rsi
+    state: chest_m
+
+- type: humanoidBaseSprite
+  id: MobMiliraChestFemale
+  baseSprite:
+    sprite: _Arcane/Mobs/Species/Milira/parts.rsi
+    state: chest_f
+
+- type: humanoidBaseSprite
+  id: MobMiliraGroin
+  baseSprite:
+    sprite: _Arcane/Mobs/Species/Milira/parts.rsi
+    state: groin_m
+
+- type: humanoidBaseSprite
+  id: MobMiliraGroinMale
+  baseSprite:
+    sprite: _Arcane/Mobs/Species/Milira/parts.rsi
+    state: groin_m
+
+- type: humanoidBaseSprite
+  id: MobMiliraGroinFemale
+  baseSprite:
+    sprite: _Arcane/Mobs/Species/Milira/parts.rsi
+    state: groin_f
+
+- type: humanoidBaseSprite
+  id: MobMiliraLArm
+  baseSprite:
+    sprite: _Arcane/Mobs/Species/Milira/parts.rsi
+    state: l_arm
+
+- type: humanoidBaseSprite
+  id: MobMiliraLHand
+  baseSprite:
+    sprite: _Arcane/Mobs/Species/Milira/parts.rsi
+    state: l_hand
+
+- type: humanoidBaseSprite
+  id: MobMiliraLLeg
+  baseSprite:
+    sprite: _Arcane/Mobs/Species/Milira/parts.rsi
+    state: l_leg
+
+- type: humanoidBaseSprite
+  id: MobMiliraLFoot
+  baseSprite:
+    sprite: _Arcane/Mobs/Species/Milira/parts.rsi
+    state: l_foot
+
+- type: humanoidBaseSprite
+  id: MobMiliraRArm
+  baseSprite:
+    sprite: _Arcane/Mobs/Species/Milira/parts.rsi
+    state: r_arm
+
+- type: humanoidBaseSprite
+  id: MobMiliraRHand
+  baseSprite:
+    sprite: _Arcane/Mobs/Species/Milira/parts.rsi
+    state: r_hand
+
+- type: humanoidBaseSprite
+  id: MobMiliraRLeg
+  baseSprite:
+    sprite: _Arcane/Mobs/Species/Milira/parts.rsi
+    state: r_leg
+
+- type: humanoidBaseSprite
+  id: MobMiliraRFoot
+  baseSprite:
+    sprite: _Arcane/Mobs/Species/Milira/parts.rsi
+    state: r_foot

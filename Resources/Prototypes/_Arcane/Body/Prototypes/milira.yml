@@ -1,0 +1,55 @@
+- type: body
+  id: Milira
+  name: "milira"
+  root: chest
+  slots:
+    head:
+      part: HeadMilira
+      connections:
+      - chest
+      organs:
+        brain: OrganHumanBrain
+        eyes: OrganHumanEyes
+    chest:
+      part: ChestMilira
+      connections:
+      - groin
+      - right arm
+      - left arm
+      - head
+      organs:
+        heart: OrganHumanHeart
+        lungs: OrganHumanLungs
+    groin:
+      part: GroinMilira
+      connections:
+      - right leg
+      - left leg
+      organs:
+        stomach: OrganHumanStomach
+        liver: OrganHumanLiver
+        kidneys: OrganHumanKidneys
+    right arm:
+      part: RightArmMilira
+      connections:
+      - right hand
+    left arm:
+      part: LeftArmMilira
+      connections:
+      - left hand
+    right hand:
+      part: RightHandMilira
+    left hand:
+      part: LeftHandMilira
+    right leg:
+      part: RightLegMilira
+      connections:
+      - right foot
+    left leg:
+      part: LeftLegMilira
+      connections:
+      - left foot
+    right foot:
+      part: RightFootMilira
+    left foot:
+      part: LeftFootMilira

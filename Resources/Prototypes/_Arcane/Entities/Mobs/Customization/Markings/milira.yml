@@ -1,0 +1,8 @@
+- type: marking
+  id: MiliraWings
+  bodyPart: Wings
+  markingCategory: Wings
+  speciesRestriction: [Milira]
+  sprites:
+  - sprite: _Arcane/Mobs/Species/Milira/wings.rsi
+    state: milira_wings

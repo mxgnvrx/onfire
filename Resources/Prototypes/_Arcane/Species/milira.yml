@@ -17,8 +17,14 @@
   minWidth: 0.90
   defaultWidth: 1
   maxWidth: 1.10
+  # Species resistances are disabled on this build, like the other species.
+#  pros:
+#  - Получают на 30% меньше холодового урона.
   special:
   - Умеют летать на крыльях, расходуя выносливость.
+#  cons:
+#  - Получают на 15% больше тупого и теплового урона.
+#  - Получают на 10% больше режущего и колющего урона.
 
 - type: speciesBaseSprites
   id: MobMiliraSprites

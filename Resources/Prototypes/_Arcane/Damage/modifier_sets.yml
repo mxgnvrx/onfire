@@ -24,3 +24,12 @@
     Slash: 0.9
     Heat: 1.2
   ignoreArmorPierceFlags: All
+
+- type: damageModifierSet
+  id: Milira
+  coefficients:
+    Blunt: 1.15
+    Slash: 1.1
+    Piercing: 1.1
+    Heat: 1.15
+    Cold: 0.7

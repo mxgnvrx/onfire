@@ -2,6 +2,9 @@
   abstract: true
   id: PartMilira
   components:
+  - type: Damageable
+    # Species resistances are disabled on this build, like the other species.
+#    damageModifierSet: Milira
   - type: Icon
     sprite: _Arcane/Mobs/Species/Milira/parts.rsi
   - type: BodyPart

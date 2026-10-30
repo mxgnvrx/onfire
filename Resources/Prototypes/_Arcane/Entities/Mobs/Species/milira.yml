@@ -11,6 +11,10 @@
     state: full
   - type: Body
     prototype: Milira
+  - type: Damageable
+    damageContainer: Biological
+    # Species resistances are disabled on this build, like the other species.
+#    damageModifierSet: Milira
   - type: FlightOpenWings
 
 - type: entity

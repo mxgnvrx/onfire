@@ -2,8 +2,6 @@ using Content.Shared._Shitmed.Body.Organ;
 using Content.Shared.Actions;
 using Content.Shared.Body.Organ;
 using Content.Shared.Humanoid;
-using Content.Shared.Light.Components;
-using Content.Shared.Light.EntitySystems;
 using Content.Shared.Toggleable;
 
 namespace Content.Shared._Arcane.Body.Organs;
@@ -12,7 +10,6 @@ public sealed class GlowCyberneticEyesSystem : EntitySystem
 {
     [Dependency] private readonly SharedActionsSystem _actions = default!;
     [Dependency] private readonly SharedPointLightSystem _light = default!;
-    [Dependency] private readonly UnpoweredFlashlightSystem _flashlight = default!;
 
     public override void Initialize()
     {
@@ -39,16 +36,10 @@ public sealed class GlowCyberneticEyesSystem : EntitySystem
         _light.SetEnabled(body, false, light);
         _light.SetRadius(body, ent.Comp.Radius, light);
         _light.SetEnergy(body, ent.Comp.Energy, light);
-        if (TryComp<HumanoidAppearanceComponent>(body, out var appearance))
-            _light.SetColor(body, appearance.EyeColor, light);
 
-        ent.Comp.AddedFlashlight = !HasComp<UnpoweredFlashlightComponent>(body);
-        var flashlight = EnsureComp<UnpoweredFlashlightComponent>(body);
-        ent.Comp.PreviousAction = flashlight.ToggleActionEntity;
         _actions.AddAction(body, ref ent.Comp.Action, ent.Comp.ToggleAction, ent);
-        flashlight.ToggleActionEntity = ent.Comp.Action;
-        flashlight.LightOn = false;
-        Dirty(body, flashlight);
+        _actions.SetToggled(ent.Comp.Action, false);
+        ent.Comp.LightOn = false;
         Dirty(ent);
     }
 
@@ -57,16 +48,9 @@ public sealed class GlowCyberneticEyesSystem : EntitySystem
         if (args.Organ.Comp.Body is not {} body)
             return;
 
-        _flashlight.SetLight(body, false, quiet: true);
         _actions.RemoveAction(body, ent.Comp.Action);
-        if (TryComp<UnpoweredFlashlightComponent>(body, out var flashlight))
-        {
-            flashlight.ToggleActionEntity = ent.Comp.PreviousAction;
-            flashlight.LightOn = ent.Comp.PreviousEnabled;
-            Dirty(body, flashlight);
-            if (ent.Comp.AddedFlashlight)
-                RemComp<UnpoweredFlashlightComponent>(body);
-        }
+        ent.Comp.LightOn = false;
+        Dirty(ent);
 
         if (ent.Comp.HadLight)
         {
@@ -87,7 +71,11 @@ public sealed class GlowCyberneticEyesSystem : EntitySystem
 
         if (TryComp<HumanoidAppearanceComponent>(args.Performer, out var appearance))
             _light.SetColor(args.Performer, appearance.EyeColor);
-        _flashlight.TryToggleLight(args.Performer, args.Performer);
+
+        ent.Comp.LightOn = !ent.Comp.LightOn;
+        _light.SetEnabled(args.Performer, ent.Comp.LightOn);
+        _actions.SetToggled(ent.Comp.Action, ent.Comp.LightOn);
+        Dirty(ent);
         args.Handled = true;
     }
 }

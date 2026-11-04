@@ -18,8 +18,9 @@ public sealed partial class GlowCyberneticEyesComponent : Component
     [DataField, AutoNetworkedField]
     public EntityUid? Action;
 
-    public bool AddedFlashlight;
-    public EntityUid? PreviousAction;
+    [DataField, AutoNetworkedField]
+    public bool LightOn;
+
     public bool HadLight;
     public bool PreviousEnabled;
     public float PreviousRadius;

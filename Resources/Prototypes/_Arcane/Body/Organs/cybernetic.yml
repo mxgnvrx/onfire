@@ -140,11 +140,11 @@
     sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
     state: eyes_cyber_glow
   - type: Organ
-    intCap: 30
-    integrity: 30
+    intCap: 60
+    integrity: 60
     integrityThresholds:
-      Normal: 30
-      Damaged: 15.714
+      Normal: 60
+      Damaged: 31.429
       Destroyed: 0
     slotId: eyes
   - type: Eyes

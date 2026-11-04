@@ -29,6 +29,7 @@
   - BasicCyberneticLungs
   - BasicCyberneticLiver
   - BasicCyberneticHeart
+  - BasicCyberneticStomach # Arcane
   position: -4,3
 
 - type: technology
@@ -240,6 +241,10 @@
   - AugmentPaperworkPanelElectronics
   - AugmentStrengthCasing
   - AugmentStrengthElectronics
+  # Arcane-Start
+  - NutrimentPumpAugment
+  - BreathingTubeAugment
+  # Arcane-End
   position: -7,3
 
 - type: technology
@@ -285,6 +290,7 @@
   recipeUnlocks:
   - AugmentToolPanelCasing
   - AugmentUtilityPanelElectronics
+  - NutrimentPumpPlusAugment # Arcane
   position: -8,2
 
 - type: technology
@@ -307,6 +313,7 @@
   recipeUnlocks:
   - UpgradedCyberneticLungs
   - UpgradedCyberneticHeart
+  - UpgradedCyberneticStomach # Arcane
   position: -2,3
 
 - type: technology
@@ -328,6 +335,13 @@
   - CyberOrgans
   requiredExperiments:
   - ScanningPeopleAugmentedOrgans
+  # Arcane-Start
+  recipeUnlocks:
+  - AdvancedCyberneticLiver
+  - AdvancedCyberneticStomach
+  - AdvancedCyberneticHeart
+  - GlowCyberneticEyes
+  # Arcane-End
   # TODO
   position: -2,4
 

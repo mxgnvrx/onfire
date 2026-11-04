@@ -1,0 +1,41 @@
+- type: entity
+  parent: BaseAugment
+  id: NutrimentPumpAugment
+  name: nutriment pump augment
+  description: A chest implant that synthesizes nutrition when its owner is starving.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+    state: nutriment_implant
+  - type: Organ
+    slotId: nutrimentPump
+  - type: Cybernetics
+  - type: NutrimentPump
+
+- type: entity
+  parent: NutrimentPumpAugment
+  id: NutrimentPumpPlusAugment
+  name: nutriment pump PLUS augment
+  description: An improved chest implant that synthesizes nutrition as soon as its owner is peckish.
+  components:
+  - type: Sprite
+    state: adv_nutriment_implant
+  - type: NutrimentPump
+    threshold: Peckish
+
+- type: entity
+  parent: BaseAugment
+  id: BreathingTubeAugment
+  name: breathing tube augment
+  description: An implanted internals connector that allows its owner to breathe from a tank without a mask.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+    state: implant_mask
+  - type: Organ
+    slotId: breathingTube
+  - type: Cybernetics
+  - type: BreathingTube
+  - type: BreathMask
+  - type: Item
+    size: Tiny

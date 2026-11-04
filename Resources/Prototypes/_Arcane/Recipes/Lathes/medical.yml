@@ -1,0 +1,86 @@
+- type: latheRecipe
+  id: BasicCyberneticStomach
+  result: BasicCyberneticStomach
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 2000
+    Glass: 2000
+
+- type: latheRecipe
+  id: UpgradedCyberneticStomach
+  result: UpgradedCyberneticStomach
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 2000
+    Glass: 2000
+
+- type: latheRecipe
+  id: AdvancedCyberneticStomach
+  result: AdvancedCyberneticStomach
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 2000
+    Glass: 2000
+    Silver: 2000
+
+- type: latheRecipe
+  id: AdvancedCyberneticLiver
+  result: AdvancedCyberneticLiver
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 2000
+    Glass: 2000
+    Silver: 2000
+
+- type: latheRecipe
+  id: AdvancedCyberneticHeart
+  result: AdvancedCyberneticHeart
+  categories: [ Robotics ]
+  completetime: 10
+  materials:
+    Steel: 2000
+    Glass: 2000
+    Silver: 2000
+
+- type: latheRecipe
+  id: GlowCyberneticEyes
+  result: GlowCyberneticEyes
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 2400
+    Glass: 2000
+
+- type: latheRecipe
+  id: NutrimentPumpAugment
+  result: NutrimentPumpAugment
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 2000
+    Glass: 2000
+    Gold: 2000
+
+- type: latheRecipe
+  id: NutrimentPumpPlusAugment
+  result: NutrimentPumpPlusAugment
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 2400
+    Glass: 2400
+    Gold: 2000
+    Uranium: 3000
+
+- type: latheRecipe
+  id: BreathingTubeAugment
+  result: BreathingTubeAugment
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 2400
+    Glass: 1000

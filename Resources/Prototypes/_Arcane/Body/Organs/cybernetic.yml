@@ -1,0 +1,160 @@
+- type: entity
+  parent: BasicCyberneticLiver
+  id: AdvancedCyberneticLiver
+  name: advanced cybernetic liver
+  description: A robust synthetic liver that filters small doses of poison and neutralizes alcohol poisoning.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+    state: liver-c-u2
+  - type: Organ
+    intCap: 240
+    integrity: 240
+    integrityThresholds:
+      Normal: 240
+      Damaged: 99.31
+      Destroyed: 0
+  - type: CyberneticLiver
+
+- type: entity
+  parent: BaseCyberneticOrgan
+  id: BasicCyberneticStomach
+  name: basic cybernetic stomach
+  description: A simple synthetic stomach that digests food more slowly than an organic stomach.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+    state: stomach-c
+  - type: Organ
+    intCap: 70
+    integrity: 70
+    integrityThresholds:
+      Normal: 70
+      Damaged: 35
+      Destroyed: 0
+    slotId: stomach
+  - type: Stomach
+  - type: SolutionContainerManager
+    solutions:
+      stomach:
+        maxVol: 50
+      food:
+        maxVol: 0
+  - type: Metabolizer
+    maxPoisonsProcessable: 3
+    metabolizerTypes: [ Cybernetic ]
+    groups:
+    - id: Food
+      rateModifier: 0.7
+    - id: Drink
+      rateModifier: 0.7
+  - type: Tag
+    tags: [ Organ, Stomach ]
+  - type: Item
+    size: Small
+    heldPrefix: stomach
+
+- type: entity
+  parent: BasicCyberneticStomach
+  id: UpgradedCyberneticStomach
+  name: upgraded cybernetic stomach
+  description: A synthetic stomach that digests food faster than an organic stomach.
+  components:
+  - type: Sprite
+    state: stomach-c-u
+  - type: Organ
+    intCap: 210
+    integrity: 210
+    integrityThresholds:
+      Normal: 210
+      Damaged: 105
+      Destroyed: 0
+  - type: Metabolizer
+    groups:
+    - id: Food
+      rateModifier: 1.4
+    - id: Drink
+      rateModifier: 1.4
+
+- type: entity
+  parent: BasicCyberneticStomach
+  id: AdvancedCyberneticStomach
+  name: advanced cybernetic stomach
+  description: A robust synthetic stomach that digests food twice as fast as an organic stomach.
+  components:
+  - type: Sprite
+    state: stomach-c-u2
+  - type: Organ
+    intCap: 280
+    integrity: 280
+    integrityThresholds:
+      Normal: 280
+      Damaged: 140
+      Destroyed: 0
+  - type: Metabolizer
+    groups:
+    - id: Food
+      rateModifier: 2
+    - id: Drink
+      rateModifier: 2
+
+- type: entity
+  parent: BaseCyberneticOrgan
+  id: AdvancedCyberneticHeart
+  name: advanced cybernetic heart
+  description: A synthetic heart that rapidly replenishes lost blood, suppresses bleeding and briefly restores mobility in critical condition.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+    state: heart-c-u2-on
+  - type: Heart
+  - type: CyberneticHeart
+  - type: Organ
+    intCap: 240
+    integrity: 240
+    integrityThresholds:
+      Normal: 240
+      Damaged: 67.5
+      Destroyed: 0
+    slotId: heart
+  - type: Metabolizer
+    maxPoisonsProcessable: 2
+    metabolizerTypes: [ Cybernetic ]
+    groups:
+    - id: Medicine
+    - id: Poison
+    - id: Narcotic
+  - type: Tag
+    tags: [ Organ, Heart ]
+  - type: Item
+    size: Small
+    heldPrefix: heart
+
+- type: entity
+  parent: BaseCyberneticOrgan
+  id: GlowCyberneticEyes
+  name: high luminosity cybernetic eyes
+  description: Synthetic eyes with lights that match the owner's eye colour.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+    state: eyes_cyber_glow
+  - type: Organ
+    intCap: 30
+    integrity: 30
+    integrityThresholds:
+      Normal: 30
+      Damaged: 15.714
+      Destroyed: 0
+    slotId: eyes
+  - type: Eyes
+  - type: GlowCyberneticEyes
+  - type: Item
+    size: Small
+    heldPrefix: eyes
+
+- type: entity
+  parent: ActionToggleLight
+  id: ActionToggleCyberneticEyes
+  name: Toggle eye lights
+  description: Turn the lights in your cybernetic eyes on or off.

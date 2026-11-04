@@ -75,6 +75,17 @@
   id: AdvancedCybernetics
   recipes:
   - UpgradedCyberneticHeart
+  # Arcane-Start
+  - BasicCyberneticStomach
+  - UpgradedCyberneticStomach
+  - AdvancedCyberneticStomach
+  - AdvancedCyberneticHeart
+  - AdvancedCyberneticLiver
+  - GlowCyberneticEyes
+  - NutrimentPumpAugment
+  - NutrimentPumpPlusAugment
+  - BreathingTubeAugment
+  # Arcane-End
   - UpgradedCyberneticLungs
   - JawsOfLifeLeftArm
   - JawsOfLifeRightArm

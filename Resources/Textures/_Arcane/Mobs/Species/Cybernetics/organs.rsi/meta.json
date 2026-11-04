@@ -1,0 +1,25 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Taken from tgstation at commit e7251b33da56cf8a3ff590f74ae59b31acaac932 (icons/obj/medical/organs/organs.dmi).",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        { "name": "liver-c-u2" },
+        { "name": "stomach-c" },
+        { "name": "stomach-c-u" },
+        { "name": "stomach-c-u2" },
+        {
+            "name": "heart-c-u2-on",
+            "delays": [
+                [0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+            ]
+        },
+        { "name": "eyes_cyber_glow" },
+        { "name": "nutriment_implant" },
+        { "name": "adv_nutriment_implant" },
+        { "name": "implant_mask" }
+    ]
+}

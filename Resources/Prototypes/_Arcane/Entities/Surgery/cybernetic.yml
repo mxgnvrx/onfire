@@ -1,0 +1,82 @@
+- type: entity
+  parent: SurgeryOpenCavityBase
+  id: SurgeryOpenNutrimentPumpCavity
+  name: Open cavity for nutriment pump
+  components:
+  - type: SurgeryPartCondition
+    parts: [ Chest ]
+  - type: SurgeryOrganSlotCondition
+    organSlot: nutrimentPump
+
+- type: entity
+  parent: SurgeryInstallAugmentBase
+  id: SurgeryInsertNutrimentPump
+  name: Insert nutriment pump
+  components:
+  - type: Surgery
+    steps:
+    - SurgeryStepSawBones
+    - SurgeryStepInsertOrgan
+    - SurgeryStepSealOrganWound
+  - type: SurgeryPartCondition
+    parts: [ Chest ]
+  - type: SurgeryOrganSlotCondition
+    organSlot: nutrimentPump
+  - type: SurgeryOrganCondition
+    organ:
+    - type: NutrimentPump
+
+- type: entity
+  parent: SurgeryRemoveAugmentBase
+  id: SurgeryRemoveNutrimentPump
+  name: Remove nutriment pump
+  components:
+  - type: SurgeryPartCondition
+    parts: [ Chest ]
+  - type: SurgeryOrganCondition
+    organ:
+    - type: NutrimentPump
+
+- type: entity
+  parent: SurgeryOpenCavityBase
+  id: SurgeryOpenBreathingTubeCavity
+  name: Open cavity for breathing tube
+  components:
+  - type: Surgery
+    requirement: SurgeryOpenIncision
+  - type: SurgeryPartCondition
+    parts: [ Head ]
+  - type: SurgeryOrganSlotCondition
+    organSlot: breathingTube
+
+- type: entity
+  parent: SurgeryInstallAugmentBase
+  id: SurgeryInsertBreathingTube
+  name: Insert breathing tube
+  components:
+  - type: Surgery
+    requirement: SurgeryOpenIncision
+    steps:
+    - SurgeryStepSawBones
+    - SurgeryStepInsertOrgan
+    - SurgeryStepSealOrganWound
+  - type: SurgeryPartCondition
+    parts: [ Head ]
+  - type: SurgeryOrganSlotCondition
+    organSlot: breathingTube
+  - type: SurgeryOrganCondition
+    organ:
+    - type: BreathingTube
+
+- type: entity
+  parent: SurgeryRemoveAugmentBase
+  id: SurgeryRemoveBreathingTube
+  name: Remove breathing tube
+  components:
+  - type: Surgery
+    requirement: SurgeryOpenIncision
+  - type: SurgeryPartCondition
+    parts: [ Head ]
+  - type: SurgeryOrganCondition
+    organ:
+    - type: BreathingTube

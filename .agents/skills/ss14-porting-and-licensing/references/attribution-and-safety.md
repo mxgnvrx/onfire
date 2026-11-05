@@ -57,7 +57,7 @@ Before porting anything, verify all of these:
 
 ## Contribution Rule
 
-Submitting a contribution to Orion currently routes through `LICENSE-CLA.TXT`, not the old `CLA.TXT` name.
+Contributions to Orion are covered by `LICENSE-CLA.TXT`.
 
 The CLA states that a contributor accepts it by submitting a Pull Request to an ASF repository, making a signed-off commit, or accepting through the GitHub PR license checkbox. A contributor keeps copyright ownership, but grants ASF rights to distribute the contribution under licenses selected by ASF.
 

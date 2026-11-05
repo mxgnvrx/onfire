@@ -14,7 +14,7 @@
 
 - `Resources/Prototypes/Entities/Objects/base_item.yml`
 - `Resources/Prototypes/Entities/foldable.yml`
-- `Resources/Prototypes/_Orion/Entities/Mobs/Customization/Markings/human_tails.yml`
+- `Resources/Prototypes/_Orion/Entities/Mobs/Customization/Markings/human_hair.yml`
 
 ## Good Habits
 

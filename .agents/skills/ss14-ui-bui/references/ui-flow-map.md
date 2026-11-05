@@ -53,8 +53,6 @@ The fork has broad `_Orion` client UI areas such as administration, bitrunning, 
 
 ## Documentation Caveat
 
-This repo no longer relies on a separate local docs site for UI reference coverage.
-
 - Trust nearby in-repo UI implementations first.
 - Use the local skill references in this skill for the stable guidance.
 - If a pattern conflicts with an old tutorial you remember from elsewhere, prefer the live repo implementation.

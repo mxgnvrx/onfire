@@ -39,3 +39,51 @@
   - type: BreathMask
   - type: Item
     size: Tiny
+
+- type: entity
+  parent: BaseAugment
+  id: AntiDropAugment
+  name: anti-drop implant
+  description: A brain implant that contracts the hand muscles to hold onto carried items. Twitch your ear to relax your grip.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+    state: brain_implant_antidrop
+  - type: Organ
+    slotId: cerebellumImplant
+  - type: Cybernetics
+  - type: BrainImplant
+  - type: AntiDrop
+  - type: Item
+    size: Tiny
+
+- type: entity
+  parent: BaseAugment
+  id: CnsRebooterAugment
+  name: CNS rebooter implant
+  description: A brain implant that automatically restores control of the central nervous system after a stun. It briefly resists further stuns and injury-induced sluggishness before recharging.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+    state: brain_implant_rebooter
+  - type: Organ
+    slotId: cnsImplant
+  - type: Cybernetics
+  - type: BrainImplant
+  - type: CnsRebooter
+  - type: Item
+    size: Tiny
+
+- type: entity
+  parent: BaseAction
+  id: ActionToggleAntiDrop
+  name: Toggle grip lock
+  description: Contract or relax your hand muscles to retain or release the items you are holding.
+  components:
+  - type: Action
+    icon:
+      sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+      state: brain_implant_antidrop
+    useDelay: 0.5
+  - type: InstantAction
+    event: !type:ToggleActionEvent

@@ -84,3 +84,25 @@
   materials:
     Steel: 2400
     Glass: 1000
+
+- type: latheRecipe
+  id: AntiDropAugment
+  result: AntiDropAugment
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 2400
+    Glass: 2400
+    Silver: 400
+    Gold: 400
+
+- type: latheRecipe
+  id: CnsRebooterAugment
+  result: CnsRebooterAugment
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 2400
+    Glass: 2400
+    Silver: 2000
+    Gold: 2000

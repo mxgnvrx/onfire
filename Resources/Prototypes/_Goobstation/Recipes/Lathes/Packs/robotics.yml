@@ -85,6 +85,8 @@
   - NutrimentPumpAugment
   - NutrimentPumpPlusAugment
   - BreathingTubeAugment
+  - AntiDropAugment
+  - CnsRebooterAugment
   # Arcane-End
   - UpgradedCyberneticLungs
   - JawsOfLifeLeftArm

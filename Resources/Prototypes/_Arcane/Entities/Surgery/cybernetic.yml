@@ -69,6 +69,94 @@
     - type: BreathingTube
 
 - type: entity
+  parent: SurgeryOpenCavityBase
+  id: SurgeryOpenAntiDropCavity
+  name: Prepare cavity for anti-drop implant
+  components:
+  - type: Surgery
+    requirement: SurgeryOpenIncision
+  - type: SurgeryPartCondition
+    parts: [ Head ]
+  - type: SurgeryOrganSlotCondition
+    organSlot: cerebellumImplant
+
+- type: entity
+  parent: SurgeryInstallAugmentBase
+  id: SurgeryInsertAntiDrop
+  name: Insert anti-drop implant
+  components:
+  - type: Surgery
+    requirement: SurgeryOpenIncision
+    steps:
+    - SurgeryStepSawBones
+    - SurgeryStepInsertOrgan
+    - SurgeryStepSealOrganWound
+  - type: SurgeryPartCondition
+    parts: [ Head ]
+  - type: SurgeryOrganSlotCondition
+    organSlot: cerebellumImplant
+  - type: SurgeryOrganCondition
+    organ:
+    - type: AntiDrop
+
+- type: entity
+  parent: SurgeryRemoveAugmentBase
+  id: SurgeryRemoveAntiDrop
+  name: Remove anti-drop implant
+  components:
+  - type: Surgery
+    requirement: SurgeryOpenIncision
+  - type: SurgeryPartCondition
+    parts: [ Head ]
+  - type: SurgeryOrganCondition
+    organ:
+    - type: AntiDrop
+
+- type: entity
+  parent: SurgeryOpenCavityBase
+  id: SurgeryOpenCnsRebooterCavity
+  name: Prepare cavity for CNS rebooter
+  components:
+  - type: Surgery
+    requirement: SurgeryOpenIncision
+  - type: SurgeryPartCondition
+    parts: [ Head ]
+  - type: SurgeryOrganSlotCondition
+    organSlot: cnsImplant
+
+- type: entity
+  parent: SurgeryInstallAugmentBase
+  id: SurgeryInsertCnsRebooter
+  name: Insert CNS rebooter
+  components:
+  - type: Surgery
+    requirement: SurgeryOpenIncision
+    steps:
+    - SurgeryStepSawBones
+    - SurgeryStepInsertOrgan
+    - SurgeryStepSealOrganWound
+  - type: SurgeryPartCondition
+    parts: [ Head ]
+  - type: SurgeryOrganSlotCondition
+    organSlot: cnsImplant
+  - type: SurgeryOrganCondition
+    organ:
+    - type: CnsRebooter
+
+- type: entity
+  parent: SurgeryRemoveAugmentBase
+  id: SurgeryRemoveCnsRebooter
+  name: Remove CNS rebooter
+  components:
+  - type: Surgery
+    requirement: SurgeryOpenIncision
+  - type: SurgeryPartCondition
+    parts: [ Head ]
+  - type: SurgeryOrganCondition
+    organ:
+    - type: CnsRebooter
+
+- type: entity
   parent: SurgeryRemoveAugmentBase
   id: SurgeryRemoveBreathingTube
   name: Remove breathing tube

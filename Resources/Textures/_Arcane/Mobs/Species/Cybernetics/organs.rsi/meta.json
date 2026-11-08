@@ -20,6 +20,8 @@
         { "name": "eyes_cyber_glow" },
         { "name": "nutriment_implant" },
         { "name": "adv_nutriment_implant" },
-        { "name": "implant_mask" }
+        { "name": "implant_mask" },
+        { "name": "brain_implant_antidrop" },
+        { "name": "brain_implant_rebooter" }
     ]
 }

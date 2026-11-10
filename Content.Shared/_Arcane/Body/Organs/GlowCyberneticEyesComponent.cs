@@ -21,9 +21,14 @@ public sealed partial class GlowCyberneticEyesComponent : Component
     [DataField, AutoNetworkedField]
     public bool LightOn;
 
+    [DataField, AutoNetworkedField]
     public bool HadLight;
+    [DataField, AutoNetworkedField]
     public bool PreviousEnabled;
+    [DataField, AutoNetworkedField]
     public float PreviousRadius;
+    [DataField, AutoNetworkedField]
     public float PreviousEnergy;
+    [DataField, AutoNetworkedField]
     public Color PreviousColor;
 }

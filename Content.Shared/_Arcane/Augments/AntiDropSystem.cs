@@ -2,8 +2,8 @@
 
 using Content.Shared._Shitmed.Body.Organ;
 using Content.Shared.Actions;
+using Content.Shared.Body.Events;
 using Content.Shared.Body.Organ;
-using Content.Shared.Hands;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Popups;
 using Content.Shared.Toggleable;
@@ -22,24 +22,43 @@ public sealed class AntiDropSystem : EntitySystem
     public override void Initialize()
     {
         SubscribeLocalEvent<AntiDropComponent, OrganComponentsModifyEvent>(OnOrganModified);
+        SubscribeLocalEvent<AntiDropComponent, OrganAddedToBodyEvent>(OnAddedToBody);
+        SubscribeLocalEvent<AntiDropComponent, OrganRemovedFromBodyEvent>(OnRemovedFromBody);
         SubscribeLocalEvent<AntiDropComponent, ToggleActionEvent>(OnToggle);
         SubscribeLocalEvent<AntiDropHeldItemComponent, ContainerGettingRemovedAttemptEvent>(OnRemoveAttempt);
-        SubscribeLocalEvent<AntiDropHeldItemComponent, GotUnequippedHandEvent>(OnUnequipped);
+        SubscribeLocalEvent<AntiDropHeldItemComponent, EntGotRemovedFromContainerMessage>(OnRemovedFromContainer);
+    }
+
+    private void OnAddedToBody(Entity<AntiDropComponent> ent, ref OrganAddedToBodyEvent args)
+    {
+        if (Comp<OrganComponent>(ent).Enabled)
+            SetBodyEnabled(ent, args.Body, true);
+    }
+
+    private void OnRemovedFromBody(Entity<AntiDropComponent> ent, ref OrganRemovedFromBodyEvent args)
+    {
+        SetBodyEnabled(ent, args.OldBody, false);
     }
 
     private void OnOrganModified(Entity<AntiDropComponent> ent, ref OrganComponentsModifyEvent args)
     {
+        SetBodyEnabled(ent, args.Body, args.Add);
+    }
+
+    private void SetBodyEnabled(Entity<AntiDropComponent> ent, EntityUid body, bool enabled)
+    {
         if (_timing.ApplyingState)
             return;
 
-        if (args.Add)
+        if (enabled)
         {
-            _actions.AddAction(args.Body, ref ent.Comp.Action, ent.Comp.ToggleAction, ent);
+            _actions.AddAction(body, ref ent.Comp.Action, ent.Comp.ToggleAction, ent);
+            Dirty(ent);
         }
         else
         {
-            Release(ent, args.Body);
-            _actions.RemoveAction(args.Body, ent.Comp.Action);
+            Release(ent, body);
+            _actions.RemoveAction(ent.Comp.Action);
         }
     }
 
@@ -90,13 +109,28 @@ public sealed class AntiDropSystem : EntitySystem
         if (!_timing.ApplyingState
             && TryComp<AntiDropComponent>(ent.Comp.Implant, out var implant) && implant.Active
             && TryComp<OrganComponent>(ent.Comp.Implant, out var organ) && organ.Enabled
-            && organ.Body == args.Container.Owner)
+            && organ.Body == args.Container.Owner && _hands.IsHolding(args.Container.Owner, ent.Owner))
             args.Cancel();
     }
 
-    private void OnUnequipped(Entity<AntiDropHeldItemComponent> ent, ref GotUnequippedHandEvent args)
+    private void OnRemovedFromContainer(Entity<AntiDropHeldItemComponent> ent, ref EntGotRemovedFromContainerMessage args)
     {
-        if (!_timing.ApplyingState)
-            RemComp<AntiDropHeldItemComponent>(ent);
+        if (_timing.ApplyingState)
+            return;
+
+        RemComp<AntiDropHeldItemComponent>(ent);
+        if (!TryComp<AntiDropComponent>(ent.Comp.Implant, out var implant))
+            return;
+
+        foreach (var item in _hands.EnumerateHeld(args.Container.Owner))
+        {
+            if (item != ent.Owner && TryComp<AntiDropHeldItemComponent>(item, out var held)
+                && held.Implant == ent.Comp.Implant)
+                return;
+        }
+
+        implant.Active = false;
+        _actions.SetToggled(implant.Action, false);
+        Dirty(ent.Comp.Implant, implant);
     }
 }

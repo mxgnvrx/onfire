@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Content.Shared._Shitmed.Body.Organ;
+using Content.Shared.Body.Events;
 using Content.Shared.Body.Organ;
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Systems;
@@ -24,6 +25,8 @@ public sealed class CnsRebooterSystem : EntitySystem
     public override void Initialize()
     {
         SubscribeLocalEvent<CnsRebooterComponent, OrganComponentsModifyEvent>(OnOrganModified);
+        SubscribeLocalEvent<CnsRebooterComponent, OrganAddedToBodyEvent>(OnAddedToBody);
+        SubscribeLocalEvent<CnsRebooterComponent, OrganRemovedFromBodyEvent>(OnRemovedFromBody);
         SubscribeLocalEvent<CnsRebooterUserComponent, StunnedEvent>(OnStunned);
         SubscribeLocalEvent<CnsRebooterUserComponent, KnockedDownEvent>(OnKnockedDown);
         SubscribeLocalEvent<CnsRebooterUserComponent, KnockDownAttemptEvent>(OnKnockdownAttempt);
@@ -31,25 +34,41 @@ public sealed class CnsRebooterSystem : EntitySystem
         SubscribeLocalEvent<CnsRebooterUserComponent, ModifySlowOnDamageSpeedEvent>(OnModifySlowdown);
     }
 
+    private void OnAddedToBody(Entity<CnsRebooterComponent> ent, ref OrganAddedToBodyEvent args)
+    {
+        if (Comp<OrganComponent>(ent).Enabled)
+            SetBodyEnabled(ent, args.Body, true);
+    }
+
+    private void OnRemovedFromBody(Entity<CnsRebooterComponent> ent, ref OrganRemovedFromBodyEvent args)
+    {
+        SetBodyEnabled(ent, args.OldBody, false);
+    }
+
     private void OnOrganModified(Entity<CnsRebooterComponent> ent, ref OrganComponentsModifyEvent args)
+    {
+        SetBodyEnabled(ent, args.Body, args.Add);
+    }
+
+    private void SetBodyEnabled(Entity<CnsRebooterComponent> ent, EntityUid body, bool enabled)
     {
         if (_timing.ApplyingState)
             return;
 
-        if (args.Add)
+        if (enabled)
         {
-            var user = EnsureComp<CnsRebooterUserComponent>(args.Body);
+            var user = EnsureComp<CnsRebooterUserComponent>(body);
             user.Implant = ent;
-            Dirty(args.Body, user);
+            Dirty(body, user);
         }
         else
         {
             ent.Comp.RebootAt = null;
             ent.Comp.ProtectedUntil = null;
             Dirty(ent);
-            if (TryComp<CnsRebooterUserComponent>(args.Body, out var user) && user.Implant == ent.Owner)
-                RemComp<CnsRebooterUserComponent>(args.Body);
-            _movement.RefreshMovementSpeedModifiers(args.Body);
+            if (TryComp<CnsRebooterUserComponent>(body, out var user) && user.Implant == ent.Owner)
+                RemComp<CnsRebooterUserComponent>(body);
+            _movement.RefreshMovementSpeedModifiers(body);
         }
     }
 
@@ -60,7 +79,8 @@ public sealed class CnsRebooterSystem : EntitySystem
 
     private void OnKnockedDown(Entity<CnsRebooterUserComponent> ent, ref KnockedDownEvent args)
     {
-        ScheduleReboot(ent);
+        if (TryComp<KnockedDownComponent>(ent, out var knockedDown) && knockedDown.AutoStand)
+            ScheduleReboot(ent);
     }
 
     private void ScheduleReboot(Entity<CnsRebooterUserComponent> ent)
@@ -81,7 +101,7 @@ public sealed class CnsRebooterSystem : EntitySystem
 
     private void OnKnockdownAttempt(Entity<CnsRebooterUserComponent> ent, ref KnockDownAttemptEvent args)
     {
-        if (IsProtected(ent))
+        if ((args.AutoStand || args.Drop) && IsProtected(ent))
             args.Cancelled = true;
     }
 

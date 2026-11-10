@@ -3,6 +3,7 @@ using Content.Shared._Shitmed.CCVar;
 using Content.Shared._Shitmed.Medical.Surgery.Pain;
 using Content.Shared._Shitmed.Medical.Surgery.Wounds.Components;
 using Content.Shared._Shitmed.Medical.Surgery.Traumas.Components;
+using Content.Shared.Body.Events;
 using Content.Shared.Body.Organ;
 using Content.Goobstation.Maths.FixedPoint;
 using Content.Shared.Humanoid;
@@ -25,6 +26,7 @@ public partial class TraumaSystem
         SubscribeLocalEvent<WoundableComponent, OrganIntegrityChangedEventOnWoundable>(OnOrganIntegrityOnWoundableChanged);
         SubscribeLocalEvent<OrganComponent, OrganIntegrityChangedEvent>(OnOrganIntegrityChanged);
         SubscribeLocalEvent<WoundableComponent, OrganDamageSeverityChangedOnWoundable>(OnOrganSeverityChanged);
+        SubscribeLocalEvent<OrganComponent, OrganRemovedEvent>(OnOrganRemoved); // Arcane
     }
 
     #region Event handling
@@ -140,6 +142,20 @@ public partial class TraumaSystem
         if (_net.IsServer)
             QueueDel(args.Organ);
     }
+
+    // Arcane-Start
+    private void OnOrganRemoved(Entity<OrganComponent> organ, ref OrganRemovedEvent args)
+    {
+        if (TerminatingOrDeleted(args.OldPart)
+            || !TryGetWoundableTrauma(args.OldPart, out var traumas, OrganDamage))
+            return;
+
+        foreach (var trauma in traumas.Where(trauma => trauma.Comp.TraumaTarget == organ))
+        {
+            RemoveTrauma(trauma);
+        }
+    }
+    // Arcane-End
 
     private bool HasOrganTrauma(EntityUid woundable, EntityUid organ, ProtoId<TraumaTypePrototype> traumaType)
     {

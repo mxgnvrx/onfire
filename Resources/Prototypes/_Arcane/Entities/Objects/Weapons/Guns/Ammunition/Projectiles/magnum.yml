@@ -1,0 +1,12 @@
+- type: entity
+  parent: BulletMagnum
+  id: BulletMagnumTrac
+  categories: [ HideSpawnMenu ]
+  name: bullet (.45 magnum TRAC)
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 14
+  - type: ImplantOnHit
+    implant: TracImplant

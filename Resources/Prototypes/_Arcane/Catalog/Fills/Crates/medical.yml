@@ -17,3 +17,14 @@
   - type: StorageFill
     contents:
     - id: MedkitCombatStandardFilled
+
+- type: entity
+  id: CrateStrongArmImplants
+  parent: CrateMedical
+  name: Strong-Arm implant crate
+  description: A crate containing two implants, which can be surgically implanted to empower the strength of humanoid arms. Warranty void if exposed to electromagnetic pulses.
+  components:
+  - type: StorageFill
+    contents:
+    - id: StrongArmLeftAugment
+    - id: StrongArmRightAugment

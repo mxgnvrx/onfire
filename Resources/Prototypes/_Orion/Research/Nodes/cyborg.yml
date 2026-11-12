@@ -209,6 +209,10 @@
   - SadTromboneImplanter
   - TrackingImplanter
   - Implanter
+  # Arcane-Start
+  - BluespaceGroundingImplanter
+  - ExileImplanter
+  # Arcane-End
   position: -6,3
 
 - type: technology
@@ -242,8 +246,9 @@
   - AugmentStrengthCasing
   - AugmentStrengthElectronics
   # Arcane-Start
-  - NutrimentPumpAugment
   - BreathingTubeAugment
+  - CyberThrustersAugment
+  - HerculeanSpineAugment
   # Arcane-End
   position: -7,3
 
@@ -267,10 +272,7 @@
   recipeUnlocks:
   - JawsOfLifeLeftArm
   - JawsOfLifeRightArm
-  # Arcane-Start
-  - AntiDropAugment
-  - CnsRebooterAugment
-  # Arcane-End
+  - AntiDropAugment # Arcane
   position: -8,3
 
 - type: technology
@@ -294,7 +296,6 @@
   recipeUnlocks:
   - AugmentToolPanelCasing
   - AugmentUtilityPanelElectronics
-  - NutrimentPumpPlusAugment # Arcane
   position: -8,2
 
 - type: technology

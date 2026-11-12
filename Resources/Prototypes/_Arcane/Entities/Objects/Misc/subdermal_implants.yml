@@ -1,0 +1,37 @@
+- type: entity
+  parent: BaseSubdermalImplant
+  id: BluespaceGroundingImplant
+  name: bluespace grounding implant
+  description: Grounds your bluespace signature in baseline reality, whatever the hell that means.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: SubdermalImplant
+    whitelist:
+      components:
+      - MobState
+    implantComponents:
+    - type: BluespaceGrounding
+
+- type: entity
+  parent: BaseSubdermalImplant
+  id: ExileImplant
+  name: exile implant
+  description: Prevents you from returning from away missions.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: SubdermalImplant
+    whitelist:
+      components:
+      - MobState
+    implantComponents:
+    - type: ExileImplanted
+
+- type: entity
+  parent: TrackingImplant
+  id: TracImplant
+  name: TRAC implant
+  description: A smaller tracking implant that supplies power for only a few minutes.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: TimedDespawn
+    lifetime: 300

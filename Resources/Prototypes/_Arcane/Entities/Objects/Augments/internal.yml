@@ -1,30 +1,5 @@
 - type: entity
   parent: BaseAugment
-  id: NutrimentPumpAugment
-  name: nutriment pump augment
-  description: A chest implant that synthesizes nutrition when its owner is starving.
-  components:
-  - type: Sprite
-    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
-    state: nutriment_implant
-  - type: Organ
-    slotId: nutrimentPump
-  - type: Cybernetics
-  - type: NutrimentPump
-
-- type: entity
-  parent: NutrimentPumpAugment
-  id: NutrimentPumpPlusAugment
-  name: nutriment pump PLUS augment
-  description: An improved chest implant that synthesizes nutrition as soon as its owner is peckish.
-  components:
-  - type: Sprite
-    state: adv_nutriment_implant
-  - type: NutrimentPump
-    threshold: Peckish
-
-- type: entity
-  parent: BaseAugment
   id: BreathingTubeAugment
   name: breathing tube augment
   description: An implanted internals connector that allows its owner to breathe from a tank without a mask.
@@ -84,6 +59,118 @@
     icon:
       sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
       state: brain_implant_antidrop
+    useDelay: 0.5
+  - type: InstantAction
+    event: !type:ToggleActionEvent
+
+- type: entity
+  parent: BaseAugment
+  id: CyberThrustersAugment
+  name: implantable thrusters set
+  description: An implantable set of thruster ports. They use the gas from the environment or the user's internals for propulsion in zero gravity. Unlike regular jetpacks, this device has no stabilization system.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+    state: thrusters_implant
+  - type: Organ
+    slotId: thrusters
+  - type: Cybernetics
+  - type: CyberThrusters
+  - type: Jetpack
+  - type: Item
+    size: Normal
+
+- type: entity
+  parent: BaseAugment
+  id: HerculeanSpineAugment
+  name: Herculean gravitronic spinal implant
+  description: This gravitronic spinal interface improves the athletics of its user, letting them get up, climb and carry others faster and throw harder.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+    state: herculean_implant
+  - type: Organ
+    slotId: spine
+    onAdd:
+    - type: HerculeanSpine
+  - type: Cybernetics
+  - type: HerculeanSpineImplant
+    empDamage:
+      types:
+        Blunt: 20
+  - type: Item
+    size: Small
+
+- type: entity
+  parent: BaseAugment
+  id: ReviverAugment
+  name: reviver implant
+  description: This implant will attempt to revive and heal you if you lose consciousness. For the faint of heart!
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+    state: reviver_implant
+  - type: Organ
+    slotId: heartImplant
+  - type: Cybernetics
+  - type: ReviverImplant
+    heal:
+      Airloss: 5
+      Brute: 2
+      Burn: 2
+      Toxin: 1
+    healCost:
+      Airloss: 0.5
+      Brute: 4
+      Burn: 4
+      Toxin: 4
+  - type: Item
+    size: Small
+
+- type: entity
+  abstract: true
+  parent: BaseAugment
+  id: BaseStrongArmAugment
+  name: Strong-Arm empowered musculature implant
+  description: When implanted, this cybernetic implant will enhance the muscles of the arm to deliver more power-per-action. Install one in each arm to pry open doors with your bare hands!
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+    state: strongarm_implant
+  - type: Cybernetics
+  - type: Item
+    size: Small
+
+- type: entity
+  parent: BaseStrongArmAugment
+  id: StrongArmLeftAugment
+  suffix: Left
+  components:
+  - type: Organ
+    slotId: leftArmMuscle
+  - type: StrongArm
+    hand: Left
+
+- type: entity
+  parent: BaseStrongArmAugment
+  id: StrongArmRightAugment
+  suffix: Right
+  components:
+  - type: Organ
+    slotId: rightArmMuscle
+  - type: StrongArm
+    hand: Right
+
+- type: entity
+  parent: BaseAction
+  id: ActionToggleCyberThrusters
+  name: Toggle thrusters
+  description: Turn your implanted thrusters on or off.
+  components:
+  - type: Action
+    icon:
+      sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+      state: thrusters_implant
     useDelay: 0.5
   - type: InstantAction
     event: !type:ToggleActionEvent

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+using Content.Shared._Arcane.Augments;
 using Content.Shared._DV.Polymorph;
 using Content.Shared.ActionBlocker;
 using Content.Shared.Buckle.Components;
@@ -47,6 +48,7 @@ public sealed class CarryingSystem : EntitySystem
     [Dependency] private readonly SharedVirtualItemSystem  _virtualItem = default!;
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly ContestsSystem _contests = default!;
+    [Dependency] private readonly HerculeanSpineSystem _spine = default!; // Arcane
 
     public override void Initialize()
     {
@@ -365,6 +367,7 @@ public sealed class CarryingSystem : EntitySystem
 
         var mod = _contests.MassContest(carried, carrier);
         length *= mod;
+        length *= _spine.GetAthleticsMultiplier(carrier); // Arcane
 
         return length;
     }

@@ -1,44 +1,5 @@
 - type: entity
   parent: SurgeryOpenCavityBase
-  id: SurgeryOpenNutrimentPumpCavity
-  name: Open cavity for nutriment pump
-  components:
-  - type: SurgeryPartCondition
-    parts: [ Chest ]
-  - type: SurgeryOrganSlotCondition
-    organSlot: nutrimentPump
-
-- type: entity
-  parent: SurgeryInstallAugmentBase
-  id: SurgeryInsertNutrimentPump
-  name: Insert nutriment pump
-  components:
-  - type: Surgery
-    steps:
-    - SurgeryStepSawBones
-    - SurgeryStepInsertOrgan
-    - SurgeryStepSealOrganWound
-  - type: SurgeryPartCondition
-    parts: [ Chest ]
-  - type: SurgeryOrganSlotCondition
-    organSlot: nutrimentPump
-  - type: SurgeryOrganCondition
-    organ:
-    - type: NutrimentPump
-
-- type: entity
-  parent: SurgeryRemoveAugmentBase
-  id: SurgeryRemoveNutrimentPump
-  name: Remove nutriment pump
-  components:
-  - type: SurgeryPartCondition
-    parts: [ Chest ]
-  - type: SurgeryOrganCondition
-    organ:
-    - type: NutrimentPump
-
-- type: entity
-  parent: SurgeryOpenCavityBase
   id: SurgeryOpenBreathingTubeCavity
   name: Open cavity for breathing tube
   components:
@@ -168,3 +129,214 @@
   - type: SurgeryOrganCondition
     organ:
     - type: BreathingTube
+
+- type: entity
+  parent: SurgeryOpenCavityBase
+  id: SurgeryOpenCyberThrustersCavity
+  name: Prepare cavity for thrusters set
+  components:
+  - type: SurgeryPartCondition
+    parts: [ Chest ]
+  - type: SurgeryOrganSlotCondition
+    organSlot: thrusters
+
+- type: entity
+  parent: SurgeryInstallAugmentBase
+  id: SurgeryInsertCyberThrusters
+  name: Insert thrusters set
+  components:
+  - type: Surgery
+    steps:
+    - SurgeryStepSawBones
+    - SurgeryStepInsertOrgan
+    - SurgeryStepSealOrganWound
+  - type: SurgeryPartCondition
+    parts: [ Chest ]
+  - type: SurgeryOrganSlotCondition
+    organSlot: thrusters
+  - type: SurgeryOrganCondition
+    organ:
+    - type: CyberThrusters
+
+- type: entity
+  parent: SurgeryRemoveAugmentBase
+  id: SurgeryRemoveCyberThrusters
+  name: Remove thrusters set
+  components:
+  - type: SurgeryPartCondition
+    parts: [ Chest ]
+  - type: SurgeryOrganCondition
+    organ:
+    - type: CyberThrusters
+
+- type: entity
+  parent: SurgeryOpenCavityBase
+  id: SurgeryOpenHerculeanSpineCavity
+  name: Prepare cavity for Herculean spinal implant
+  components:
+  - type: SurgeryPartCondition
+    parts: [ Chest ]
+  - type: SurgeryOrganSlotCondition
+    organSlot: spine
+
+- type: entity
+  parent: SurgeryInstallAugmentBase
+  id: SurgeryInsertHerculeanSpine
+  name: Insert Herculean spinal implant
+  components:
+  - type: Surgery
+    steps:
+    - SurgeryStepSawBones
+    - SurgeryStepInsertOrgan
+    - SurgeryStepSealOrganWound
+  - type: SurgeryPartCondition
+    parts: [ Chest ]
+  - type: SurgeryOrganSlotCondition
+    organSlot: spine
+  - type: SurgeryOrganCondition
+    organ:
+    - type: HerculeanSpineImplant
+
+- type: entity
+  parent: SurgeryRemoveAugmentBase
+  id: SurgeryRemoveHerculeanSpine
+  name: Remove Herculean spinal implant
+  components:
+  - type: SurgeryPartCondition
+    parts: [ Chest ]
+  - type: SurgeryOrganCondition
+    organ:
+    - type: HerculeanSpineImplant
+
+- type: entity
+  parent: SurgeryOpenCavityBase
+  id: SurgeryOpenReviverCavity
+  name: Prepare cavity for reviver implant
+  components:
+  - type: SurgeryPartCondition
+    parts: [ Chest ]
+  - type: SurgeryOrganSlotCondition
+    organSlot: heartImplant
+
+- type: entity
+  parent: SurgeryInstallAugmentBase
+  id: SurgeryInsertReviver
+  name: Insert reviver implant
+  components:
+  - type: Surgery
+    steps:
+    - SurgeryStepSawBones
+    - SurgeryStepInsertOrgan
+    - SurgeryStepSealOrganWound
+  - type: SurgeryPartCondition
+    parts: [ Chest ]
+  - type: SurgeryOrganSlotCondition
+    organSlot: heartImplant
+  - type: SurgeryOrganCondition
+    organ:
+    - type: ReviverImplant
+
+- type: entity
+  parent: SurgeryRemoveAugmentBase
+  id: SurgeryRemoveReviver
+  name: Remove reviver implant
+  components:
+  - type: SurgeryPartCondition
+    parts: [ Chest ]
+  - type: SurgeryOrganCondition
+    organ:
+    - type: ReviverImplant
+
+- type: entity
+  parent: SurgeryOpenCavityBase
+  id: SurgeryOpenStrongArmLeftCavity
+  name: Prepare cavity for left Strong-Arm implant
+  components:
+  - type: Surgery
+    requirement: SurgeryOpenIncision
+  - type: SurgeryPartCondition
+    parts: [ Arm ]
+    symmetry: Left
+  - type: SurgeryOrganSlotCondition
+    organSlot: leftArmMuscle
+
+- type: entity
+  parent: SurgeryInstallAugmentBase
+  id: SurgeryInsertStrongArmLeft
+  name: Insert left Strong-Arm implant
+  components:
+  - type: Surgery
+    requirement: SurgeryOpenIncision
+    steps:
+    - SurgeryStepSawBones
+    - SurgeryStepInsertOrgan
+    - SurgeryStepSealOrganWound
+  - type: SurgeryPartCondition
+    parts: [ Arm ]
+    symmetry: Left
+  - type: SurgeryOrganSlotCondition
+    organSlot: leftArmMuscle
+  - type: SurgeryOrganCondition
+    organ:
+    - type: StrongArm
+
+- type: entity
+  parent: SurgeryRemoveAugmentBase
+  id: SurgeryRemoveStrongArmLeft
+  name: Remove left Strong-Arm implant
+  components:
+  - type: Surgery
+    requirement: SurgeryOpenIncision
+  - type: SurgeryPartCondition
+    parts: [ Arm ]
+    symmetry: Left
+  - type: SurgeryOrganCondition
+    organ:
+    - type: StrongArm
+
+- type: entity
+  parent: SurgeryOpenCavityBase
+  id: SurgeryOpenStrongArmRightCavity
+  name: Prepare cavity for right Strong-Arm implant
+  components:
+  - type: Surgery
+    requirement: SurgeryOpenIncision
+  - type: SurgeryPartCondition
+    parts: [ Arm ]
+    symmetry: Right
+  - type: SurgeryOrganSlotCondition
+    organSlot: rightArmMuscle
+
+- type: entity
+  parent: SurgeryInstallAugmentBase
+  id: SurgeryInsertStrongArmRight
+  name: Insert right Strong-Arm implant
+  components:
+  - type: Surgery
+    requirement: SurgeryOpenIncision
+    steps:
+    - SurgeryStepSawBones
+    - SurgeryStepInsertOrgan
+    - SurgeryStepSealOrganWound
+  - type: SurgeryPartCondition
+    parts: [ Arm ]
+    symmetry: Right
+  - type: SurgeryOrganSlotCondition
+    organSlot: rightArmMuscle
+  - type: SurgeryOrganCondition
+    organ:
+    - type: StrongArm
+
+- type: entity
+  parent: SurgeryRemoveAugmentBase
+  id: SurgeryRemoveStrongArmRight
+  name: Remove right Strong-Arm implant
+  components:
+  - type: Surgery
+    requirement: SurgeryOpenIncision
+  - type: SurgeryPartCondition
+    parts: [ Arm ]
+    symmetry: Right
+  - type: SurgeryOrganCondition
+    organ:
+    - type: StrongArm

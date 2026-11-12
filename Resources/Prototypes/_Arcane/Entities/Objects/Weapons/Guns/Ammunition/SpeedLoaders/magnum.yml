@@ -1,0 +1,8 @@
+- type: entity
+  parent: SpeedLoaderMagnum
+  id: SpeedLoaderMagnumTrac
+  name: speed loader (.45 magnum TRAC)
+  description: Designed to quickly load up to six rounds of .45 magnum into an empty revolver. TRAC bullets embed a tracking implant within the target's body.
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeMagnumTrac

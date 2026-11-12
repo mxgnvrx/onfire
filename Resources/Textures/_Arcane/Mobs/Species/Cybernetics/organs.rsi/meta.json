@@ -18,10 +18,17 @@
             ]
         },
         { "name": "eyes_cyber_glow" },
-        { "name": "nutriment_implant" },
-        { "name": "adv_nutriment_implant" },
         { "name": "implant_mask" },
         { "name": "brain_implant_antidrop" },
-        { "name": "brain_implant_rebooter" }
+        { "name": "brain_implant_rebooter" },
+        { "name": "thrusters_implant" },
+        { "name": "herculean_implant" },
+        { "name": "strongarm_implant" },
+        {
+            "name": "reviver_implant",
+            "delays": [
+                [0.1, 0.1]
+            ]
+        }
     ]
 }

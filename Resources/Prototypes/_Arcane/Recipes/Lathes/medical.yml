@@ -5,7 +5,10 @@
   completetime: 5
   materials:
     Steel: 2000
-    Glass: 2000
+    Glass: 1000
+    Plastic: 1000
+    Gold: 1000
+    Silver: 600
 
 - type: latheRecipe
   id: UpgradedCyberneticStomach
@@ -13,8 +16,11 @@
   categories: [ Robotics ]
   completetime: 5
   materials:
-    Steel: 2000
-    Glass: 2000
+    Steel: 3000
+    Glass: 1500
+    Plastic: 1000
+    Gold: 1500
+    Silver: 900
 
 - type: latheRecipe
   id: AdvancedCyberneticStomach
@@ -22,9 +28,11 @@
   categories: [ Robotics ]
   completetime: 5
   materials:
-    Steel: 2000
+    Steel: 4000
     Glass: 2000
-    Silver: 2000
+    Plastic: 1000
+    Gold: 2000
+    Silver: 1200
 
 - type: latheRecipe
   id: AdvancedCyberneticLiver
@@ -32,9 +40,11 @@
   categories: [ Robotics ]
   completetime: 5
   materials:
-    Steel: 2000
+    Steel: 4000
     Glass: 2000
-    Silver: 2000
+    Plastic: 1000
+    Gold: 2000
+    Silver: 1200
 
 - type: latheRecipe
   id: AdvancedCyberneticHeart
@@ -42,9 +52,11 @@
   categories: [ Robotics ]
   completetime: 10
   materials:
-    Steel: 2000
+    Steel: 4000
     Glass: 2000
-    Silver: 2000
+    Plastic: 1000
+    Gold: 2000
+    Silver: 1200
 
 - type: latheRecipe
   id: GlowCyberneticEyes
@@ -54,27 +66,6 @@
   materials:
     Steel: 2400
     Glass: 2000
-
-- type: latheRecipe
-  id: NutrimentPumpAugment
-  result: NutrimentPumpAugment
-  categories: [ Robotics ]
-  completetime: 5
-  materials:
-    Steel: 2000
-    Glass: 2000
-    Gold: 2000
-
-- type: latheRecipe
-  id: NutrimentPumpPlusAugment
-  result: NutrimentPumpPlusAugment
-  categories: [ Robotics ]
-  completetime: 5
-  materials:
-    Steel: 2400
-    Glass: 2400
-    Gold: 2000
-    Uranium: 3000
 
 - type: latheRecipe
   id: BreathingTubeAugment
@@ -93,16 +84,27 @@
   materials:
     Steel: 2400
     Glass: 2400
-    Silver: 400
-    Gold: 400
+    Silver: 1600
+    Gold: 1600
 
 - type: latheRecipe
-  id: CnsRebooterAugment
-  result: CnsRebooterAugment
+  id: CyberThrustersAugment
+  result: CyberThrustersAugment
   categories: [ Robotics ]
   completetime: 5
   materials:
-    Steel: 2400
-    Glass: 2400
+    Steel: 8000
+    Glass: 4000
     Silver: 2000
-    Gold: 2000
+    Diamond: 2000
+
+- type: latheRecipe
+  id: HerculeanSpineAugment
+  result: HerculeanSpineAugment
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 2000
+    Plasteel: 1200
+    Gold: 1200
+    Diamond: 2000

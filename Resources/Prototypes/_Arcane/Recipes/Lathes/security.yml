@@ -3,3 +3,36 @@
   icon: { sprite: Objects/Weapons/pflash.rsi, state: "on" }
   id: PortableFlasherMachineCircuitboard
   result: PortableFlasherMachineCircuitboard
+
+- type: latheRecipe
+  id: BluespaceGroundingImplanter
+  result: BluespaceGroundingImplanter
+  categories:
+  - Security
+  completetime: 4
+  materials:
+    Steel: 700
+    Glass: 300
+    Plastic: 300
+    BSCrystal: 100
+
+- type: latheRecipe
+  id: ExileImplanter
+  result: ExileImplanter
+  categories:
+  - Security
+  completetime: 4
+  materials:
+    Steel: 700
+    Glass: 300
+    Plastic: 300
+    Plasteel: 400
+
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: SpeedLoaderMagnumTrac
+  result: SpeedLoaderMagnumTrac
+  materials:
+    Steel: 150
+    Silver: 75
+    Gold: 50

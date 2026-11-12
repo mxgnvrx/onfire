@@ -1,0 +1,19 @@
+- type: entity
+  parent: BaseAutosurgeonSyndicateSingle
+  id: AutosurgeonCnsRebooter
+  name: syndicate autosurgeon (CNS rebooter)
+  components:
+  - type: AutoSurgeon
+    targetBodyPart: Head
+    targetOrgan: cnsImplant
+    newPartProto: CnsRebooterAugment
+
+- type: entity
+  parent: BaseAutosurgeonSyndicateSingle
+  id: AutosurgeonReviver
+  name: syndicate autosurgeon (reviver)
+  components:
+  - type: AutoSurgeon
+    targetBodyPart: Chest
+    targetOrgan: heartImplant
+    newPartProto: ReviverAugment

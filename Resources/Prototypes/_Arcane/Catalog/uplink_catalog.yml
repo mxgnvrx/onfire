@@ -17,3 +17,35 @@
     Telecrystal: 60
   categories:
   - UplinkChemicals
+
+- type: listing
+  id: NukeOpsUplinkAutosurgeonCnsRebooter
+  name: uplink-autosurgeon-cns-rebooter-name
+  description: uplink-autosurgeon-cns-rebooter-desc
+  icon: { sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi, state: brain_implant_rebooter }
+  productEntity: AutosurgeonCnsRebooter
+  cost:
+    Telecrystal: 40
+  categories:
+  - UplinkImplants
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: NukeOpsUplinkAutosurgeonReviver
+  name: uplink-autosurgeon-reviver-name
+  description: uplink-autosurgeon-reviver-desc
+  icon: { sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi, state: reviver_implant }
+  productEntity: AutosurgeonReviver
+  cost:
+    Telecrystal: 40
+  categories:
+  - UplinkImplants
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink

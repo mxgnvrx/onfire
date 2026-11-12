@@ -90,6 +90,10 @@
   - ClothingBackpackElectropack
   - ClothingAggressionInhibitor # Arcane
   - PortableFlasherMachineCircuitboard # Arcane
+  # Arcane-Start
+  - BluespaceGroundingImplanter
+  - ExileImplanter
+  # Arcane-End
   - HoloprojectorSecurity
   - HoloprojectorSecurityAdvanced
   - AntiMindControlDevice
@@ -155,6 +159,7 @@
   - MagazineShotgunIncendiary
   - SpeedLoaderMagnumIncendiary
   - SpeedLoaderMagnumUranium
+  - SpeedLoaderMagnumTrac # Arcane
 
 - type: latheRecipePack
   id: SecurityWeapons

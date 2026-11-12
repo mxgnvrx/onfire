@@ -2,6 +2,7 @@
 
 using System.Linq;
 using Content.Goobstation.Common.BlockTeleport;
+using Content.Shared._Arcane.Teleportation;
 using Content.Shared.Ghost;
 using Content.Shared.Movement.Pulling.Components;
 using Content.Shared.Movement.Pulling.Systems;
@@ -241,6 +242,13 @@ public abstract class SharedPortalSystem : EntitySystem
         if (ev.Cancelled)
             return;
         // Goobstation end
+
+        // Arcane-Start
+        var portalEv = new PortalTeleportAttemptEvent(subject, ent, targetEntity);
+        RaiseLocalEvent(ref portalEv);
+        if (portalEv.Cancelled)
+            return;
+        // Arcane-End
 
 
         // Some special cased stuff: projectiles should stop ignoring shooter when they enter a portal, to avoid

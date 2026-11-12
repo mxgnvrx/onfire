@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: MIT
 
+using Content.Server._Arcane.Augments;
 using Content.Server.Atmos.EntitySystems;
 using Content.Shared.Atmos.Components;
+using Content.Shared.Body.Organ;
 using Content.Shared.Movement.Components;
 using Content.Shared.Movement.Systems;
 using Robust.Shared.Collections;
@@ -16,6 +18,11 @@ public sealed class JetpackSystem : SharedJetpackSystem
 
     protected override bool CanEnable(EntityUid uid, JetpackComponent component)
     {
+        // Arcane-Start
+        if (HasComp<CyberThrustersComponent>(uid))
+            return base.CanEnable(uid, component) && CompOrNull<OrganComponent>(uid)?.Body != null;
+        // Arcane-End
+
         return base.CanEnable(uid, component) &&
                TryComp<GasTankComponent>(uid, out var gasTank) &&
                !(gasTank.Air.TotalMoles < component.MoleUsage);

@@ -244,7 +244,7 @@ public abstract class SharedPortalSystem : EntitySystem
         // Goobstation end
 
         // Arcane-Start
-        var portalEv = new PortalTeleportAttemptEvent(subject, ent, targetEntity);
+        var portalEv = new PortalTeleportAttemptEvent(subject, targetEntity);
         RaiseLocalEvent(ref portalEv);
         if (portalEv.Cancelled)
             return;

@@ -117,6 +117,8 @@
       Damaged: 67.5
       Destroyed: 0
     slotId: heart
+    onAdd:
+    - type: CyberneticHeartBlood
   - type: Metabolizer
     maxPoisonsProcessable: 2
     metabolizerTypes: [ Cybernetic ]

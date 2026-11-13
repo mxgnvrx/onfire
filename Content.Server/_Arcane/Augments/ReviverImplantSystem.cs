@@ -21,7 +21,6 @@ using Content.Shared.Popups;
 using Content.Shared.Traits.Assorted;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Player;
-using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 
 namespace Content.Server._Arcane.Augments;
@@ -29,7 +28,6 @@ namespace Content.Server._Arcane.Augments;
 public sealed class ReviverImplantSystem : EntitySystem
 {
     [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly IPrototypeManager _proto = default!;
     [Dependency] private readonly ISharedPlayerManager _player = default!;
     [Dependency] private readonly EuiManager _eui = default!;
     [Dependency] private readonly ConsciousnessSystem _consciousness = default!;
@@ -48,7 +46,7 @@ public sealed class ReviverImplantSystem : EntitySystem
 
     private void OnEmp(Entity<ReviverImplantComponent> ent, ref EmpPulseEvent args)
     {
-        if (ent.Comp.Reviving)
+        if (ent.Comp.ReviveAt != null)
             ent.Comp.Cost += ent.Comp.EmpPenalty;
         else
             ent.Comp.CooldownUntil += ent.Comp.EmpPenalty;
@@ -63,19 +61,17 @@ public sealed class ReviverImplantSystem : EntitySystem
         while (query.MoveNext(out var uid, out var reviver, out var organ))
         {
             if (now < reviver.NextHeal || !organ.Enabled
-                || !TryComp<MobStateComponent>(organ.Body, out var mobState))
+                || organ.Body is not {} body || !TryComp<MobStateComponent>(body, out var mobState))
                 continue;
 
             reviver.NextHeal = now + reviver.HealInterval;
-            var body = organ.Body.Value;
-            var down = mobState.CurrentState is MobState.Critical or MobState.Dead;
+            var down = _mobState.IsIncapacitated(body, mobState);
 
-            if (!reviver.Reviving)
+            if (reviver.ReviveAt is not {} reviveAt)
             {
                 if (!down || now < reviver.CooldownUntil)
                     continue;
 
-                reviver.Reviving = true;
                 reviver.Cost = TimeSpan.Zero;
                 reviver.ReviveAt = now + reviver.ReviveDelay;
                 _popup.PopupEntity(Loc.GetString("reviver-implant-started"), body, body);
@@ -84,7 +80,7 @@ public sealed class ReviverImplantSystem : EntitySystem
 
             if (!down)
             {
-                reviver.Reviving = false;
+                reviver.ReviveAt = null;
                 reviver.CooldownUntil = now + reviver.Cost;
                 _popup.PopupEntity(Loc.GetString("reviver-implant-recharging",
                         ("seconds", (int) reviver.Cost.TotalSeconds)),
@@ -93,7 +89,7 @@ public sealed class ReviverImplantSystem : EntitySystem
                 continue;
             }
 
-            if (mobState.CurrentState == MobState.Dead && now >= reviver.ReviveAt)
+            if (mobState.CurrentState == MobState.Dead && now >= reviveAt)
                 TryRevive((uid, reviver), (body, mobState));
 
             Heal(reviver, body);
@@ -105,22 +101,17 @@ public sealed class ReviverImplantSystem : EntitySystem
         if (!TryComp<DamageableComponent>(body, out var damageable))
             return;
 
-        var heal = new DamageSpecifier();
         foreach (var (group, amount) in reviver.Heal)
         {
             if (!damageable.DamagePerGroup.TryGetValue(group, out var damage) || damage <= 0)
                 continue;
 
-            heal += new DamageSpecifier(_proto.Index(group), -amount);
+            // Only head, chest and groin count towards crit and death here, so limbs get nothing.
+            _damageable.HealEvenly((body, damageable), -amount, group,
+                targetPart: TargetBodyPart.Vital,
+                damageSplit: SplitDamageBehavior.SplitEnsureAllDamaged);
             if (reviver.HealCost.TryGetValue(group, out var cost))
                 reviver.Cost += cost;
-        }
-
-        if (!heal.Empty)
-        {
-            _damageable.TryChangeDamage((body, damageable), heal, true,
-                targetPart: TargetBodyPart.All,
-                splitDamage: SplitDamageBehavior.SplitEnsureAll);
         }
     }
 

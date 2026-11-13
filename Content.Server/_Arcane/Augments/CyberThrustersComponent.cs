@@ -13,9 +13,6 @@ public sealed partial class CyberThrustersComponent : Component
     [DataField]
     public EntityUid? Action;
 
-    /// <summary>
-    /// Ambient pressure in kPa above which the thrusters run on surrounding air instead of internals.
-    /// </summary>
     [DataField]
     public float MinEnvironmentPressure = 30f;
 }

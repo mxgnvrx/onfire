@@ -6,4 +6,4 @@ namespace Content.Shared._Arcane.Teleportation;
 /// Broadcast before a portal moves an entity, so systems can veto it based on where it leads.
 /// </summary>
 [ByRefEvent]
-public record struct PortalTeleportAttemptEvent(EntityUid Subject, EntityUid Portal, EntityUid? Target, bool Cancelled = false);
+public record struct PortalTeleportAttemptEvent(EntityUid Subject, EntityUid? Target, bool Cancelled = false);

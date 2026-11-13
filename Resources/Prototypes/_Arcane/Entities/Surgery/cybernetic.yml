@@ -74,37 +74,6 @@
     - type: AntiDrop
 
 - type: entity
-  parent: SurgeryOpenCavityBase
-  id: SurgeryOpenCnsRebooterCavity
-  name: Prepare cavity for CNS rebooter
-  components:
-  - type: Surgery
-    requirement: SurgeryOpenIncision
-  - type: SurgeryPartCondition
-    parts: [ Head ]
-  - type: SurgeryOrganSlotCondition
-    organSlot: cnsImplant
-
-- type: entity
-  parent: SurgeryInstallAugmentBase
-  id: SurgeryInsertCnsRebooter
-  name: Insert CNS rebooter
-  components:
-  - type: Surgery
-    requirement: SurgeryOpenIncision
-    steps:
-    - SurgeryStepSawBones
-    - SurgeryStepInsertOrgan
-    - SurgeryStepSealOrganWound
-  - type: SurgeryPartCondition
-    parts: [ Head ]
-  - type: SurgeryOrganSlotCondition
-    organSlot: cnsImplant
-  - type: SurgeryOrganCondition
-    organ:
-    - type: CnsRebooter
-
-- type: entity
   parent: SurgeryRemoveAugmentBase
   id: SurgeryRemoveCnsRebooter
   name: Remove CNS rebooter
@@ -207,34 +176,6 @@
   - type: SurgeryOrganCondition
     organ:
     - type: HerculeanSpineImplant
-
-- type: entity
-  parent: SurgeryOpenCavityBase
-  id: SurgeryOpenReviverCavity
-  name: Prepare cavity for reviver implant
-  components:
-  - type: SurgeryPartCondition
-    parts: [ Chest ]
-  - type: SurgeryOrganSlotCondition
-    organSlot: heartImplant
-
-- type: entity
-  parent: SurgeryInstallAugmentBase
-  id: SurgeryInsertReviver
-  name: Insert reviver implant
-  components:
-  - type: Surgery
-    steps:
-    - SurgeryStepSawBones
-    - SurgeryStepInsertOrgan
-    - SurgeryStepSealOrganWound
-  - type: SurgeryPartCondition
-    parts: [ Chest ]
-  - type: SurgeryOrganSlotCondition
-    organSlot: heartImplant
-  - type: SurgeryOrganCondition
-    organ:
-    - type: ReviverImplant
 
 - type: entity
   parent: SurgeryRemoveAugmentBase

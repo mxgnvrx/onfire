@@ -1,5 +1,4 @@
 using Content.Shared._Arcane.Body.Organs;
-using Content.Shared._Orion.Mobs.Critical;
 using Content.Shared.Body.Components;
 using Content.Shared.Body.Organ;
 using Content.Shared.Body.Systems;
@@ -11,7 +10,6 @@ namespace Content.Server._Arcane.Body.Organs;
 
 public sealed class CyberneticHeartSystem : EntitySystem
 {
-    [Dependency] private readonly SharedBodySystem _body = default!;
     [Dependency] private readonly SharedBloodstreamSystem _bloodstream = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly MovementSpeedModifierSystem _movement = default!;
@@ -19,23 +17,18 @@ public sealed class CyberneticHeartSystem : EntitySystem
 
     public override void Initialize()
     {
-        SubscribeLocalEvent<BloodstreamComponent, BloodstreamRefreshEvent>(OnBloodstreamRefresh);
+        SubscribeLocalEvent<CyberneticHeartBloodComponent, BloodstreamRefreshEvent>(OnBloodstreamRefresh);
         SubscribeLocalEvent<CyberneticHeartComponent, ComponentShutdown>(OnShutdown);
     }
 
-    private void OnBloodstreamRefresh(Entity<BloodstreamComponent> ent, ref BloodstreamRefreshEvent args)
+    private void OnBloodstreamRefresh(Entity<CyberneticHeartBloodComponent> ent, ref BloodstreamRefreshEvent args)
     {
-        if (_bloodstream.GetBloodLevel(ent.AsNullable()) >= 1)
+        if (!TryComp<BloodstreamComponent>(ent, out var bloodstream)
+            || _bloodstream.GetBloodLevel((ent.Owner, bloodstream)) >= 1)
             return;
 
-        foreach (var (uid, organ) in _body.GetBodyOrgans(ent))
-        {
-            if (!organ.Enabled || !TryComp<CyberneticHeartComponent>(uid, out var heart))
-                continue;
-
-            _bloodstream.TryModifyBloodLevel(ent.AsNullable(), ent.Comp.BloodRefreshAmount * heart.ExtraBloodMultiplier);
-            _bloodstream.TryModifyBleedAmount(ent.AsNullable(), -ent.Comp.BleedReductionAmount * heart.ExtraBleedReductionMultiplier);
-        }
+        _bloodstream.TryModifyBloodLevel((ent.Owner, bloodstream), bloodstream.BloodRefreshAmount * ent.Comp.ExtraBloodMultiplier);
+        _bloodstream.TryModifyBleedAmount((ent.Owner, bloodstream), -bloodstream.BleedReductionAmount * ent.Comp.ExtraBleedReductionMultiplier);
     }
 
     public override void Update(float frameTime)
@@ -51,16 +44,10 @@ public sealed class CyberneticHeartSystem : EntitySystem
                 || _timing.CurTime < heart.NextStabilization || !_mobState.IsSoftCritical(body))
                 continue;
 
-            heart.AddedMovement = !HasComp<CritStateMovementComponent>(body);
-            var movement = EnsureComp<CritStateMovementComponent>(body);
-            heart.PreviousWalkModifier = movement.SoftCritWalkModifier;
-            heart.PreviousSprintModifier = movement.SoftCritSprintModifier;
-            movement.SoftCritWalkModifier = 1;
-            movement.SoftCritSprintModifier = 1;
+            EnsureComp<CyberneticHeartStabilizedComponent>(body);
             heart.StabilizedBody = body;
             heart.StabilizationEnd = _timing.CurTime + heart.StabilizationDuration;
             heart.NextStabilization = _timing.CurTime + heart.StabilizationCooldown;
-            Dirty(body, movement);
             _movement.RefreshMovementSpeedModifiers(body);
         }
     }
@@ -75,15 +62,8 @@ public sealed class CyberneticHeartSystem : EntitySystem
         if (heart.StabilizedBody is not {} body)
             return;
 
-        if (TryComp<CritStateMovementComponent>(body, out var movement))
-        {
-            movement.SoftCritWalkModifier = heart.PreviousWalkModifier;
-            movement.SoftCritSprintModifier = heart.PreviousSprintModifier;
-            Dirty(body, movement);
-            if (heart.AddedMovement)
-                RemComp<CritStateMovementComponent>(body);
+        if (RemComp<CyberneticHeartStabilizedComponent>(body))
             _movement.RefreshMovementSpeedModifiers(body);
-        }
 
         heart.StabilizedBody = null;
     }

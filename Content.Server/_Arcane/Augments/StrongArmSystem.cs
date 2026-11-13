@@ -104,12 +104,13 @@ public sealed class StrongArmSystem : EntitySystem
         if (implant == null)
             return;
 
-        var humanoid = HasComp<HumanoidAppearanceComponent>(target);
-        if (humanoid && _timing.CurTime < implant.NextSlam)
-            return;
+        if (HasComp<HumanoidAppearanceComponent>(target))
+        {
+            if (_timing.CurTime < implant.NextSlam)
+                return;
 
-        if (humanoid)
             implant.NextSlam = _timing.CurTime + implant.SlamCooldown;
+        }
 
         args.BonusDamage += args.BaseDamage * (implant.DamageMultiplier - 1f);
 

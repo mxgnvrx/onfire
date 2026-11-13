@@ -30,7 +30,7 @@ public sealed class CyberneticLiverSystem : EntitySystem
             var total = FixedPoint2.Zero;
             foreach (var reagent in chemicals.Contents)
             {
-                if (_prototypes.Index<ReagentPrototype>(reagent.Reagent.Prototype).Metabolisms?.ContainsKey("Poison") == true)
+                if (IsPoison(reagent))
                     total += reagent.Quantity;
             }
 
@@ -40,9 +40,14 @@ public sealed class CyberneticLiverSystem : EntitySystem
             for (var i = chemicals.Contents.Count - 1; i >= 0; i--)
             {
                 var reagent = chemicals.Contents[i];
-                if (_prototypes.Index<ReagentPrototype>(reagent.Reagent.Prototype).Metabolisms?.ContainsKey("Poison") == true)
+                if (IsPoison(reagent))
                     _solutions.RemoveReagent(solution.Value, reagent.Reagent, reagent.Quantity);
             }
         }
+    }
+
+    private bool IsPoison(ReagentQuantity reagent)
+    {
+        return _prototypes.Index<ReagentPrototype>(reagent.Reagent.Prototype).Metabolisms?.ContainsKey("Poison") == true;
     }
 }

@@ -2,13 +2,13 @@ using Robust.Shared.GameStates;
 
 namespace Content.Shared._Orion.Mobs.Critical;
 
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState] // Arcane-Edit
+[RegisterComponent, NetworkedComponent]
 public sealed partial class CritStateMovementComponent : Component
 {
-    [DataField, AutoNetworkedField] // Arcane-Edit
+    [DataField]
     public float SoftCritWalkModifier = 0.25f;
 
-    [DataField, AutoNetworkedField] // Arcane-Edit
+    [DataField]
     public float SoftCritSprintModifier = 0.25f;
 
     [DataField]

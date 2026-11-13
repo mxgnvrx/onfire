@@ -10,9 +10,6 @@ namespace Content.Shared._Arcane.Augments;
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class HerculeanSpineComponent : Component
 {
-    /// <summary>
-    /// Multiplies standing up, climbing and carrying times.
-    /// </summary>
     [DataField, AutoNetworkedField]
     public float AthleticsMultiplier = 0.8f;
 

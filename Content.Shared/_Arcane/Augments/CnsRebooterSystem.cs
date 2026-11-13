@@ -126,7 +126,7 @@ public sealed class CnsRebooterSystem : EntitySystem
         var query = EntityQueryEnumerator<CnsRebooterComponent, OrganComponent>();
         while (query.MoveNext(out var uid, out var implant, out var organ))
         {
-            if (!organ.Enabled || organ.Body is not {} body || IsPaused(uid))
+            if (!organ.Enabled || organ.Body is not {} body)
                 continue;
 
             if (implant.CooldownUntil is {} readyAt && now >= readyAt)
@@ -148,7 +148,7 @@ public sealed class CnsRebooterSystem : EntitySystem
                 continue;
 
             implant.RebootAt = null;
-            if (implant.CooldownUntil is {} cooldownUntil && now < cooldownUntil)
+            if (implant.CooldownUntil != null)
             {
                 Dirty(uid, implant);
                 continue;

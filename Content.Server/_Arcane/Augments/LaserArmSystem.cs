@@ -136,7 +136,15 @@ public sealed class LaserArmSystem : EntitySystem
         }
 
         RemComp<UnremoveableComponent>(gun);
-        _container.Insert(gun, _container.GetContainer(ent, ent.Comp.ContainerId));
+        // Returning the implant's own gun must also work while AntiDrop holds it in the hand.
+        if (!_container.TryRemoveFromContainer(gun, force: true)
+            || !_container.Insert(gun, _container.GetContainer(ent, ent.Comp.ContainerId)))
+        {
+            // Never leave a detachable implant weapon behind if its return fails.
+            QueueDel(gun);
+            return true;
+        }
+
         _audio.PlayPvs(ent.Comp.ToggleSound, user);
         _popup.PopupEntity(Loc.GetString("laser-arm-retract", ("user", user), ("gun", gun)), user, Filter.PvsExcept(user), true);
         _popup.PopupEntity(Loc.GetString("laser-arm-retract-self", ("gun", gun)), user, user);

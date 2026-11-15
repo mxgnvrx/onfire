@@ -17,3 +17,25 @@
     targetBodyPart: Chest
     targetOrgan: heartImplant
     newPartProto: ReviverAugment
+
+- type: entity
+  parent: BaseAutosurgeonSyndicateSingle
+  id: AutosurgeonLeftLaserArm
+  name: syndicate autosurgeon (left arm laser)
+  components:
+  - type: AutoSurgeon
+    targetBodyPart: Arm
+    targetBodyPartSymmetry: Left
+    targetOrgan: armImplant
+    newPartProto: LaserArmAugment
+
+- type: entity
+  parent: BaseAutosurgeonSyndicateSingle
+  id: AutosurgeonRightLaserArm
+  name: syndicate autosurgeon (right arm laser)
+  components:
+  - type: AutoSurgeon
+    targetBodyPart: Arm
+    targetBodyPartSymmetry: Right
+    targetOrgan: armImplant
+    newPartProto: LaserArmAugment

@@ -24,6 +24,7 @@
         { "name": "thrusters_implant" },
         { "name": "herculean_implant" },
         { "name": "strongarm_implant" },
+        { "name": "arm_laser" },
         {
             "name": "reviver_implant",
             "delays": [

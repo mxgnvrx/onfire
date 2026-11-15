@@ -807,6 +807,11 @@
         understands:
         - Codespeak
       - type: NukeOperative
+      # Arcane-Start
+      - type: AutoImplant
+        implants:
+        - TacticalMapImplant
+      # Arcane-End
       - type: RandomMetadata
         nameSegments:
         - NamesSyndicatePrefix

@@ -68,6 +68,11 @@
   suffix: Human, NukeOps
   components:
   - type: NukeOperative
+  # Arcane-Start
+  - type: AutoImplant
+    implants:
+    - TacticalMapImplant
+  # Arcane-End
   - type: RandomMetadata
     nameSegments:
     - NamesSyndicateNormal

@@ -171,6 +171,11 @@
         understands:
         - Codespeak
       - type: NukeOperative
+      # Arcane-Start
+      - type: AutoImplant
+        implants:
+        - TacticalMapImplant
+      # Arcane-End
       - type: RandomMetadata
         nameSegments:
         - NamesSyndicateElite
@@ -197,6 +202,11 @@
         understands:
         - Codespeak
       - type: NukeOperative
+      # Arcane-Start
+      - type: AutoImplant
+        implants:
+        - TacticalMapImplant
+      # Arcane-End
       - type: RandomMetadata
         nameSegments:
         - NamesSyndicateNormal
@@ -227,6 +237,11 @@
         understands:
         - Codespeak
       - type: NukeOperative
+      # Arcane-Start
+      - type: AutoImplant
+        implants:
+        - TacticalMapImplant
+      # Arcane-End
       - type: RandomMetadata
         nameSegments:
         - NamesSyndicateNormal

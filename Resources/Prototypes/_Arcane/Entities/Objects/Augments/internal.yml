@@ -174,3 +174,57 @@
     useDelay: 0.5
   - type: InstantAction
     event: !type:ToggleActionEvent
+
+- type: entity
+  parent: BaseArmAugment
+  id: LaserArmAugment
+  name: arm-mounted laser implant
+  description: A variant of the arm cannon implant that fires lethal laser beams. The cannon emerges from the subject's arm and remains inside when not in use.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+    state: arm_laser
+  - type: Item
+    size: Small
+  - type: Cybernetics
+  - type: LaserArm
+    empDamage:
+      types:
+        Heat: 25
+
+- type: entity
+  parent: BaseAction
+  id: ActionToggleLaserArm
+  name: Toggle arm laser
+  description: Extend or retract the laser cannon in your arm.
+  components:
+  - type: Action
+    icon:
+      sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+      state: arm_laser
+  - type: InstantAction
+    event: !type:ToggleActionEvent
+
+- type: entity
+  parent: AugmentPaperworkPanel
+  id: AugmentPaperworkPanelFilled
+  suffix: Filled
+  components:
+  - type: Storage
+    whitelist:
+      tags:
+      - Folder
+      - Pen
+      - Lighter
+      components:
+      - HandLabeler
+      - Stamp
+      - TapeRecorder
+  - type: StorageFill
+    contents:
+    - id: Pen
+    - id: BoxFolderClipboard
+    - id: TapeRecorderFilled
+    - id: FlippoLighter
+    - id: RubberStampApproved
+    - id: RubberStampDenied

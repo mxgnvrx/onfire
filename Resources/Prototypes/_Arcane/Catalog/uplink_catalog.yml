@@ -49,3 +49,51 @@
     whitelist:
       tags:
       - NukeOpsUplink
+
+- type: listing
+  id: NukeOpsUplinkTacticalDeniabilityImplanter
+  name: uplink-tactical-deniability-implanter-name
+  description: uplink-tactical-deniability-implanter-desc
+  icon: { sprite: /Textures/Actions/Implants/implants.rsi, state: explosive }
+  productEntity: TacticalDeniabilityImplanter
+  cost:
+    Telecrystal: 30
+  categories:
+  - UplinkImplants
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkAutosurgeonLeftLaserArm
+  name: uplink-autosurgeon-left-laser-arm-name
+  description: uplink-autosurgeon-laser-arm-desc
+  icon: { sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi, state: arm_laser }
+  productEntity: AutosurgeonLeftLaserArm
+  cost:
+    Telecrystal: 50
+  categories:
+  - UplinkJob
+  conditions:
+  - !type:BuyerJobCondition
+    whitelist:
+    - Roboticist
+    - ResearchDirector
+
+- type: listing
+  id: UplinkAutosurgeonRightLaserArm
+  name: uplink-autosurgeon-right-laser-arm-name
+  description: uplink-autosurgeon-laser-arm-desc
+  icon: { sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi, state: arm_laser }
+  productEntity: AutosurgeonRightLaserArm
+  cost:
+    Telecrystal: 50
+  categories:
+  - UplinkJob
+  conditions:
+  - !type:BuyerJobCondition
+    whitelist:
+    - Roboticist
+    - ResearchDirector

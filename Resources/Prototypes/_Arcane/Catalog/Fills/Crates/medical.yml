@@ -28,3 +28,14 @@
     contents:
     - id: StrongArmLeftAugment
     - id: StrongArmRightAugment
+
+- type: entity
+  id: CratePaperworkImplants
+  parent: CrateMedical
+  name: paperwork implant crate
+  description: A crate containing two implants, which can be surgically implanted to effectivize crewmembers at paperwork.
+  components:
+  - type: StorageFill
+    contents:
+    - id: AugmentPaperworkPanelFilled
+      amount: 2

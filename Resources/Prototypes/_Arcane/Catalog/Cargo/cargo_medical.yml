@@ -27,3 +27,13 @@
   cost: 1300
   category: cargoproduct-category-name-medical
   group: market
+
+- type: cargoProduct
+  id: PaperworkImplants
+  icon:
+    sprite: _Shitmed/Objects/Augments/arm.rsi
+    state: paperwork
+  product: CratePaperworkImplants
+  cost: 700
+  category: cargoproduct-category-name-medical
+  group: market

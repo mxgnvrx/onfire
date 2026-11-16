@@ -69,11 +69,8 @@ public sealed class TacticalDeniabilitySystem : EntitySystem
 
         if (TryComp<TimerTriggerComponent>(ent, out var timer))
         {
-            var oldDelay = timer.Delay;
             var delay = timer.Delay + (CompOrNull<TimerTriggerComponent>(other)?.Delay ?? TimeSpan.Zero);
             timer.Delay = delay < ent.Comp.MaxDelay ? delay : ent.Comp.MaxDelay;
-            if (HasComp<ActiveTimerTriggerComponent>(ent))
-                timer.NextTrigger += timer.Delay - oldDelay;
             Dirty(ent, timer);
         }
 

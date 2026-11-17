@@ -430,6 +430,21 @@
   - type: DoAfter
   - type: StationAiVision # Goobstation - AI can see through NT silicon
     range: 1
+  # Arcane-Start
+  - type: Tippable
+    tipSound:
+      path: /Audio/Machines/warning_buzzer.ogg
+      params:
+        volume: -6
+    examineMessages: MedibotTippedExamine
+    worriedSpeech: MedibotWorried
+    rightedSpeech: MedibotRighted
+    forgiveSpeech: medibot-righted-1
+    tipperReportSpeech: medibot-tipped-psych-alert
+  - type: RotationVisuals
+    horizontalRotation: 180
+  - type: MedibotCritAnnouncer
+  # Arcane-End
 
 - type: entity
   parent:

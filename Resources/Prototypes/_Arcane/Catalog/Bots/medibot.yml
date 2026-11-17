@@ -1,0 +1,17 @@
+- type: localizedDataset
+  id: MedibotTippedExamine
+  values:
+    prefix: medibot-tipped-examine-
+    count: 5
+
+- type: localizedDataset
+  id: MedibotWorried
+  values:
+    prefix: medibot-worried-
+    count: 6
+
+- type: localizedDataset
+  id: MedibotRighted
+  values:
+    prefix: medibot-righted-
+    count: 3

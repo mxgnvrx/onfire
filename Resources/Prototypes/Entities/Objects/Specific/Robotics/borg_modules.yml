@@ -928,6 +928,18 @@
     - item: Crowbar
     - item: BorgFireExtinguisher
     - item: BorgHandheldGPSBasic
+    # Arcane-Start
+    - item: BorgHandheldCrewMonitor
+    - item: RollerBedSpawnFolded
+      hand:
+        emptyLabel: borg-slot-rollerbeds-empty-arcane
+        emptyRepresentative: RollerBedSpawnFolded
+        whitelist:
+          requireAll: true
+          components:
+          - DeployFoldable
+          - SurgerySurface
+    # Arcane-End
   - type: BorgModuleIcon
     icon: { sprite: Interface/Actions/actions_borg.rsi, state: defib-module }
 

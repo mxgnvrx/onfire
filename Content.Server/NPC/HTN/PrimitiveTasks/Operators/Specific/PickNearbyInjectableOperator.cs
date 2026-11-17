@@ -3,6 +3,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Content.Server.NPC.Pathfinding;
+using Content.Shared._Arcane.Tippable;
 using Content.Shared.Chemistry.Components.SolutionManager;
 using Content.Shared.Damage;
 using Content.Shared.Emag.Components;
@@ -54,6 +55,11 @@ public sealed partial class PickNearbyInjectableOperator : HTNOperator
 
         if (!_entManager.TryGetComponent<MedibotComponent>(owner, out var medibot))
             return (false, null);
+
+        // Arcane-Start
+        if (_entManager.TryGetComponent<TippableComponent>(owner, out var tippable) && tippable.Tipped)
+            return (false, null);
+        // Arcane-End
 
         var damageQuery = _entManager.GetEntityQuery<DamageableComponent>();
         var injectQuery = _entManager.GetEntityQuery<InjectableSolutionComponent>();

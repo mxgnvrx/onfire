@@ -1,0 +1,27 @@
+- type: entity
+  parent: BaseItem
+  id: BorgHandheldCrewMonitor
+  name: integrated crew monitor
+  description: A miniaturized crew monitor displaying the status of suit sensors, powered directly by a cyborg.
+  components:
+  - type: Item
+    heldPrefix: scanner
+  - type: Sprite
+    sprite: Objects/Specific/Medical/handheldcrewmonitor.rsi
+    layers:
+    - state: scanner
+    - state: scanner-light
+      shader: unshaded
+  - type: ActivatableUI
+    key: enum.CrewMonitoringUIKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.CrewMonitoringUIKey.Key:
+        type: CrewMonitoringBoundUserInterface
+  - type: CrewMonitoringConsole
+  - type: DeviceNetwork
+    deviceNetId: Wireless
+    receiveFrequencyId: CrewMonitor
+  - type: WirelessNetworkConnection
+    range: 500
+  - type: StationLimitedNetwork

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Content.Server.Chat.Systems;
+using Content.Shared._Arcane.Tippable;
 using Content.Shared.Chat; // Einstein Engines - Languages
 using Content.Shared.NPC.Components;
 using Content.Shared.Chat;
@@ -55,6 +56,11 @@ public sealed partial class MedibotInjectOperator : HTNOperator
 
         if (!_entMan.TryGetComponent<MedibotComponent>(owner, out var botComp))
             return HTNOperatorStatus.Failed;
+
+        // Arcane-Start
+        if (_entMan.TryGetComponent<TippableComponent>(owner, out var tippable) && tippable.Tipped)
+            return HTNOperatorStatus.Failed;
+        // Arcane-End
 
         if (!_medibot.CheckInjectable((owner, botComp), target) || !_medibot.TryInject((owner, botComp), target))
             return HTNOperatorStatus.Failed;

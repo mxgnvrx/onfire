@@ -130,15 +130,17 @@ public abstract class SharedPortalSystem : EntitySystem
             // pick a target and teleport there
             var target = _random.Pick(link.LinkedEntities);
 
-            if (HasComp<PortalComponent>(target))
-            {
-                // if target is a portal, signal that they shouldn't be immediately teleported back
-                var timeout = EnsureComp<PortalTimeoutComponent>(subject);
-                timeout.EnteredPortal = ent;
-                Dirty(subject, timeout);
-            }
+            // Arcane-Edit-Start
+            // if (HasComp<PortalComponent>(target))
+            // {
+            //     // if target is a portal, signal that they shouldn't be immediately teleported back
+            //     var timeout = EnsureComp<PortalTimeoutComponent>(subject);
+            //     timeout.EnteredPortal = ent;
+            //     Dirty(subject, timeout);
+            // }
+            // Arcane-Edit-End
 
-            TeleportEntity(ent, subject, Transform(target).Coordinates, target);
+            TeleportEntity(ent, subject, Transform(target).Coordinates, target, preventImmediateReturn: true); // Arcane-Edit
             return;
         }
 
@@ -205,7 +207,7 @@ public abstract class SharedPortalSystem : EntitySystem
     /// <param name="subject"> The entity getting teleported. </param>
     /// <param name="target"> The location to teleport to. </param>
     /// <param name="targetEntity"> The portal on the other side of the teleport. </param>
-    private void TeleportEntity(Entity<PortalComponent> ent, EntityUid subject, EntityCoordinates target, EntityUid? targetEntity = null, bool playSound = true)
+    private void TeleportEntity(Entity<PortalComponent> ent, EntityUid subject, EntityCoordinates target, EntityUid? targetEntity = null, bool playSound = true, bool preventImmediateReturn = false) // Arcane-Edit
     {
         var ourCoords = Transform(ent).Coordinates;
         var onSameMap = _transform.GetMapId(ourCoords) == _transform.GetMapId(target);
@@ -248,6 +250,13 @@ public abstract class SharedPortalSystem : EntitySystem
         RaiseLocalEvent(ref portalEv);
         if (portalEv.Cancelled)
             return;
+
+        if (preventImmediateReturn && HasComp<PortalComponent>(targetEntity))
+        {
+            var timeout = EnsureComp<PortalTimeoutComponent>(subject);
+            timeout.EnteredPortal = ent;
+            Dirty(subject, timeout);
+        }
         // Arcane-End
 
 

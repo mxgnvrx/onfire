@@ -3,6 +3,7 @@
 using Content.Server._Shitmed.Cybernetics;
 using Content.Server.EUI;
 using Content.Server.Ghost;
+using Content.Shared._Shitmed.Body.Organ;
 using Content.Shared._Shitmed.Damage;
 using Content.Shared._Shitmed.Medical.Surgery.Consciousness.Components;
 using Content.Shared._Shitmed.Medical.Surgery.Consciousness.Systems;
@@ -118,7 +119,7 @@ public sealed class ReviverImplantSystem : EntitySystem
     // Mirrors the defibrillator checks and steps for bringing a dead body back.
     private void TryRevive(Entity<ReviverImplantComponent> ent, Entity<MobStateComponent> body)
     {
-        if (_rotting.IsRotten(body) || HasComp<UnrevivableComponent>(body)
+        if (_rotting.IsRotten(body) || HasComp<UnrevivableComponent>(body) || HasComp<DebrainedComponent>(body)
             || !TryComp<DamageableComponent>(body, out var damageable)
             || !_mobThreshold.TryGetThresholdForState(body, MobState.Dead, out var threshold)
             || _mobThreshold.CheckVitalDamage(body, damageable) >= threshold)
@@ -131,6 +132,9 @@ public sealed class ReviverImplantSystem : EntitySystem
         }
 
         _mobState.ChangeMobState(body, MobState.Critical, body.Comp, ent);
+        if (_mobState.IsDead(body, body.Comp))
+            return;
+
         ent.Comp.Cost += ent.Comp.ReviveCost;
         ent.Comp.ReviveAt = _timing.CurTime + ent.Comp.ReviveRetryDelay;
 

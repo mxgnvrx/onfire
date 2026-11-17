@@ -1,5 +1,7 @@
 using Content.Shared._Arcane.Body.Organs;
+using Content.Shared._Shitmed.Body.Organ;
 using Content.Shared.Body.Components;
+using Content.Shared.Body.Events;
 using Content.Shared.Body.Organ;
 using Content.Shared.Body.Systems;
 using Content.Shared.Mobs.Systems;
@@ -11,6 +13,7 @@ namespace Content.Server._Arcane.Body.Organs;
 public sealed class CyberneticHeartSystem : EntitySystem
 {
     [Dependency] private readonly SharedBloodstreamSystem _bloodstream = default!;
+    [Dependency] private readonly SharedBodySystem _body = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly MovementSpeedModifierSystem _movement = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
@@ -18,7 +21,59 @@ public sealed class CyberneticHeartSystem : EntitySystem
     public override void Initialize()
     {
         SubscribeLocalEvent<CyberneticHeartBloodComponent, BloodstreamRefreshEvent>(OnBloodstreamRefresh);
+        SubscribeLocalEvent<CyberneticHeartComponent, OrganAddedToBodyEvent>(OnAddedToBody);
+        SubscribeLocalEvent<CyberneticHeartComponent, OrganRemovedFromBodyEvent>(OnRemovedFromBody);
+        SubscribeLocalEvent<CyberneticHeartComponent, OrganComponentsModifyEvent>(OnOrganEffectsChanged);
         SubscribeLocalEvent<CyberneticHeartComponent, ComponentShutdown>(OnShutdown);
+    }
+
+    private void OnAddedToBody(Entity<CyberneticHeartComponent> ent, ref OrganAddedToBodyEvent args)
+    {
+        if (TryComp<OrganComponent>(ent, out var organ) && organ.Enabled)
+            AddBloodEffect(args.Body, ent);
+    }
+
+    private void OnRemovedFromBody(Entity<CyberneticHeartComponent> ent, ref OrganRemovedFromBodyEvent args)
+    {
+        RemoveBloodEffect(args.OldBody, ent);
+        StopStabilization(ent.Comp);
+    }
+
+    private void OnOrganEffectsChanged(Entity<CyberneticHeartComponent> ent, ref OrganComponentsModifyEvent args)
+    {
+        if (args.Add)
+        {
+            AddBloodEffect(args.Body, ent);
+            return;
+        }
+
+        RemoveBloodEffect(args.Body, ent);
+        StopStabilization(ent.Comp);
+    }
+
+    private void AddBloodEffect(EntityUid body, EntityUid implant)
+    {
+        if (!TerminatingOrDeleted(body) && !HasComp<CyberneticHeartBloodComponent>(body))
+            AddComp<CyberneticHeartBloodComponent>(body).Implant = implant;
+    }
+
+    private void RemoveBloodEffect(EntityUid body, EntityUid implant)
+    {
+        if (TerminatingOrDeleted(body)
+            || !TryComp<CyberneticHeartBloodComponent>(body, out var effect)
+            || effect.Implant != implant)
+            return;
+
+        foreach (var other in _body.GetBodyOrganEntityComps<CyberneticHeartComponent>(body))
+        {
+            if (other.Owner == implant || TerminatingOrDeleted(other) || !other.Comp2.Enabled || other.Comp2.Body != body)
+                continue;
+
+            effect.Implant = other;
+            return;
+        }
+
+        RemComp<CyberneticHeartBloodComponent>(body);
     }
 
     private void OnBloodstreamRefresh(Entity<CyberneticHeartBloodComponent> ent, ref BloodstreamRefreshEvent args)
@@ -54,6 +109,9 @@ public sealed class CyberneticHeartSystem : EntitySystem
 
     private void OnShutdown(Entity<CyberneticHeartComponent> ent, ref ComponentShutdown args)
     {
+        if (CompOrNull<OrganComponent>(ent)?.Body is {} body)
+            RemoveBloodEffect(body, ent);
+
         StopStabilization(ent.Comp);
     }
 

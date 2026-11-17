@@ -8,6 +8,7 @@ using Robust.Shared.Containers;
 // Shitmed Change
 using Content.Shared._Shitmed.BodyEffects;
 using Content.Shared._Shitmed.Body.Organ;
+using Content.Shared._Shitmed.Cybernetics; // Arcane
 using Content.Shared.Heretic;
 
 namespace Content.Shared.Body.Systems;
@@ -264,7 +265,7 @@ public partial class SharedBodySystem
 
     private void OnOrganEnableChanged(Entity<OrganComponent> organEnt, ref OrganEnableChangedEvent args)
     {
-        if (!organEnt.Comp.CanEnable && args.Enabled)
+        if (args.Enabled && (!organEnt.Comp.CanEnable || CompOrNull<CyberneticsComponent>(organEnt)?.Disabled == true)) // Arcane-Edit
             return;
 
         organEnt.Comp.Enabled = args.Enabled;

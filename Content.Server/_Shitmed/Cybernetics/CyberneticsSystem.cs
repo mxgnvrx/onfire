@@ -33,6 +33,7 @@ internal sealed class CyberneticsSystem : EntitySystem
             ev.Affected = true;
             ev.Disabled = true;
             cyberEnt.Comp.Disabled = true;
+            Dirty(cyberEnt, cyberEnt.Comp); // Arcane
 
             if (HasComp<OrganComponent>(cyberEnt))
             {
@@ -61,6 +62,7 @@ internal sealed class CyberneticsSystem : EntitySystem
         if (cyberEnt.Comp.Disabled)
         {
             cyberEnt.Comp.Disabled = false;
+            Dirty(cyberEnt, cyberEnt.Comp); // Arcane
             if (HasComp<OrganComponent>(cyberEnt))
             {
                 var enableEvent = new OrganEnableChangedEvent(true);

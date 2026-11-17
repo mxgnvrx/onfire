@@ -6,6 +6,8 @@ namespace Content.Shared._Arcane.Body.Organs;
 [RegisterComponent]
 public sealed partial class CyberneticHeartBloodComponent : Component
 {
+    public EntityUid Implant;
+
     [DataField]
     public int ExtraBloodMultiplier = 8;
 

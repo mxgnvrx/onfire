@@ -10,6 +10,9 @@ namespace Content.Shared._Arcane.Augments;
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class HerculeanSpineComponent : Component
 {
+    [AutoNetworkedField]
+    public EntityUid Implant;
+
     [DataField, AutoNetworkedField]
     public float AthleticsMultiplier = 0.8f;
 

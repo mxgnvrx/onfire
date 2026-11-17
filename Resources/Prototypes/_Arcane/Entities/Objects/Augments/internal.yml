@@ -91,8 +91,6 @@
     state: herculean_implant
   - type: Organ
     slotId: spine
-    onAdd:
-    - type: HerculeanSpine
   - type: Cybernetics
   - type: HerculeanSpineImplant
     empDamage:

@@ -55,6 +55,7 @@
       settings: default
   - type: GhostRoleMobSpawner
     prototype: MobHumanSyndicateAgentNukeops
+  - type: TacticalMapOperation # Arcane
 
 - type: entity
   parent: ReinforcementRadio

@@ -14,4 +14,10 @@ public sealed partial class GibOnTriggerComponent : BaseXOnTriggerComponent
     /// </summary>
     [DataField, AutoNetworkedField]
     public bool DeleteItems = false;
+
+    // Arcane-Start
+    // Predicted gibbing can add body components while the client restores state.
+    [DataField, AutoNetworkedField]
+    public bool ServerOnly;
+    // Arcane-End
 }

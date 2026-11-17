@@ -9,12 +9,14 @@ using Content.Shared.Trigger.Components;
 using Content.Shared.Trigger.Components.Effects;
 using Content.Shared.Trigger.Systems;
 using Robust.Shared.Containers;
+using Robust.Shared.Network;
 
 namespace Content.Shared._Arcane.Implants;
 
 public sealed class TacticalDeniabilitySystem : EntitySystem
 {
     [Dependency] private readonly SharedContainerSystem _container = default!;
+    [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly TriggerSystem _trigger = default!;
 
     public override void Initialize()
@@ -26,24 +28,24 @@ public sealed class TacticalDeniabilitySystem : EntitySystem
 
     private void OnImplanted(Entity<TacticalDeniabilityImplantComponent> ent, ref ImplantImplantedEvent args)
     {
-        if (!_container.TryGetContainer(args.Implanted, ImplanterComponent.ImplantSlotId, out var implants))
+        if (_net.IsClient || !_container.TryGetContainer(args.Implanted, ImplanterComponent.ImplantSlotId, out var implants))
             return;
 
         foreach (var implant in implants.ContainedEntities)
         {
             if (implant != ent.Owner)
-                Absorb(ent, implant);
+                Absorb(ent, implant, args.Implanted);
         }
     }
 
     private void OnImplantInserted(Entity<TacticalDeniabilityComponent> ent, ref EntInsertedIntoContainerMessage args)
     {
-        if (args.Container.ID != ImplanterComponent.ImplantSlotId
+        if (_net.IsClient || args.Container.ID != ImplanterComponent.ImplantSlotId
             || GetImplant(ent) is not { } implant
             || args.Entity == implant.Owner)
             return;
 
-        Absorb(implant, args.Entity);
+        Absorb(implant, args.Entity, ent.Owner);
     }
 
     private void OnUpdateMobState(Entity<TacticalDeniabilityComponent> ent, ref UpdateMobStateEvent args)
@@ -56,11 +58,16 @@ public sealed class TacticalDeniabilitySystem : EntitySystem
             _trigger.Trigger(implant, ent, TriggerSystem.DefaultTriggerKey);
     }
 
-    private void Absorb(Entity<TacticalDeniabilityImplantComponent> ent, EntityUid other)
+    private void Absorb(Entity<TacticalDeniabilityImplantComponent> ent, EntityUid other, EntityUid host)
     {
-        if (!TryComp<ExplosiveComponent>(other, out var explosive)
+        if (EntityManager.IsQueuedForDeletion(other)
+            || !TryComp<ExplosiveComponent>(other, out var explosive) || explosive.Exploded
             || !TryComp<ExplosionOnTriggerComponent>(ent, out var explosion))
             return;
+
+        var remaining = _trigger.GetRemainingTime(other);
+        if (remaining != null)
+            _trigger.StopTimerTrigger(other);
 
         explosion.TotalIntensity += explosive.TotalIntensity;
         explosion.MaxTileIntensity = MathF.Max(explosion.MaxTileIntensity, explosive.MaxIntensity);
@@ -70,11 +77,14 @@ public sealed class TacticalDeniabilitySystem : EntitySystem
         if (TryComp<TimerTriggerComponent>(ent, out var timer))
         {
             var delay = timer.Delay + (CompOrNull<TimerTriggerComponent>(other)?.Delay ?? TimeSpan.Zero);
-            timer.Delay = delay < ent.Comp.MaxDelay ? delay : ent.Comp.MaxDelay;
-            Dirty(ent, timer);
+            _trigger.SetDelay((ent.Owner, timer), delay < ent.Comp.MaxDelay ? delay : ent.Comp.MaxDelay);
+
+            // Only inherit the donor's deadline if the receiving implant has no running timer.
+            if (remaining is { } time && _trigger.ActivateTimerTrigger((ent.Owner, timer), host))
+                _trigger.TryDelay((ent.Owner, timer), time - timer.Delay);
         }
 
-        PredictedQueueDel(other);
+        QueueDel(other);
     }
 
     private Entity<TacticalDeniabilityImplantComponent>? GetImplant(EntityUid mob)

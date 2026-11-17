@@ -43,6 +43,7 @@ public sealed class LaserArmSystem : EntitySystem
         SubscribeLocalEvent<LaserArmComponent, OrganComponentsModifyEvent>(OnOrganModified);
         SubscribeLocalEvent<LaserArmComponent, ToggleActionEvent>(OnToggle);
         SubscribeLocalEvent<LaserArmComponent, EmpPulseEvent>(OnEmp, after: [typeof(CyberneticsSystem)]);
+        SubscribeLocalEvent<ExtendedLaserArmGunComponent, EntGotRemovedFromContainerMessage>(OnGunRemoved);
     }
 
     private void OnMapInit(Entity<LaserArmComponent> ent, ref MapInitEvent args)
@@ -119,6 +120,9 @@ public sealed class LaserArmSystem : EntitySystem
             return;
 
         EnsureComp<UnremoveableComponent>(gun);
+        var extended = EnsureComp<ExtendedLaserArmGunComponent>(gun);
+        extended.Implant = ent.Owner;
+        extended.Hand = hand;
         _audio.PlayPvs(ent.Comp.ToggleSound, user);
         _popup.PopupEntity(Loc.GetString("laser-arm-extend", ("user", user), ("gun", gun)), user, Filter.PvsExcept(user), true);
         _popup.PopupEntity(Loc.GetString("laser-arm-extend-self", ("gun", gun)), user, user);
@@ -135,6 +139,7 @@ public sealed class LaserArmSystem : EntitySystem
             return true;
         }
 
+        RemComp<ExtendedLaserArmGunComponent>(gun);
         RemComp<UnremoveableComponent>(gun);
         // Returning the implant's own gun must also work while AntiDrop holds it in the hand.
         if (!_container.TryRemoveFromContainer(gun, force: true)
@@ -149,6 +154,17 @@ public sealed class LaserArmSystem : EntitySystem
         _popup.PopupEntity(Loc.GetString("laser-arm-retract", ("user", user), ("gun", gun)), user, Filter.PvsExcept(user), true);
         _popup.PopupEntity(Loc.GetString("laser-arm-retract-self", ("gun", gun)), user, user);
         return true;
+    }
+
+    private void OnGunRemoved(Entity<ExtendedLaserArmGunComponent> ent, ref EntGotRemovedFromContainerMessage args)
+    {
+        if (args.Container.ID != ent.Comp.Hand)
+            return;
+
+        if (TryComp<LaserArmComponent>(ent.Comp.Implant, out var implant) && implant.Gun == ent.Owner)
+            implant.Gun = null;
+
+        QueueDel(ent);
     }
 
     private void OnEmp(Entity<LaserArmComponent> ent, ref EmpPulseEvent args)

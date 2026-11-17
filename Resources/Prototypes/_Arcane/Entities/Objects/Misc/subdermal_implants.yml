@@ -71,6 +71,7 @@
   - type: GibOnTrigger
     targetUser: true
     deleteItems: true
+    serverOnly: true
     keysIn:
     - timer
 
@@ -84,8 +85,7 @@
   - type: SubdermalImplant
     implantAction: ActionOpenTacticalMap
   - type: StationMap
-    initializeWithStation: true
-  - type: NukeopsStationMap
+  - type: TacticalMapImplant
   - type: UserInterface
     interfaces:
       enum.StationMapUiKey.Key:

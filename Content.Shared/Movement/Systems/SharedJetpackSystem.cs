@@ -196,6 +196,11 @@ public abstract class SharedJetpackSystem : EntitySystem
 
         if (enabled)
         {
+            // Arcane-Start
+            if (TryComp<JetpackUserComponent>(user, out var oldUser) && oldUser.Jetpack != uid
+                && TryComp<JetpackComponent>(oldUser.Jetpack, out var oldJetpack))
+                SetEnabled(oldUser.Jetpack, oldJetpack, false, user);
+            // Arcane-End
             SetupUser(user.Value, uid, component);
             EnsureComp<ActiveJetpackComponent>(uid);
         }

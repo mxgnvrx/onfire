@@ -23,7 +23,6 @@
         { "name": "brain_implant_rebooter" },
         { "name": "thrusters_implant" },
         { "name": "herculean_implant" },
-        { "name": "strongarm_implant" },
         {
             "name": "reviver_implant",
             "delays": [

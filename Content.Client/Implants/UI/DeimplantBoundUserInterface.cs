@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Content.Shared.Implants;
+using Content.Shared.Implants.Components; // Arcane-Edit
 using Robust.Client.UserInterface;
 
 namespace Content.Client.Implants.UI;
@@ -21,6 +22,12 @@ public sealed class DeimplantBoundUserInterface : BoundUserInterface
         _window = this.CreateWindow<DeimplantChoiceWindow>();
 
         _window.OnImplantChange += implant => SendMessage(new DeimplantChangeVerbMessage(implant));
+
+        // Arcane-Start
+        // The component state can arrive before the interface opens.
+        if (EntMan.TryGetComponent<ImplanterComponent>(Owner, out var component))
+            EntMan.System<ImplanterSystem>().UpdateDeimplantUi(this, component);
+        // Arcane-End
     }
     
     public void UpdateState(Dictionary<string, string> implantList, string? implant)

@@ -33,6 +33,7 @@
     whitelist:
       tags:
       - NukeOpsUplink
+      - CyberneticsDebugUplink
 
 - type: listing
   id: NukeOpsUplinkAutosurgeonReviver
@@ -49,3 +50,4 @@
     whitelist:
       tags:
       - NukeOpsUplink
+      - CyberneticsDebugUplink

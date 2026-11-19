@@ -102,7 +102,7 @@
   parent: BaseCyberneticOrgan
   id: AdvancedCyberneticHeart
   name: advanced cybernetic heart
-  description: A synthetic heart that rapidly replenishes lost blood, suppresses bleeding and briefly restores mobility in critical condition.
+  description: A durable synthetic heart that helps wounds clot and briefly restores mobility in critical condition.
   components:
   - type: Sprite
     sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi

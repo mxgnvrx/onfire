@@ -167,6 +167,11 @@
     balance:
       # Goobstation - Telecrystal rework
       Telecrystal: 999999
+  # Arcane-Start
+  - type: Tag
+    tags:
+    - CyberneticsDebugUplink
+  # Arcane-End
 
 - type: entity
   parent: [BaseItem, StorePresetContractor, BaseSyndicateContraband]

@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
-namespace Content.Server._Arcane.Augments;
+namespace Content.Shared._Arcane.Augments;
 
-[RegisterComponent]
+[RegisterComponent, NetworkedComponent]
 public sealed partial class CyberThrustersComponent : Component
 {
     [DataField]

@@ -53,9 +53,9 @@ public sealed partial class TeleportSystem : EntitySystem
     /// <summary>
     /// Returns true if an entity is not prevented from teleporting right now.
     /// </summary>
-    public bool CanTeleport(EntityUid uid, bool predicted = true)
+    public bool CanTeleport(EntityUid uid, bool predicted = true, string? message = "teleport-blocked-message") // Arcane-Edit
     {
-        var attemptEv = new TeleportAttemptEvent(predicted);
+        var attemptEv = new TeleportAttemptEvent(predicted, message); // Arcane-Edit
         RaiseLocalEvent(uid, ref attemptEv);
         return !attemptEv.Cancelled;
     }

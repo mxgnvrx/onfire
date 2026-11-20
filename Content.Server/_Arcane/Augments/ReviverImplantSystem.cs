@@ -3,6 +3,7 @@
 using Content.Server._Shitmed.Cybernetics;
 using Content.Server.EUI;
 using Content.Server.Ghost;
+using Content.Shared._Arcane.Augments;
 using Content.Shared._Shitmed.Damage;
 using Content.Shared._Shitmed.Medical.Surgery.Consciousness.Components;
 using Content.Shared._Shitmed.Medical.Surgery.Consciousness.Systems;

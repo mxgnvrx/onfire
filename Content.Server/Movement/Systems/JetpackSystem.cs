@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
-using Content.Server._Arcane.Augments;
 using Content.Server.Atmos.EntitySystems;
+using Content.Shared._Arcane.Augments;
 using Content.Shared.Atmos.Components;
 using Content.Shared.Body.Organ;
 using Content.Shared.Movement.Components;

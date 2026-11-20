@@ -19,6 +19,22 @@
   - UplinkChemicals
 
 - type: listing
+  id: NukeOpsUplinkAutosurgeonAntiDrop
+  name: uplink-autosurgeon-anti-drop-name
+  description: uplink-autosurgeon-anti-drop-desc
+  icon: { sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi, state: brain_implant_antidrop }
+  productEntity: AutosurgeonAntiDrop
+  cost:
+    Telecrystal: 30
+  categories:
+  - UplinkImplants
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
   id: NukeOpsUplinkAutosurgeonCnsRebooter
   name: uplink-autosurgeon-cns-rebooter-name
   description: uplink-autosurgeon-cns-rebooter-desc

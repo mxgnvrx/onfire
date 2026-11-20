@@ -19,16 +19,6 @@
   group: market
 
 - type: cargoProduct
-  id: StrongArmImplants
-  icon:
-    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
-    state: strongarm_implant
-  product: CrateStrongArmImplants
-  cost: 1300
-  category: cargoproduct-category-name-medical
-  group: market
-
-- type: cargoProduct
   id: PaperworkImplants
   icon:
     sprite: _Shitmed/Objects/Augments/arm.rsi

@@ -1,5 +1,15 @@
 - type: entity
   parent: BaseAutosurgeonSyndicateSingle
+  id: AutosurgeonAntiDrop
+  name: syndicate autosurgeon (anti-drop implant)
+  components:
+  - type: AutoSurgeon
+    targetBodyPart: Head
+    targetOrgan: cerebellumImplant
+    newPartProto: AntiDropAugment
+
+- type: entity
+  parent: BaseAutosurgeonSyndicateSingle
   id: AutosurgeonCnsRebooter
   name: syndicate autosurgeon (CNS rebooter)
   components:

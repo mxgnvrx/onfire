@@ -6,7 +6,7 @@ using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 
-namespace Content.Server._Arcane.Augments;
+namespace Content.Shared._Arcane.Augments;
 
 [RegisterComponent, AutoGenerateComponentPause]
 public sealed partial class ReviverImplantComponent : Component

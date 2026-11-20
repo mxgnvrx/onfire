@@ -2,7 +2,7 @@
 
 using Robust.Shared.Prototypes;
 
-namespace Content.Server._Arcane.Augments;
+namespace Content.Shared._Arcane.Augments;
 
 [RegisterComponent]
 public sealed partial class CyberThrustersComponent : Component

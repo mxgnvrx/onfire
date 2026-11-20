@@ -128,40 +128,6 @@
     size: Small
 
 - type: entity
-  abstract: true
-  parent: BaseAugment
-  id: BaseStrongArmAugment
-  name: Strong-Arm empowered musculature implant
-  description: When implanted, this cybernetic implant will enhance the muscles of the arm to deliver more power-per-action. Install one in each arm to pry open doors with your bare hands!
-  components:
-  - type: Sprite
-    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
-    state: strongarm_implant
-  - type: Cybernetics
-  - type: Item
-    size: Small
-
-- type: entity
-  parent: BaseStrongArmAugment
-  id: StrongArmLeftAugment
-  suffix: Left
-  components:
-  - type: Organ
-    slotId: leftArmMuscle
-  - type: StrongArm
-    hand: Left
-
-- type: entity
-  parent: BaseStrongArmAugment
-  id: StrongArmRightAugment
-  suffix: Right
-  components:
-  - type: Organ
-    slotId: rightArmMuscle
-  - type: StrongArm
-    hand: Right
-
-- type: entity
   parent: BaseAction
   id: ActionToggleCyberThrusters
   name: Toggle thrusters

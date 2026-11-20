@@ -2,7 +2,7 @@
 
 using Content.Shared.Damage;
 
-namespace Content.Server._Arcane.Augments;
+namespace Content.Shared._Arcane.Augments;
 
 [RegisterComponent]
 public sealed partial class HerculeanSpineImplantComponent : Component

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Content.Server._Shitmed.Cybernetics;
+using Content.Shared._Arcane.Augments;
 using Content.Shared._Shitmed.Targeting;
 using Content.Shared.Body.Organ;
 using Content.Shared.Damage.Systems;

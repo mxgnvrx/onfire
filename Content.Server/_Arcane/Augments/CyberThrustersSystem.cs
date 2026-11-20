@@ -2,6 +2,7 @@
 
 using Content.Server.Atmos.EntitySystems;
 using Content.Server.Movement.Systems;
+using Content.Shared._Arcane.Augments;
 using Content.Shared._Shitmed.Body.Organ;
 using Content.Shared.Actions;
 using Content.Shared.Atmos.Components;

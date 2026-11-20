@@ -5,16 +5,19 @@ using Content.Shared.Implants;
 using Content.Shared.Implants.Components;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Systems;
+using Content.Shared.Trigger;
 using Content.Shared.Trigger.Components;
 using Content.Shared.Trigger.Components.Effects;
 using Content.Shared.Trigger.Systems;
 using Robust.Shared.Containers;
+using Robust.Shared.Network;
 
 namespace Content.Shared._Arcane.Implants;
 
 public sealed class TacticalDeniabilitySystem : EntitySystem
 {
     [Dependency] private readonly SharedContainerSystem _container = default!;
+    [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly TriggerSystem _trigger = default!;
 
     public override void Initialize()
@@ -22,6 +25,7 @@ public sealed class TacticalDeniabilitySystem : EntitySystem
         SubscribeLocalEvent<TacticalDeniabilityImplantComponent, ImplantImplantedEvent>(OnImplanted);
         SubscribeLocalEvent<TacticalDeniabilityComponent, EntInsertedIntoContainerMessage>(OnImplantInserted);
         SubscribeLocalEvent<TacticalDeniabilityComponent, UpdateMobStateEvent>(OnUpdateMobState, after: [typeof(MobThresholdSystem)]);
+        SubscribeLocalEvent<SubdermalImplantComponent, AttemptTriggerEvent>(OnImplantTriggerAttempt);
     }
 
     private void OnImplanted(Entity<TacticalDeniabilityImplantComponent> ent, ref ImplantImplantedEvent args)
@@ -58,7 +62,9 @@ public sealed class TacticalDeniabilitySystem : EntitySystem
 
     private void Absorb(Entity<TacticalDeniabilityImplantComponent> ent, EntityUid other)
     {
-        if (!TryComp<ExplosiveComponent>(other, out var explosive)
+        if (_net.IsClient
+            || EntityManager.IsQueuedForDeletion(other)
+            || !TryComp<ExplosiveComponent>(other, out var explosive)
             || !TryComp<ExplosionOnTriggerComponent>(ent, out var explosion))
             return;
 
@@ -74,7 +80,16 @@ public sealed class TacticalDeniabilitySystem : EntitySystem
             Dirty(ent, timer);
         }
 
-        PredictedQueueDel(other);
+        QueueDel(other);
+        if (TryComp<TimerTriggerComponent>(other, out var otherTimer))
+            _trigger.StopTimerTrigger((other, otherTimer));
+    }
+
+    private void OnImplantTriggerAttempt(Entity<SubdermalImplantComponent> ent, ref AttemptTriggerEvent args)
+    {
+        // Implant relays and timer updates can still run before queued deletions are drained.
+        if (EntityManager.IsQueuedForDeletion(ent) && HasComp<ExplosiveComponent>(ent))
+            args.Cancelled = true;
     }
 
     private Entity<TacticalDeniabilityImplantComponent>? GetImplant(EntityUid mob)

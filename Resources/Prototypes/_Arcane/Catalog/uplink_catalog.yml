@@ -17,3 +17,47 @@
     Telecrystal: 60
   categories:
   - UplinkChemicals
+
+- type: listing
+  id: NukeOpsUplinkAutosurgeonAntiDrop
+  name: uplink-autosurgeon-anti-drop-name
+  description: uplink-autosurgeon-anti-drop-desc
+  icon: { sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi, state: brain_implant_antidrop }
+  productEntity: AutosurgeonAntiDrop
+  cost:
+    Telecrystal: 30
+  categories:
+  - UplinkImplants
+
+- type: listing
+  id: NukeOpsUplinkAutosurgeonCnsRebooter
+  name: uplink-autosurgeon-cns-rebooter-name
+  description: uplink-autosurgeon-cns-rebooter-desc
+  icon: { sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi, state: brain_implant_rebooter }
+  productEntity: AutosurgeonCnsRebooter
+  cost:
+    Telecrystal: 40
+  categories:
+  - UplinkImplants
+
+- type: listing
+  id: NukeOpsUplinkAutosurgeonReviver
+  name: uplink-autosurgeon-reviver-name
+  description: uplink-autosurgeon-reviver-desc
+  icon: { sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi, state: reviver_implant }
+  productEntity: AutosurgeonReviver
+  cost:
+    Telecrystal: 40
+  categories:
+  - UplinkImplants
+
+- type: listing
+  id: UplinkAutosurgeonUpgradedHerculean
+  name: uplink-autosurgeon-upgraded-herculean-name
+  description: uplink-autosurgeon-upgraded-herculean-desc
+  icon: { sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi, state: herculean_implant }
+  productEntity: AutosurgeonUpgradedHerculean
+  cost:
+    Telecrystal: 40
+  categories:
+  - UplinkImplants

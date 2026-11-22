@@ -1,0 +1,13 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Taken from tgstation at commit 6a384bfb581a01287f139ceafb207509aaaf3791 (icons/obj/medical/organs/organs.dmi).",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        { "name": "toolkit_generic" },
+        { "name": "herculean_implant_core" }
+    ]
+}

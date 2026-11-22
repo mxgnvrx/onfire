@@ -1,0 +1,122 @@
+- type: latheRecipe
+  id: BasicCyberneticStomach
+  result: BasicCyberneticStomach
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 2000
+    Glass: 1000
+    Plastic: 1000
+    Gold: 1000
+    Silver: 600
+
+- type: latheRecipe
+  id: UpgradedCyberneticStomach
+  result: UpgradedCyberneticStomach
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 3000
+    Glass: 1500
+    Plastic: 1000
+    Gold: 1500
+    Silver: 900
+
+- type: latheRecipe
+  id: AdvancedCyberneticStomach
+  result: AdvancedCyberneticStomach
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 4000
+    Glass: 2000
+    Plastic: 1000
+    Gold: 2000
+    Silver: 1200
+
+- type: latheRecipe
+  id: AdvancedCyberneticLiver
+  result: AdvancedCyberneticLiver
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 4000
+    Glass: 2000
+    Plastic: 1000
+    Gold: 2000
+    Silver: 1200
+
+- type: latheRecipe
+  id: AdvancedCyberneticHeart
+  result: AdvancedCyberneticHeart
+  categories: [ Robotics ]
+  completetime: 10
+  materials:
+    Steel: 4000
+    Glass: 2000
+    Plastic: 1000
+    Gold: 2000
+    Silver: 1200
+
+- type: latheRecipe
+  id: GlowCyberneticEyes
+  result: GlowCyberneticEyes
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 2400
+    Glass: 2000
+
+- type: latheRecipe
+  id: BreathingTubeAugment
+  result: BreathingTubeAugment
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 2400
+    Glass: 1000
+
+- type: latheRecipe
+  id: AntiDropAugment
+  result: AntiDropAugment
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 2400
+    Glass: 2400
+    Silver: 1600
+    Gold: 1600
+
+- type: latheRecipe
+  id: CyberThrustersAugment
+  result: CyberThrustersAugment
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 8000
+    Glass: 4000
+    Silver: 2000
+    Diamond: 2000
+
+- type: latheRecipe
+  id: HerculeanSpineAugment
+  result: HerculeanSpineAugment
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 2000
+    Plasteel: 2000
+    Gold: 2000
+    Diamond: 3000
+
+- type: latheRecipe
+  id: BasicReviverAugment
+  result: BasicReviverAugment
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 2000
+    Glass: 2000
+    Uranium: 3000
+    Gold: 2000
+    Diamond: 1000

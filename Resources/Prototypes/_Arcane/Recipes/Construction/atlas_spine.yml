@@ -1,0 +1,7 @@
+- type: construction
+  id: AtlasSpineAugment
+  graph: AtlasSpine
+  startNode: start
+  targetNode: atlas
+  category: construction-category-misc
+  objectType: Item

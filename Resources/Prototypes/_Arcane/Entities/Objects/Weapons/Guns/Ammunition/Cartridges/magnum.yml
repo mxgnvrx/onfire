@@ -1,0 +1,8 @@
+- type: entity
+  parent: BaseCartridgeMagnum
+  id: CartridgeMagnumTrac
+  name: cartridge (.45 magnum TRAC)
+  description: Heavy magnum cartridge mostly used by revolvers. TRAC bullets embed a short-lived tracking implant within the target's body.
+  components:
+  - type: CartridgeAmmo
+    proto: BulletMagnumTrac

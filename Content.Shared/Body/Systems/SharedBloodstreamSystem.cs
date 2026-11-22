@@ -1,6 +1,7 @@
 using Content.Goobstation.Common.Bloodstream;
 using Content.Goobstation.Common.CCVar; // Goobstation
 using Content.Goobstation.Maths.FixedPoint;
+using Content.Shared._Arcane.Body.Organs;
 using Content.Shared._Shitmed.Body;
 using Content.Shared._Shitmed.Damage;
 using Content.Shared._Shitmed.Medical.Surgery.Consciousness;
@@ -93,6 +94,10 @@ public abstract partial class SharedBloodstreamSystem : EntitySystem
             // Blood level regulation. Must be alive.
             if (!_mobStateSystem.IsDead(uid))
             {
+                // Arcane-Start
+                var refresh = new BloodstreamRefreshEvent();
+                RaiseLocalEvent(uid, ref refresh);
+                // Arcane-End
                 TryRegulateBloodLevel(uid, bloodstream.BloodRefreshAmount);
 
                 TickBleed((uid, bloodstream));

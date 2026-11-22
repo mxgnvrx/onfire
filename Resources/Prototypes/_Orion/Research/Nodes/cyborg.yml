@@ -29,6 +29,7 @@
   - BasicCyberneticLungs
   - BasicCyberneticLiver
   - BasicCyberneticHeart
+  - BasicCyberneticStomach # Arcane
   position: -4,3
 
 - type: technology
@@ -208,6 +209,10 @@
   - SadTromboneImplanter
   - TrackingImplanter
   - Implanter
+  # Arcane-Start
+  - BluespaceGroundingImplanter
+  - ExileImplanter
+  # Arcane-End
   position: -6,3
 
 - type: technology
@@ -240,6 +245,12 @@
   - AugmentPaperworkPanelElectronics
   - AugmentStrengthCasing
   - AugmentStrengthElectronics
+  # Arcane-Start
+  - BreathingTubeAugment
+  - CyberThrustersAugment
+  - HerculeanSpineAugment
+  - BasicReviverAugment
+  # Arcane-End
   position: -7,3
 
 - type: technology
@@ -262,6 +273,7 @@
   recipeUnlocks:
   - JawsOfLifeLeftArm
   - JawsOfLifeRightArm
+  - AntiDropAugment # Arcane
   position: -8,3
 
 - type: technology
@@ -307,6 +319,7 @@
   recipeUnlocks:
   - UpgradedCyberneticLungs
   - UpgradedCyberneticHeart
+  - UpgradedCyberneticStomach # Arcane
   position: -2,3
 
 - type: technology
@@ -328,6 +341,13 @@
   - CyberOrgans
   requiredExperiments:
   - ScanningPeopleAugmentedOrgans
+  # Arcane-Start
+  recipeUnlocks:
+  - AdvancedCyberneticLiver
+  - AdvancedCyberneticStomach
+  - AdvancedCyberneticHeart
+  - GlowCyberneticEyes
+  # Arcane-End
   # TODO
   position: -2,4
 

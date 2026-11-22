@@ -1,3 +1,4 @@
+using Content.Shared._Arcane.Body.Organs;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Movement.Systems;
@@ -22,7 +23,7 @@ public sealed class SharedCritStateSystem : EntitySystem
 
     private void OnRefreshMovement(Entity<CritStateMovementComponent> ent, ref RefreshMovementSpeedModifiersEvent args)
     {
-        if (!_mobState.IsSoftCritical(ent))
+        if (!_mobState.IsSoftCritical(ent) || HasComp<CyberneticHeartStabilizedComponent>(ent)) // Arcane-Edit
             return;
 
         args.ModifySpeed(ent.Comp.SoftCritWalkModifier, ent.Comp.SoftCritSprintModifier);

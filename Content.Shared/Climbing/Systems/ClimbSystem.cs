@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+using Content.Shared._Arcane.Augments;
 using Content.Shared.ActionBlocker;
 using Content.Shared.Buckle.Components;
 using Content.Shared.Climbing.Components;
@@ -43,6 +44,7 @@ public sealed partial class ClimbSystem : VirtualController
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly SharedStunSystem _stunSystem = default!;
     [Dependency] private readonly SharedTransformSystem _xformSystem = default!;
+    [Dependency] private readonly HerculeanSpineSystem _spine = default!; // Arcane
 
     private const string ClimbingFixtureName = "climb";
     private const int ClimbingCollisionGroup = (int) (CollisionGroup.TableLayer | CollisionGroup.LowImpassable);
@@ -227,7 +229,7 @@ public sealed partial class ClimbSystem : VirtualController
         if (ev.Cancelled)
             return false;
 
-        var args = new DoAfterArgs(EntityManager, user, comp.ClimbDelay, new ClimbDoAfterEvent(),
+        var args = new DoAfterArgs(EntityManager, user, comp.ClimbDelay * _spine.GetAthleticsMultiplier(user), new ClimbDoAfterEvent(), // Arcane-Edit
             entityToMove,
             target: climbable,
             used: entityToMove)

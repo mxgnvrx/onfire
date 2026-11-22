@@ -117,3 +117,9 @@
 
 - type: Tag
   id: Dishware
+
+- type: Tag
+  id: HerculeanSpine
+
+- type: Tag
+  id: GravityAnomalyCore

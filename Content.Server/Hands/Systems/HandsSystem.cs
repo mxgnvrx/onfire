@@ -2,6 +2,7 @@
 
 using System.Numerics;
 using Content.Server.Stack;
+using Content.Shared._Arcane.Augments;
 using Content.Server.Stunnable;
 using Content.Shared._Shitmed.Body.Events;
 using Content.Shared._White.Grab;
@@ -44,6 +45,7 @@ namespace Content.Server.Hands.Systems
         [Dependency] private readonly SharedBodySystem _bodySystem = default!; // Shitmed Change
         [Dependency] private readonly GrabThrownSystem _grabThrown = default!; // Goobstation
         [Dependency] private readonly SharedPhysicsSystem _physics = default!; // Goobstation
+        [Dependency] private readonly HerculeanSpineSystem _spine = default!; // Arcane
 
         private EntityQuery<PhysicsComponent> _physicsQuery;
 
@@ -234,7 +236,7 @@ namespace Content.Server.Hands.Systems
                 return true;
 
             var length = direction.Length();
-            var distance = Math.Clamp(length, minDistance, hands.ThrowRange);
+            var distance = Math.Clamp(length, minDistance, hands.ThrowRange + _spine.GetThrowRangeBonus(player)); // Arcane-Edit
             direction *= distance / length;
 
             var throwSpeed = hands.BaseThrowspeed;

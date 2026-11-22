@@ -1,0 +1,15 @@
+- type: entity
+  parent: BaseImplantOnlyImplanter
+  id: BluespaceGroundingImplanter
+  name: bluespace grounding implanter
+  components:
+  - type: Implanter
+    implant: BluespaceGroundingImplant
+
+- type: entity
+  parent: BaseImplantOnlyImplanter
+  id: ExileImplanter
+  name: exile implanter
+  components:
+  - type: Implanter
+    implant: ExileImplant

@@ -1,0 +1,20 @@
+- type: constructionGraph
+  id: AtlasSpine
+  start: start
+  graph:
+  - node: start
+    edges:
+    - to: atlas
+      steps:
+      - tag: HerculeanSpine
+        name: construction-graph-tag-herculean-spine
+        icon:
+          sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+          state: herculean_implant
+      - tag: GravityAnomalyCore
+        name: construction-graph-tag-gravity-anomaly-core
+        icon:
+          sprite: Structures/Specific/Anomalies/Cores/gravity_core.rsi
+          state: core
+  - node: atlas
+    entity: AtlasSpineAugment

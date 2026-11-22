@@ -100,6 +100,13 @@
   name: gravity anomaly core # Goobstation - anomaly core names
   suffix: Gravity
   components:
+  # Arcane-Start
+  - type: Tag
+    tags:
+    - ForceableFollow
+    - AnomalyCore
+    - GravityAnomalyCore
+  # Arcane-End
   - type: Sprite
     sprite: Structures/Specific/Anomalies/Cores/gravity_core.rsi
   - type: PointLight
@@ -335,6 +342,13 @@
   name: gravity anomaly core # Goobstation - anomaly core names
   suffix: Gravity, Inert
   components:
+  # Arcane-Start
+  - type: Tag
+    tags:
+    - ForceableFollow
+    - AnomalyCore
+    - GravityAnomalyCore
+  # Arcane-End
   - type: Sprite
     sprite: Structures/Specific/Anomalies/Cores/gravity_core.rsi
   - type: PointLight

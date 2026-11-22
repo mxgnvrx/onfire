@@ -1,0 +1,10 @@
+ent-BluespaceGroundingImplant = имплант "блюспейс-заземление"
+    .desc = Заземляет вашу блюспейс-сигнатуру в базовой реальности, что бы это ни значило.
+ent-ExileImplant = имплант "изгнание"
+    .desc = Не позволяет вернуться из экспедиций за врата.
+ent-TracImplant = имплант "TRAC"
+    .desc = Уменьшенный имплант-трекер, заряда которого хватает всего на несколько минут.
+ent-BluespaceGroundingImplanter = имплантер "блюспейс-заземление"
+    .desc = { ent-BaseImplantOnlyImplanter.desc }
+ent-ExileImplanter = имплантер "изгнание"
+    .desc = { ent-BaseImplantOnlyImplanter.desc }

@@ -1,0 +1,200 @@
+- type: entity
+  parent: BaseAugment
+  id: BreathingTubeAugment
+  name: breathing tube augment
+  description: An implanted internals connector that allows its owner to breathe from a tank without a mask.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+    state: implant_mask
+  - type: Organ
+    slotId: breathingTube
+  - type: Cybernetics
+  - type: BreathingTube
+  - type: BreathMask
+  - type: Item
+    size: Tiny
+
+- type: entity
+  parent: BaseAugment
+  id: AntiDropAugment
+  name: anti-drop implant
+  description: A brain implant that contracts the hand muscles to hold onto carried items. Twitch your ear to relax your grip.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+    state: brain_implant_antidrop
+  - type: Organ
+    slotId: cerebellumImplant
+  - type: Cybernetics
+  - type: BrainImplant
+  - type: AntiDrop
+  - type: Item
+    size: Tiny
+
+- type: entity
+  parent: BaseAugment
+  id: CnsRebooterAugment
+  name: CNS rebooter implant
+  description: A brain implant that automatically restores control of the central nervous system after a stun. It briefly resists further stuns and injury-induced sluggishness before recharging.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+    state: brain_implant_rebooter
+  - type: Organ
+    slotId: cnsImplant
+  - type: Cybernetics
+  - type: BrainImplant
+  - type: CnsRebooter
+  - type: Item
+    size: Tiny
+
+- type: entity
+  parent: BaseAction
+  id: ActionToggleAntiDrop
+  name: Toggle grip lock
+  description: Contract or relax your hand muscles to retain or release the items you are holding.
+  components:
+  - type: Action
+    icon:
+      sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+      state: brain_implant_antidrop
+    useDelay: 0.5
+  - type: InstantAction
+    event: !type:ToggleActionEvent
+
+- type: entity
+  parent: BaseAugment
+  id: CyberThrustersAugment
+  name: implantable thrusters set
+  description: An implantable set of thruster ports. In zero gravity, it runs on ambient gas, plasma from the user's plasma vessel or gas from their internals tank. It has no stabilization system.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+    state: thrusters_implant
+  - type: Organ
+    slotId: thrusters
+  - type: Cybernetics
+  - type: CyberThrusters
+  - type: Jetpack
+    moleUsage: 0.006
+  - type: Item
+    size: Normal
+
+- type: entity
+  parent: BaseAugment
+  id: HerculeanSpineAugment
+  name: Herculean gravitronic spinal implant
+  description: A spinal implant that improves athletics, throws, unarmed blows and grabs. A gravity anomaly core can upgrade it to Atlas.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+    state: herculean_implant
+  - type: Organ
+    slotId: spine
+    onAdd:
+    - type: HerculeanSpine
+      unarmedDamageBonus: 4
+      grabEscapeMultiplier: 0.9
+  - type: Cybernetics
+  - type: HerculeanSpineImplant
+    upgrade: AtlasSpineAugment
+    empDamage:
+      types:
+        Blunt: 20
+  - type: Item
+    size: Small
+  - type: Tag
+    tags:
+    - HerculeanSpine
+
+- type: entity
+  parent: HerculeanSpineAugment
+  id: UpgradedHerculeanSpineAugment
+  name: upgraded Herculean spinal implant
+  description: An upgraded spinal implant that gives a greater boost to athletics, throws, unarmed blows and grabs. A gravity anomaly core can upgrade it to Atlas.
+  components:
+  - type: Organ
+    onAdd:
+    - type: HerculeanSpine
+      athleticsMultiplier: 0.6
+      throwRangeBonus: 6
+      throwSpeedMultiplier: 2
+      unarmedDamageBonus: 6
+      grabEscapeMultiplier: 0.8
+
+- type: entity
+  parent: HerculeanSpineAugment
+  id: AtlasSpineAugment
+  name: Atlas gravitronic spinal implant
+  description: A gravity-core upgrade for the Herculean implant that lets the wearer walk on surfaces in zero gravity and greatly improves their athletics, throws, unarmed blows and grabs.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/arm_and_atlas.rsi
+    state: herculean_implant_core
+  - type: Organ
+    onAdd:
+    - type: HerculeanSpine
+      athleticsMultiplier: 0.25
+      throwRangeBonus: 8
+      throwSpeedMultiplier: 4
+      unarmedDamageBonus: 8
+      grabEscapeMultiplier: 0.7
+      personalGravity: true
+  - type: HerculeanSpineImplant
+    upgrade: null
+  - type: Construction
+    graph: AtlasSpine
+    node: atlas
+  - type: Tag
+    tags: []
+
+- type: entity
+  parent: BaseAugment
+  id: ReviverAugment
+  name: reviver implant
+  description: This implant will attempt to revive and heal you if you lose consciousness. For the faint of heart!
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+    state: reviver_implant
+  - type: Organ
+    slotId: heartImplant
+  - type: Cybernetics
+  - type: ReviverImplant
+    heal:
+      Airloss: 5
+      Brute: 2
+      Burn: 2
+      Toxin: 1
+    healCost:
+      Airloss: 0.5
+      Brute: 4
+      Burn: 4
+      Toxin: 4
+  - type: Item
+    size: Small
+
+- type: entity
+  parent: ReviverAugment
+  id: BasicReviverAugment
+  name: basic reviver implant
+  description: A station-grade implant that slowly treats damage if the wearer loses consciousness and attempts resuscitation if they die.
+  components:
+  - type: ReviverImplant
+    healInterval: 4
+    reviveDelay: 12
+
+- type: entity
+  parent: BaseAction
+  id: ActionToggleCyberThrusters
+  name: Toggle thrusters
+  description: Turn your implanted thrusters on or off.
+  components:
+  - type: Action
+    icon:
+      sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+      state: thrusters_implant
+    useDelay: 0.5
+  - type: InstantAction
+    event: !type:ToggleActionEvent

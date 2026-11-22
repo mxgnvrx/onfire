@@ -57,6 +57,10 @@
     - SmokeImplant
     # - StypticStimulatorImplant # Uncomment if given to traitors, currently it's DS only implant
     - BinaryImplant # Goobstation?
+    # Arcane-Start
+    - BluespaceGroundingImplant
+    - ExileImplant
+    # Arcane-End
     deimplantFailureDamage:
       types:
         Cellular: 50 # NotGoobstation its 50 genetic to prevent you from randomly extracting implants.

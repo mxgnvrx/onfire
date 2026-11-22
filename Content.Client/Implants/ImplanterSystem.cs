@@ -23,7 +23,14 @@ public sealed class ImplanterSystem : SharedImplanterSystem
 
     private void OnHandleImplanterState(EntityUid uid, ImplanterComponent component, ref AfterAutoHandleStateEvent args)
     {
-        if (_uiSystem.TryGetOpenUi<DeimplantBoundUserInterface>(uid, DeimplantUiKey.Key, out var bui))
+        UpdateDeimplantUi(uid, component); // Arcane
+        component.UiUpdateNeeded = true;
+    }
+
+    // Arcane-Start
+    internal void UpdateDeimplantUi(EntityUid uid, ImplanterComponent component, DeimplantBoundUserInterface? bui = null)
+    {
+        if (bui != null || _uiSystem.TryGetOpenUi<DeimplantBoundUserInterface>(uid, DeimplantUiKey.Key, out bui))
         {
             // TODO: Don't use protoId for deimplanting
             // and especially not raw strings!
@@ -36,7 +43,6 @@ public sealed class ImplanterSystem : SharedImplanterSystem
 
             bui.UpdateState(implants, component.DeimplantChosen);
         }
-
-        component.UiUpdateNeeded = true;
     }
+    // Arcane-End
 }

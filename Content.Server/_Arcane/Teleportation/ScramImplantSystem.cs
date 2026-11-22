@@ -1,3 +1,5 @@
+using Content.Goobstation.Shared.Teleportation.Systems;
+using Content.Shared._Arcane.Implants;
 using Content.Shared._Arcane.Teleportation;
 using Content.Shared.Buckle;
 using Content.Shared.Buckle.Components;
@@ -43,6 +45,7 @@ public sealed class ScramImplantSystem : SharedScramImplantSystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly PullingSystem _pulling = default!;
     [Dependency] private readonly TurfSystem _turf = default!;
+    [Dependency] private readonly TeleportSystem _teleport = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
 
     protected override bool TryEscapeTeleport(EntityUid user, SoundSpecifier teleportSound)
@@ -81,6 +84,10 @@ public sealed class ScramImplantSystem : SharedScramImplantSystem
         }
 
         if (targetCoords is not { } coords)
+            return false;
+
+        var blockMessage = HasComp<BluespaceGroundingComponent>(user) ? null : "teleport-blocked-message";
+        if (!_teleport.CanTeleport(user, predicted: false, message: blockMessage))
             return false;
 
         if (TryComp<BuckleComponent>(user, out var buckle) && buckle.Buckled

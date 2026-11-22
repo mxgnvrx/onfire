@@ -45,6 +45,7 @@
   description: Call in a nuclear operative of questionable quality, instantly! Basic nukeop equipment provided.
   suffix: NukeOps
   components:
+  - type: TacticalMapOperation # Arcane
   - type: GhostRole
     name: ghost-role-information-nukeop-reinforcement-name
     description: ghost-role-information-nukeop-reinforcement-description
@@ -80,6 +81,7 @@
   id: ReinforcementRadioSyndicateAncestorNukeops # Reinforcement radio exclusive to nukeops uplink
   suffix: NukeOps
   components:
+  - type: TacticalMapOperation # Arcane
   - type: GhostRole
     rules: ghost-role-information-nukeop-reinforcement-rules
   - type: GhostRoleMobSpawner

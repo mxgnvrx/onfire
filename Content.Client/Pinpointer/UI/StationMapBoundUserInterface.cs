@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+using Content.Shared._Arcane.Implants;
 using Content.Shared.Pinpointer;
 using Robust.Client.UserInterface;
 
@@ -16,6 +17,11 @@ public sealed class StationMapBoundUserInterface : BoundUserInterface
 
     protected override void Open()
     {
+        // Arcane-Start
+        if (IsOpened)
+            return;
+
+        // Arcane-End
         base.Open();
         EntityUid? gridUid = null;
 
@@ -42,4 +48,17 @@ public sealed class StationMapBoundUserInterface : BoundUserInterface
         else
             _window.Set(stationName, gridUid, null);
     }
+
+    // Arcane-Start
+    protected override void ReceiveMessage(BoundUserInterfaceMessage message)
+    {
+        base.ReceiveMessage(message);
+        if (_window == null || message is not TacticalMapUpdateMessage update)
+            return;
+
+        EntMan.TryGetEntity(update.Grid, out var grid);
+        var stationName = EntMan.TryGetComponent<MetaDataComponent>(grid, out var metadata) ? metadata.EntityName : string.Empty;
+        _window.SetTacticalMarkers(stationName, grid, Owner, update.Allies);
+    }
+    // Arcane-End
 }

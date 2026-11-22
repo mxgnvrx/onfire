@@ -1,0 +1,75 @@
+- type: entity
+  parent: [BaseItem, BaseSecurityScienceCommandContraband]
+  id: ArmPhotonProjector
+  categories: [ DoNotMap ]
+  name: photon projector
+  description: An integrated light with a fast-cycling flashbulb.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Objects/Weapons/Melee/arm_photon_projector.rsi
+    layers:
+    - state: flash
+    - state: flash-f
+      map: [ "enum.FlashVisualLayers.LightLayer" ]
+      visible: false
+      shader: unshaded
+  - type: Item
+    size: Small
+    sprite: _Arcane/Objects/Weapons/Melee/arm_photon_projector.rsi
+  - type: PointLight
+    enabled: false
+    radius: 7
+  - type: Flash
+    flashingTime: 2
+  - type: MeleeWeapon
+    damage:
+      types:
+        Blunt: 0
+    angle: 10
+  - type: UseDelay
+    delay: 2
+  - type: UseDelayOnMeleeHit
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.FlashVisuals.Flashing:
+        enum.FlashVisualLayers.LightLayer:
+          True: { visible: true }
+          False: { visible: false }
+
+- type: entity
+  parent: [BaseItem, BaseSyndicateContraband]
+  id: ArmElectrificationElectrode
+  categories: [ DoNotMap ]
+  name: arm electrode
+  description: A contact electrode built into a cybernetic arm module.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Objects/Weapons/Melee/arm_electrode.rsi
+    state: elecarm
+  - type: Item
+    size: Small
+    sprite: _Arcane/Objects/Weapons/Melee/arm_electrode.rsi
+    inhandVisuals:
+      left:
+      - sprite: _Arcane/Objects/Weapons/Melee/arm_electrode.rsi
+        state: elecarm
+        offset: "0.15625,-0.0625"
+      right:
+      - sprite: _Arcane/Objects/Weapons/Melee/arm_electrode.rsi
+        state: elecarm
+        offset: "-0.15625,-0.0625"
+  - type: MeleeWeapon
+    animation: WeaponArcThrust
+    wideAnimationRotation: -135
+    damage:
+      types:
+        Blunt: 0
+  - type: StaminaDamageOnHit
+    damage: 15
+    overtime: 45
+    lightAttackDamageMultiplier: 4
+    lightAttackOvertimeDamageMultiplier: 0
+    sound:
+      collection: sparks
+  - type: ArmElectrode

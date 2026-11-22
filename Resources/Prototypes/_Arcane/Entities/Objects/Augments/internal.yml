@@ -198,3 +198,110 @@
     useDelay: 0.5
   - type: InstantAction
     event: !type:ToggleActionEvent
+
+- type: entity
+  parent: BaseArmAugment
+  id: LaserArmAugment
+  name: arm-mounted laser implant
+  description: A variant of the arm cannon implant that fires lethal laser beams. The cannon emerges from the subject's arm and remains inside when not in use.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+    state: arm_laser
+  - type: Item
+    size: Small
+  - type: Cybernetics
+  - type: DeployableArm
+    itemPrototype: WeaponLaserArm
+    toggleAction: ActionToggleLaserArm
+    empBreakChance: 0.3
+    empDamage:
+      types:
+        Heat: 25
+
+- type: entity
+  parent: BaseAction
+  id: ActionToggleLaserArm
+  name: Toggle arm laser
+  description: Extend or retract the laser cannon in your arm.
+  components:
+  - type: Action
+    icon:
+      sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+      state: arm_laser
+  - type: InstantAction
+    event: !type:ToggleActionEvent
+
+- type: entity
+  parent: BaseArmAugment
+  id: PhotonProjectorAugment
+  name: photon projector implant
+  description: A retractable arm-mounted light that doubles as a rechargeable flash.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/arm_and_atlas.rsi
+    state: toolkit_generic
+  - type: Cybernetics
+  - type: DeployableArm
+    itemPrototype: ArmPhotonProjector
+    toggleAction: ActionTogglePhotonProjector
+
+- type: entity
+  parent: BaseAction
+  id: ActionTogglePhotonProjector
+  name: Toggle photon projector
+  description: Extend or retract the photon projector in your arm.
+  components:
+  - type: Action
+    icon: { sprite: _Arcane/Objects/Weapons/Melee/arm_photon_projector.rsi, state: flash }
+  - type: InstantAction
+    event: !type:ToggleActionEvent
+
+- type: entity
+  parent: BaseArmAugment
+  id: ArmElectrificationAugment
+  name: arm electrification implant
+  description: A retractable arm-mounted electrode that administers disabling shocks on contact.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/arm_and_atlas.rsi
+    state: toolkit_generic
+  - type: Cybernetics
+  - type: DeployableArm
+    itemPrototype: ArmElectrificationElectrode
+    toggleAction: ActionToggleArmElectrification
+
+- type: entity
+  parent: BaseAction
+  id: ActionToggleArmElectrification
+  name: Toggle electrode
+  description: Extend or retract the electrode in your arm.
+  components:
+  - type: Action
+    icon: { sprite: _Arcane/Objects/Weapons/Melee/arm_electrode.rsi, state: elecarm }
+  - type: InstantAction
+    event: !type:ToggleActionEvent
+
+- type: entity
+  parent: AugmentPaperworkPanel
+  id: AugmentPaperworkPanelFilled
+  suffix: Filled
+  components:
+  - type: Storage
+    whitelist:
+      tags:
+      - Folder
+      - Pen
+      - Lighter
+      components:
+      - HandLabeler
+      - Stamp
+      - TapeRecorder
+  - type: StorageFill
+    contents:
+    - id: Pen
+    - id: BoxFolderClipboard
+    - id: TapeRecorderFilled
+    - id: FlippoLighter
+    - id: RubberStampApproved
+    - id: RubberStampDenied

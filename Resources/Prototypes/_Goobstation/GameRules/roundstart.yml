@@ -147,6 +147,11 @@
       unequipOldGear: true
       components:
       - type: NukeOperative
+      # Arcane-Start
+      - type: AutoImplant
+        implants:
+        - TacticalMapImplant
+      # Arcane-End
       - type: RandomMetadata
         nameSegments:
         - NamesSyndicateElite
@@ -164,6 +169,11 @@
       unequipOldGear: true
       components:
       - type: NukeOperative
+      # Arcane-Start
+      - type: AutoImplant
+        implants:
+        - TacticalMapImplant
+      # Arcane-End
       - type: RandomMetadata
         nameSegments:
         - NamesSyndicateElite
@@ -184,6 +194,11 @@
       unequipOldGear: true
       components:
       - type: NukeOperative
+      # Arcane-Start
+      - type: AutoImplant
+        implants:
+        - TacticalMapImplant
+      # Arcane-End
       - type: RandomMetadata
         nameSegments:
         - NamesSyndicateElite
@@ -316,6 +331,11 @@
         snore: /Audio/Voice/Misc/silly_snore.ogg
         interval: 10
       - type: NukeOperative
+      # Arcane-Start
+      - type: AutoImplant
+        implants:
+        - TacticalMapImplant
+      # Arcane-End
       - type: RandomMetadata
         nameSegments:
         - NamesHonkopsPrefix
@@ -338,6 +358,11 @@
         snore: /Audio/Voice/Misc/silly_snore.ogg
         interval: 10
       - type: NukeOperative
+      # Arcane-Start
+      - type: AutoImplant
+        implants:
+        - TacticalMapImplant
+      # Arcane-End
       - type: RandomMetadata
         nameSegments:
         - NamesHonkopsPrefix
@@ -364,6 +389,11 @@
         snore: /Audio/Voice/Misc/silly_snore.ogg
         interval: 10
       - type: NukeOperative
+      # Arcane-Start
+      - type: AutoImplant
+        implants:
+        - TacticalMapImplant
+      # Arcane-End
       - type: RandomMetadata
         nameSegments:
         - NamesHonkopsPrefix

@@ -35,3 +35,70 @@
   components:
   - type: TimedDespawn
     lifetime: 300
+
+- type: entity
+  parent: BaseSubdermalImplant
+  id: TacticalDeniabilityImplant
+  name: tactical deniability implant
+  description: An enhanced version of the microbomb that directly plugs into the brain. No downsides, promise!
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: SubdermalImplant
+    implantationTimeMultiplier: 4
+    permanent: true
+    implantAction: ActionActivateMicroBomb
+    implantComponents:
+    - type: TacticalDeniability
+  - type: TacticalDeniabilityImplant
+  - type: TriggerOnMobstateChange
+    mobState:
+    - Dead
+  - type: TriggerOnActivateImplant
+  - type: TimerTrigger
+    delay: 10
+    beepSound:
+      path: /Audio/Machines/Nuke/general_beep.ogg
+      params:
+        volume: -2
+  - type: ExplosionOnTrigger
+    keysIn:
+    - timer
+    explosionType: TransparentMicroBomb
+    totalIntensity: 120
+    intensitySlope: 5
+    maxTileIntensity: 30
+    canCreateVacuum: false
+  - type: GibOnTrigger
+    targetUser: true
+    deleteItems: true
+    keysIn:
+    - timer
+
+- type: entity
+  parent: BaseSubdermalImplant
+  id: TacticalMapImplant
+  name: tactical map implant
+  description: Provides you with a map of the target station.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: SubdermalImplant
+    implantAction: ActionOpenTacticalMap
+  - type: StationMap
+  - type: TacticalMapImplant
+  - type: UserInterface
+    interfaces:
+      enum.StationMapUiKey.Key:
+        type: StationMapBoundUserInterface
+
+- type: entity
+  parent: BaseAction
+  id: ActionOpenTacticalMap
+  name: Open tactical map
+  description: View the map of the target station.
+  components:
+  - type: Action
+    itemIconStyle: BigAction
+    icon: { sprite: Interface/Actions/pai-map.rsi, state: icon }
+  - type: InstantAction
+    event: !type:OpenUiActionEvent
+      key: enum.StationMapUiKey.Key

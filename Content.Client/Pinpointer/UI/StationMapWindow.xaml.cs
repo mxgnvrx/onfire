@@ -51,6 +51,27 @@ public sealed partial class StationMapWindow : FancyWindow
         };
     }
 
+    // Arcane-Start
+    public void SetTacticalMarkers(string stationName, EntityUid? mapUid, EntityUid owner, Vector2[] allies)
+    {
+        if (NavMapScreen.MapUid != mapUid)
+        {
+            StationName.Text = stationName;
+            Set(stationName, mapUid, null);
+        }
+
+        NavMapScreen.TrackedCoordinates.Clear();
+        if (mapUid is not { } grid)
+            return;
+
+        if (_entMan.TryGetComponent<TransformComponent>(owner, out var xform) && xform.GridUid == grid)
+            NavMapScreen.TrackedCoordinates[new EntityCoordinates(owner, Vector2.Zero)] = (true, Color.Cyan);
+
+        foreach (var ally in allies)
+            NavMapScreen.TrackedCoordinates[new EntityCoordinates(grid, ally)] = (true, Color.LimeGreen);
+    }
+    // Arcane-End
+
     public void UpdateBeaconList(EntityUid? mapUid)
     {
         BeaconButtons.Children.Clear();

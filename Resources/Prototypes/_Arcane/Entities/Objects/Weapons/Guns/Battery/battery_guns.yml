@@ -1,0 +1,35 @@
+- type: entity
+  parent: [BaseWeaponBattery, BaseSyndicateContraband]
+  id: WeaponLaserArm
+  categories: [ DoNotMap ]
+  name: mounted laser
+  description: An arm mounted cannon that fires lethal lasers.
+  components:
+  - type: Sprite
+    sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi
+    state: arm_laser
+  - type: Item
+    sprite: _Arcane/Objects/Weapons/Guns/Battery/laser_arm.rsi
+  - type: Gun
+    fireRate: 4
+  - type: BatteryAmmoProvider
+    proto: LaserArmRay
+    fireCost: 50
+  - type: BatterySelfRecharger
+    autoRechargeRate: 12.5
+  - type: MeleeWeapon
+    damage:
+      types:
+        Blunt: 5
+  - type: Tag
+    tags:
+    - LaserWeapon
+
+- type: entity
+  parent: RedLaser
+  id: LaserArmRay
+  components:
+  - type: HitscanBasicDamage
+    damage:
+      types:
+        Heat: 15

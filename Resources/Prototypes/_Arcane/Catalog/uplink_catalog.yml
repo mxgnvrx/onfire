@@ -52,6 +52,17 @@
   - UplinkImplants
 
 - type: listing
+  id: NukeOpsUplinkTacticalDeniabilityImplanter
+  name: uplink-tactical-deniability-implanter-name
+  description: uplink-tactical-deniability-implanter-desc
+  icon: { sprite: /Textures/Actions/Implants/implants.rsi, state: explosive }
+  productEntity: TacticalDeniabilityImplanter
+  cost:
+    Telecrystal: 30
+  categories:
+  - UplinkImplants
+
+- type: listing
   id: UplinkAutosurgeonUpgradedHerculean
   name: uplink-autosurgeon-upgraded-herculean-name
   description: uplink-autosurgeon-upgraded-herculean-desc
@@ -61,3 +72,46 @@
     Telecrystal: 40
   categories:
   - UplinkImplants
+
+- type: listing
+  id: UplinkAutosurgeonArmElectrification
+  name: uplink-autosurgeon-arm-electrification-name
+  description: uplink-autosurgeon-arm-electrification-desc
+  icon: { sprite: _Arcane/Objects/Weapons/Melee/arm_electrode.rsi, state: elecarm }
+  productEntity: AutosurgeonArmElectrification
+  cost:
+    Telecrystal: 35
+  categories:
+  - UplinkImplants
+
+- type: listing
+  id: UplinkAutosurgeonLeftLaserArm
+  name: uplink-autosurgeon-left-laser-arm-name
+  description: uplink-autosurgeon-laser-arm-desc
+  icon: { sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi, state: arm_laser }
+  productEntity: AutosurgeonLeftLaserArm
+  cost:
+    Telecrystal: 50
+  categories:
+  - UplinkJob
+  conditions:
+  - !type:BuyerJobCondition
+    whitelist:
+    - Roboticist
+    - ResearchDirector
+
+- type: listing
+  id: UplinkAutosurgeonRightLaserArm
+  name: uplink-autosurgeon-right-laser-arm-name
+  description: uplink-autosurgeon-laser-arm-desc
+  icon: { sprite: _Arcane/Mobs/Species/Cybernetics/organs.rsi, state: arm_laser }
+  productEntity: AutosurgeonRightLaserArm
+  cost:
+    Telecrystal: 50
+  categories:
+  - UplinkJob
+  conditions:
+  - !type:BuyerJobCondition
+    whitelist:
+    - Roboticist
+    - ResearchDirector

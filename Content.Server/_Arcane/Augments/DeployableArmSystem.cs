@@ -49,7 +49,13 @@ public sealed class DeployableArmSystem : EntitySystem
         SubscribeLocalEvent<DeployableArmComponent, OrganComponentsModifyEvent>(OnOrganModified);
         SubscribeLocalEvent<DeployableArmComponent, ToggleActionEvent>(OnToggle);
         SubscribeLocalEvent<DeployableArmComponent, EmpPulseEvent>(OnEmp, after: [typeof(CyberneticsSystem)]);
+        SubscribeLocalEvent<DeployedArmItemComponent, EntGotRemovedFromContainerMessage>(OnDeployedItemRemoved);
         SubscribeLocalEvent<ArmElectrodeComponent, MeleeHitEvent>(OnElectrodeHit);
+    }
+
+    private void OnDeployedItemRemoved(Entity<DeployedArmItemComponent> ent, ref EntGotRemovedFromContainerMessage args)
+    {
+        QueueDel(ent);
     }
 
     private void OnElectrodeHit(Entity<ArmElectrodeComponent> ent, ref MeleeHitEvent args)
@@ -137,6 +143,7 @@ public sealed class DeployableArmSystem : EntitySystem
         if (!_hands.TryPickup(user, item, hand, animate: false))
             return;
 
+        EnsureComp<DeployedArmItemComponent>(item);
         EnsureComp<UnremoveableComponent>(item);
         if (TryComp<PointLightComponent>(item, out var light))
             _light.SetEnabled(item, true, light);
@@ -158,6 +165,7 @@ public sealed class DeployableArmSystem : EntitySystem
 
         if (TryComp<PointLightComponent>(item, out var light))
             _light.SetEnabled(item, false, light);
+        RemComp<DeployedArmItemComponent>(item);
         RemComp<UnremoveableComponent>(item);
         // Returning the implant's own item must also work while AntiDrop holds it in the hand.
         if (!_container.TryRemoveFromContainer(item, force: true)
@@ -192,7 +200,7 @@ public sealed class DeployableArmSystem : EntitySystem
     // The item is lost if its hand is severed while it is out; the implant then grows a new one.
     private EntityUid GetOrSpawnItem(Entity<DeployableArmComponent> ent)
     {
-        if (ent.Comp.Item is { } item && !TerminatingOrDeleted(item))
+        if (ent.Comp.Item is { } item && !TerminatingOrDeleted(item) && !EntityManager.IsQueuedForDeletion(item))
             return item;
 
         _container.EnsureContainer<ContainerSlot>(ent, ent.Comp.ContainerId);

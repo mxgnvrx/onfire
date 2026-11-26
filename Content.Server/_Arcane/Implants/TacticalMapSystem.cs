@@ -6,7 +6,9 @@ using Content.Server.Antag;
 using Content.Server.GameTicking;
 using Content.Server.GameTicking.Rules.Components;
 using Content.Server.Ghost.Roles.Events;
+using Content.Server.StationEvents.Components;
 using Content.Shared._Arcane.Implants;
+using Content.Shared.GameTicking.Components;
 using Content.Shared.Implants.Components;
 using Content.Shared.Mind;
 using Content.Shared.Mind.Components;
@@ -35,8 +37,16 @@ public sealed class TacticalMapSystem : EntitySystem
     {
         SubscribeLocalEvent<AfterAntagEntitySelectedEvent>(OnAntagSelected);
         SubscribeLocalEvent<GhostRoleSpawnerUsedEvent>(OnReinforcementSpawned);
+        SubscribeLocalEvent<StationEventComponent, GameRuleEndedEvent>(OnStationEventEnded);
         SubscribeLocalEvent<TacticalMapOperationComponent, ItemPurchasedEvent>(OnRadioPurchased);
         SubscribeLocalEvent<TacticalMapOperationComponent, MindAddedMessage>(OnMindAdded);
+    }
+
+    private void OnStationEventEnded(Entity<StationEventComponent> ent, ref GameRuleEndedEvent args)
+    {
+        // The event timer expires independently of the assigned operative's mission.
+        if (ent.Comp.EndTime <= _timing.CurTime && HasComp<NukeopsRuleComponent>(ent))
+            EnsureComp<TacticalMapRetainedOperationComponent>(ent);
     }
 
     private void OnAntagSelected(ref AfterAntagEntitySelectedEvent args)
@@ -102,7 +112,8 @@ public sealed class TacticalMapSystem : EntitySystem
 
     private TacticalMapUpdateMessage GetMapUpdate(EntityUid viewer)
     {
-        if (GetOperation(viewer) is not { } rule || !_ticker.IsGameRuleActive(rule)
+        if (GetOperation(viewer) is not { } rule
+            || (!_ticker.IsGameRuleActive(rule) && !HasComp<TacticalMapRetainedOperationComponent>(rule))
             || !TryComp<NukeopsRuleComponent>(rule, out var nukeops)
             || nukeops.TargetStation is not { } station
             || _station.GetLargestGrid((station, null)) is not { } grid)

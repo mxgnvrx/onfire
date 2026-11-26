@@ -125,15 +125,16 @@ public abstract class SharedJetpackSystem : EntitySystem
         userComp.WeightlessModifier = component.WeightlessModifier;
         userComp.WeightlessFriction = component.Friction;
         userComp.WeightlessFrictionNoInput = component.Friction;
+        Dirty(user, userComp); // Arcane
         _movementSpeedModifier.RefreshWeightlessModifiers(user);
     }
 
-    private void RemoveUser(EntityUid uid, JetpackComponent component)
+    private void RemoveUser(EntityUid uid) // Arcane-Edit
     {
         if (!RemComp<JetpackUserComponent>(uid))
             return;
 
-        component.JetpackUser = null;
+//        component.JetpackUser = null; // Arcane-Edit
 
         if (TryComp<PhysicsComponent>(uid, out var physics))
             _physics.SetBodyStatus(uid, physics, BodyStatus.OnGround);
@@ -187,6 +188,11 @@ public abstract class SharedJetpackSystem : EntitySystem
             enabled && !CanEnable(uid, component))
             return;
 
+        // Arcane-Start
+        if (!enabled)
+            user = component.JetpackUser ?? user;
+        // Arcane-End
+
         if (user == null)
         {
             if (!Container.TryGetContainingContainer((uid, null, null), out var container))
@@ -196,13 +202,25 @@ public abstract class SharedJetpackSystem : EntitySystem
 
         if (enabled)
         {
+            // Arcane-Start
+            if (TryComp<JetpackUserComponent>(user, out var current)
+                && current.Jetpack != uid && TryComp<JetpackComponent>(current.Jetpack, out var previous))
+                DisablePack(current.Jetpack, previous);
+            // Arcane-End
             SetupUser(user.Value, uid, component);
             EnsureComp<ActiveJetpackComponent>(uid);
         }
         else
         {
-            RemoveUser(user.Value, component);
-            RemComp<ActiveJetpackComponent>(uid);
+            // Arcane-Edit-Start
+//            RemoveUser(user.Value, component);
+//            RemComp<ActiveJetpackComponent>(uid);
+            if (TryComp<JetpackUserComponent>(user, out var current) && current.Jetpack == uid)
+                RemoveUser(user.Value);
+
+            DisablePack(uid, component);
+            return;
+            // Arcane-Edit-End
         }
 
 
@@ -210,6 +228,16 @@ public abstract class SharedJetpackSystem : EntitySystem
         Appearance.SetData(uid, JetpackVisuals.Enabled, HasComp<ActiveJetpackComponent>(uid));
         Dirty(uid, component);
     }
+
+    // Arcane-Start
+    private void DisablePack(EntityUid uid, JetpackComponent component)
+    {
+        component.JetpackUser = null;
+        RemComp<ActiveJetpackComponent>(uid);
+        Appearance.SetData(uid, JetpackVisuals.Enabled, false);
+        Dirty(uid, component);
+    }
+    // Arcane-End
 
     public bool IsUserFlying(EntityUid uid)
     {

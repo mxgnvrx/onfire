@@ -50,7 +50,11 @@ public sealed class ReviverImplantSystem : EntitySystem
         if (ent.Comp.ReviveAt != null)
             ent.Comp.Cost += ent.Comp.EmpPenalty;
         else
-            ent.Comp.CooldownUntil += ent.Comp.EmpPenalty;
+        {
+            var now = _timing.CurTime;
+            var cooldownStart = ent.Comp.CooldownUntil > now ? ent.Comp.CooldownUntil : now;
+            ent.Comp.CooldownUntil = cooldownStart + ent.Comp.EmpPenalty;
+        }
     }
 
     public override void Update(float frameTime)
